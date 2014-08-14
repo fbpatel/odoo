@@ -5,11 +5,6 @@ class numero(osv.osv):
     _name = "numero"
     _description = "Numero"
     
-    def _articulos_default(self, cr ,uid,ids, context=None):
-        obj= self.pool.get('articulo')
-        ides= obj.search(cr, uid, [('state', '=', 'published')])
-        obj.write(cr, uid, ids, {'numero_id' : ids})
-        return ides
     
     _columns = {
         'nombre' : fields.char('Nombre', size=128, required=True),
@@ -29,13 +24,13 @@ class numero(osv.osv):
         ides= obj.search(cr, uid, [('state', '=', 'published')])
         #for id in ides:
         obj.write(cr, uid, ides, {'numero_id' : ids[0]})
-    
+     
     def send(self, cr, uid, ids, context=None):
         self.write(cr, uid, ids, { 'state' : 'send',  })
-        
+         
     def vote(self, cr, uid, ids, context=None):
         self.write(cr, uid, ids, { 'state' : 'voted'})
-        
+         
     def close(self, cr, uid, ids, context=None):
         self.write(cr, uid, ids, { 'state' : 'closed'})
             
