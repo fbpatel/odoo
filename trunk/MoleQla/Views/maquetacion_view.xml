@@ -17,10 +17,10 @@
 						</group>
 	            	</header>
 	            		<group col="2">
-			            	<field name="articulo_id" ></field>
-			            	<field name="comentarios" />
+			            	<field name="articulo_id" attrs="{'readonly':[('state','!=','start')]}"></field>
+			            	<field name="comentarios" attrs="{'readonly':[('state','!=','start')]}"/>
 			            	<field name="observaciones" filename="filenameObv" attrs="{'readonly':[('state','!=','start')]}"></field>
-			            	<field name="versiones_anteriores"   ></field>
+			            	<field name="versiones_anteriores" attrs="{'readonly':[('state','!=','start')]}"></field>
 			            	
 		            	</group>
 		            

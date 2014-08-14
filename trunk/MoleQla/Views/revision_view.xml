@@ -1,63 +1,68 @@
 <openerp>
-    <data>
-    
-    	<record model="ir.ui.view" id="view_revision_form">
-            <field name="name">Revision</field>
-            <field name="model">revision</field>
-            <field name="arch" type="xml">
-	            <form string="Revision" version="8.0">
-	            	<sheet>
-	            	<header>
-	            		<group col="4">
-							
-							
-							<button name="aceptar" string="Aceptar" states="start" colspan="1" type="object" icon="gtk-ok"/>
-							<button name="rechazar" string="Rechazar" states="start" colspan="1" type="object"  icon="gtk-cancel"/>
-							
+	<data>
+
+		<record model="ir.ui.view" id="view_revision_form">
+			<field name="name">Revision</field>
+			<field name="model">revision</field>
+			<field name="arch" type="xml">
+				<form string="Revision" version="8.0">
+					<sheet>
+						<header>
+							<group col="4">
+
+
+								<button name="aceptar" string="Aceptar" states="start"
+									colspan="1" type="object" icon="gtk-ok" />
+								<button name="rechazar" string="Rechazar" states="start"
+									colspan="1" type="object" icon="gtk-cancel" />
+
+							</group>
+						</header>
+						<group col="2">
+						<!-- Se puede poner '!=' o 'not in' -->
+							<field name="articulo_id" attrs="{'readonly':[('state','!=','start')]}"></field>
+							<field name="comentarios" attrs="{'readonly':[('state','!=','start')]}"/>
+							<field name="observaciones" filename="filenameObv" attrs="{'readonly':[('state','!=','start')]}"></field>
+							<field name="versiones_anteriores" attrs="{'readonly':[('state','!=','start')]}"></field>
+
 						</group>
-	            	</header>
-	            		<group col="2">
-			            	<field name="articulo_id" ></field>
-			            	<field name="comentarios" />
-			            	<field name="observaciones" filename="filenameObv" attrs="{'readonly':[('state','!=','start')]}"></field>
-			            	<field name="versiones_anteriores"  ></field>
-			            	
-		            	</group>
-		            
-		            	<group  >
-			            	<field name='state' widget='statusbar' statusbar_visible='start,cancel,send'
-							statusbar_colors='{’start’:’blue’,’cancel’:’orange’,’send’:’yellow’}' />
+
+						<group>
+							<field name='state' widget='statusbar' statusbar_visible='start,cancel,send'
+								statusbar_colors='{’start’:’blue’,’cancel’:’orange’,’send’:’yellow’}' />
 						</group>
-		           
-		            	
-		            	
+
+
+
 					</sheet>
-	            </form>
-            </field>
-        </record>
-        
-        <record model="ir.ui.view" id="view_revision_tree">
-            <field name="name">Revision</field>    
-            <field name="model">revision</field>
-            <field name="arch" type="xml">
-            <tree string="Revisiones" >
-            	<field name="articulo_id"></field>
-            	<field name="state" ></field>
-            </tree>
-            </field>
-        </record>
-        
-        <!-- Action -->
-        <record id="act_revision" model="ir.actions.act_window">
-                <field name="name">Revisiones</field>
-                <field name="res_model">revision</field>
-                <field name="view_id" ref="view_revision_tree"/>
-                <field name="view_type">form</field>
-                <field name="view_model">tree,form</field>
-            </record>
-        
-        <!-- Menu -->
-            <menuitem name="Revisiones" id="revisiones_submenu" parent="moleqla_submenu_lateral_jefe" sequence="110" action="act_revision"/>
-            <menuitem name="Revisiones" id="revisiones_submenu_seccion" parent="moleqla_submenu_lateral_editor" sequence="90" action="act_revision"/>
-    </data>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_revision_tree">
+			<field name="name">Revision</field>
+			<field name="model">revision</field>
+			<field name="arch" type="xml">
+				<tree string="Revisiones">
+					<field name="articulo_id"></field>
+					<field name="state"></field>
+				</tree>
+			</field>
+		</record>
+
+		<!-- Action -->
+		<record id="act_revision" model="ir.actions.act_window">
+			<field name="name">Revisiones</field>
+			<field name="res_model">revision</field>
+			<field name="view_id" ref="view_revision_tree" />
+			<field name="view_type">form</field>
+			<field name="view_model">tree,form</field>
+		</record>
+
+		<!-- Menu -->
+		<menuitem name="Revisiones" id="revisiones_submenu" parent="moleqla_submenu_lateral_jefe"
+			sequence="110" action="act_revision" />
+		<menuitem name="Revisiones" id="revisiones_submenu_seccion"
+			parent="moleqla_submenu_lateral_editor" sequence="90" action="act_revision" />
+	</data>
 </openerp>

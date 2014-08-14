@@ -18,15 +18,15 @@
 						</group>
 	            	</header>
 	            		<group col="4">
-			            	<field name="nombre"></field>
-			            	<field name="seccion_id"></field>
-			            	<field name="tipo_articulo"></field>
-			            	<field name="tipo_autor"/>
+			            	<field name="nombre" attrs="{'readonly':[('state','!=','start')]}"></field>
+			            	<field name="seccion_id" attrs="{'readonly':[('state','!=','start')]}"></field>
+			            	<field name="tipo_articulo" attrs="{'readonly':[('state','!=','start')]}"></field>
+			            	<field name="tipo_autor" attrs="{'readonly':[('state','!=','start')]}"/>
 		            	</group>
 		            	<group col="2">
-			            	<field name="descripcion"></field>
-			            	<field name="palabras_clave"/>
-			            	<field name="archivo" filename="filename" />
+			            	<field name="descripcion" attrs="{'readonly':[('state','!=','start')]}"></field>
+			            	<field name="palabras_clave" attrs="{'readonly':[('state','!=','start')]}"/>
+			            	<field name="archivo" filename="filename" attrs="{'readonly':[('state','!=','start')]}"/>
 			            	
 		            	</group>
 		            		<notebook colspan="4">
