@@ -1,79 +1,102 @@
 <openerp>
-    <data>
-    
-    	<record model="ir.ui.view" id="view_articulo_form">
-            <field name="name">Articulo</field>
-            <field name="model">articulo</field>
-            <field name="arch" type="xml">
-	            <form string="Articulo" version="8.0"  >
-	            <sheet>
-	            	<header>
-	            		<group col="10">
-							<field name='state' widget='statusbar' statusbar_visible='start,send,cancel,editing,cancel_m,published'
-								statusbar_colors='{"start":"blue","send":"yellow", "cancel":"red","editing":"orange"
+	<data>
+
+		<record model="ir.ui.view" id="view_articulo_form">
+			<field name="name">Articulo</field>
+			<field name="model">articulo</field>
+			<field name="arch" type="xml">
+				<form string="Articulo" version="8.0">
+					<sheet>
+						<header>
+							<group col="10">
+								<field name='state' widget='statusbar'
+									statusbar_visible='start,send,cancel,editing,cancel_m,published'
+									statusbar_colors='{"start":"blue","send":"yellow", "cancel":"red","editing":"orange"
 								, "cancel_m":"red","published":"green"}' />
-							<button name="to_send" states="start" string="Enviar"
-								colspan="1" icon="gtk-apply" />
-							<button name="enviar" string="Reenviar" states="cancel,cancel_m" type="object" icon="gtk-apply"/>
+								<button name="to_send" states="start" string="Enviar"
+									colspan="1" icon="gtk-apply" />
+								<button name="enviar" string="Reenviar" states="cancel,cancel_m"
+									type="object" icon="gtk-apply" />
+							</group>
+						</header>
+						<group col="4">
+							<field name="nombre" attrs="{'readonly':[('state','!=','start')]}"></field>
+							<field name="seccion_id" attrs="{'readonly':[('state','!=','start')]}"></field>
+							<field name="tipo_articulo" attrs="{'readonly':[('state','!=','start')]}"></field>
+							<field name="tipo_autor" attrs="{'readonly':[('state','!=','start')]}" />
 						</group>
-	            	</header>
-	            		<group col="4">
-			            	<field name="nombre" attrs="{'readonly':[('state','!=','start')]}"></field>
-			            	<field name="seccion_id" attrs="{'readonly':[('state','!=','start')]}"></field>
-			            	<field name="tipo_articulo" attrs="{'readonly':[('state','!=','start')]}"></field>
-			            	<field name="tipo_autor" attrs="{'readonly':[('state','!=','start')]}"/>
-		            	</group>
-		            	<group col="2">
-			            	<field name="descripcion" attrs="{'readonly':[('state','!=','start')]}"></field>
-			            	<field name="palabras_clave" attrs="{'readonly':[('state','!=','start')]}"/>
-			            	<field name="archivo" filename="filename" attrs="{'readonly':[('state','!=','start')]}"/>
-			            	
-		            	</group>
-		            		<notebook colspan="4">
-		            			<page string="Revision">
-		            				<field name="revision_id" readonly="1" states="send,cancel,editing,cancel_m,published"/>
-		            			</page>
-		            			<page string="Maquetacion">
-		            				<field name="maquetacion_id" readonly="1" states="send,cancel,editing,cancel_m,published"/>
-		            			</page>
-		            		</notebook>
-		            	
-		            
-		            	
-		            	
-		            	
+						<group col="2">
+							<field name="descripcion" attrs="{'readonly':[('state','!=','start')]}"></field>
+							<field name="palabras_clave" attrs="{'readonly':[('state','!=','start')]}" />
+							<field name="archivo" filename="filename"
+								attrs="{'readonly':[('state','!=','start')]}" />
+
+						</group>
+						<notebook colspan="4">
+							<page string="Revision">
+								<field name="revision_id" readonly="1"
+									states="send,cancel,editing,cancel_m,published" />
+							</page>
+							<page string="Maquetacion">
+								<field name="maquetacion_id" readonly="1"
+									states="send,cancel,editing,cancel_m,published" />
+							</page>
+						</notebook>
 					</sheet>
-	            </form>
-            </field>
-        </record>
-        
-        <record model="ir.ui.view" id="view_articulo_tree">
-            <field name="name">Articulo</field>    
-            <field name="model">articulo</field>
-            <field name="arch" type="xml">
-            <tree string="Articulos">
-            	<field name="nombre"></field>
-            	<field name="tipo_articulo"></field>
-            	<field name="seccion_id"></field>
-            	<field name="archivo" filename="filename"/>
-            	<field name="state" />
-            </tree>
-            </field>
-        </record>
-        
-        <!-- Action -->
-        <record id="act_articulo" model="ir.actions.act_window">
-                <field name="name">Articulos</field>
-                <field name="res_model">articulo</field>
-                <field name="view_id" ref="view_articulo_tree"/>
-                <field name="view_type">form</field>
-                <field name="view_model">tree,form</field>
-            </record>
-        
-        <!-- Menu --> 
-        <menuitem id="moleqla_submenu_jefe" name="Moleqla" action="act_articulo" sequence="1"/>
-        <menuitem id="moleqla_submenu_lateral_jefe" parent="moleqla_submenu_jefe" name="Editor Jefe"/>
-            <menuitem name="Articulos" id="articulos_submenu" parent="moleqla_submenu_lateral_autor" sequence="80" action="act_articulo"/>
-            <menuitem name="Articulos" id="articulos_submenu_seccion" parent="moleqla_submenu_lateral_jefe" sequence="100" action="act_articulo"/>
-    </data>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_articulo_tree">
+			<field name="name">Articulo</field>
+			<field name="model">articulo</field>
+			<field name="arch" type="xml">
+				<tree string="Articulos">
+					<field name="nombre"></field>
+					<field name="tipo_articulo"></field>
+					<field name="seccion_id"></field>
+					<field name="archivo" filename="filename" />
+					<field name="state" />
+				</tree>
+			</field>
+		</record>
+
+		<!-- Graph -->
+		<record model="ir.ui.view" id="view_graph_articulos">
+			<field name="name">Articulo</field>
+			<field name="model">articulo</field>
+			<field name="type">graph</field>
+			<field name="arch" type="xml">
+				<graph string="Articulos">
+					<field name="state" group="True" />
+				</graph>
+			</field>
+		</record>
+
+		<!-- Action -->
+		<record id="act_articulo" model="ir.actions.act_window">
+			<field name="name">Articulos</field>
+			<field name="res_model">articulo</field>
+			<field name="view_id" ref="view_articulo_tree" />
+			<field name="view_type">form</field>
+			<field name="view_model">tree,form</field>
+		</record>
+
+		<record model="ir.actions.act_window.view" id="action_stock_move_graph_all">
+			<field name="sequence" eval="3" />
+			<field name="view_mode">graph</field>
+			<field name="view_id" ref="view_graph_articulos" />
+			<field name="act_window_id" ref="act_articulo" />
+		</record>
+
+		<!-- Menu -->
+		<menuitem id="moleqla_submenu_jefe" name="Moleqla" action="act_articulo"
+			sequence="1" />
+		<menuitem id="moleqla_submenu_lateral_jefe" parent="moleqla_submenu_jefe"
+			name="Editor Jefe" />
+		<menuitem name="Articulos" id="articulos_submenu" parent="moleqla_submenu_lateral_autor"
+			sequence="80" action="act_articulo" />
+		<menuitem name="Articulos" id="articulos_submenu_seccion"
+			parent="moleqla_submenu_lateral_jefe" sequence="100" action="act_articulo" />
+	</data>
 </openerp>
