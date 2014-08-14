@@ -1,0 +1,41 @@
+<openerp>
+    <data>
+    
+    	<record model="ir.ui.view" id="view_seccion_form">
+            <field name="name">Seccion</field>
+            <field name="model">seccion</field>
+            <field name="arch" type="xml">
+	            <form string="Seccion" version="8.0">
+	            	<group col="4">
+		            	<field name="nombre"></field>
+		            	<field name="descripcion"/>
+	            	</group>
+	            </form>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="view_seccion_tree">
+            <field name="name">Seccion</field>    
+            <field name="model">seccion</field>
+            <field name="arch" type="xml">
+            <tree string="Secciones">
+            	<field name="nombre"></field>
+            	<field name="descripcion"/>
+            </tree>
+            </field>
+        </record>
+        
+        <!-- Action -->
+        <record id="act_seccion" model="ir.actions.act_window">
+                <field name="name">Secciones</field>
+                <field name="res_model">seccion</field>
+                <field name="view_id" ref="view_seccion_tree"/>
+                <field name="view_type">form</field>
+                <field name="view_model">tree,form</field>
+            </record>
+        
+        <!-- Menu -->
+            
+            <menuitem name="Secciones" id="secciones_submenu" parent="moleqla_submenu_lateral_jefe" sequence="100" action="act_seccion"/>
+    </data>
+</openerp>

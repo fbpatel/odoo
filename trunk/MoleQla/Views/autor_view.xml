@@ -1,0 +1,43 @@
+<openerp>
+    <data>
+    
+    	<record model="ir.ui.view" id="view_autor_form">
+            <field name="name">Autor</field>
+            <field name="model">autor</field>
+            <field name="arch" type="xml">
+	            <form string="Autor" version="8.0">
+	            	<group col="4">
+		            	<field name="nombre"></field>
+		            	<field name="user_id"/>
+	            	</group>
+	            </form>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="view_autor_tree">
+            <field name="name">Autor</field>    
+            <field name="model">autor</field>
+            <field name="arch" type="xml">
+            <tree string="Autores">
+            	<field name="nombre"></field>
+            	<field name="user_id"/>
+            </tree>
+            </field>
+        </record>
+        
+        <!-- Action -->
+        <record id="act_autor" model="ir.actions.act_window">
+                <field name="name">Autores</field>
+                <field name="res_model">autor</field>
+                <field name="view_id" ref="view_autor_tree"/>
+                <field name="view_type">form</field>
+                <field name="view_model">tree,form</field>
+            </record>
+        
+        <!-- Menu -->
+        <menuitem id="moleqla_submenu_autor" name="Moleqla" action="act_autor" sequence="1"/>
+            <menuitem id="moleqla_submenu_lateral_autor" parent="moleqla_submenu_autor" name="Autor"/>
+            <menuitem name="Autores" id="usuarios_submenu" parent="moleqla_submenu_lateral_jefe" sequence="70" action="act_autor"/>
+            <menuitem name="Perfil" id="usuario_submenu" parent="moleqla_submenu_lateral_autor" sequence="70" action="act_autor"/>
+    </data>
+</openerp>
