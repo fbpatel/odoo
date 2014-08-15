@@ -23,6 +23,7 @@
     "init_xml": [],
                   
     'update_xml': [
+                        'Views/articulo_graph_view.xml',
                         'Views/autor_view.xml',
                         'Views/seccion_view.xml',
                         'Views/maquetador_view.xml',
@@ -31,8 +32,8 @@
                         'Views/revision_view.xml',
                         'Views/maquetacion_view.xml',
                         'Views/numero_view.xml',
-                        'Views/correo_view.xml',
-                        'Workflows/articulo_workflow.xml'
+                        'Workflows/articulo_workflow.xml',
+                        
 						
                        ],
     'demo_xml': [],
