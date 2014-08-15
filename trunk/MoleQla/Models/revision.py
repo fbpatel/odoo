@@ -40,19 +40,15 @@ class revision(osv.osv):
         
         # -------------------------------------------
         #Correo al maquetador de seccion
-        #2. Mediante el articulo 
-        # Obtenemos el autor
-        autor_obj = self.pool.get('autor')
-        autor = autor_obj.browse(cr, uid, revision.articulo_id.user_id, context)
-               
+        #2. Mediante el articulo                
         # Obtenemos el maquetador
         user_maquetador_obj = self.pool.get('res.users')
-        user_maquetador = user_maquetador_obj.browse(cr, uid, maquetador.user_id.id, context)
+        user_maquetador = user_maquetador_obj.browse(cr, 1, maquetador.user_id.id, context)
         email_maquetador= user_maquetador.login
         
         # Asunto y texto del email
         asunto = "Articulo Nuevo " + revision.articulo_id.nombre
-        texto = "Se ha recibido un nuevo articulo. <br /> Autor: " + autor.nombre
+        texto = "Se ha recibido un nuevo articulo."
         
         # Se envia el correo
         correo_obj = self.pool.get('correo')        

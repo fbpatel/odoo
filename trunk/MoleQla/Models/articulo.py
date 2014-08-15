@@ -50,9 +50,6 @@ class articulo(osv.osv):
         revision_obj = self.pool.get('revision')
         maquetacion_obj = self.pool.get('maquetacion')
         
-        # Obtenemos el autor
-        autor_obj = self.pool.get('autor')
-        autor = autor_obj.browse(cr, uid, articulo.user_id, context)
         
         #DAO res.users
         user_obj = self.pool.get('res.users')
@@ -71,12 +68,12 @@ class articulo(osv.osv):
             # Correo al editor de seccion
             #2. Mediante el articulo    
             # Obtenemos el editor de seccion  
-            user_editor = user_obj.browse(cr, uid, revisor.user_id.id, context)
+            user_editor = user_obj.browse(cr, 1, revisor.user_id.id, context)
             email_editor = user_editor.login
             
             # Asunto y texto del email
             asunto = "Articulo Nuevo " + articulo.nombre
-            texto = "Se ha recibido un nuevo articulo. <br /> Autor: " + autor.nombre
+            texto = "Se ha recibido un nuevo articulo."
             
             # Se envia el correo
             correo_obj = self.pool.get('correo')        
@@ -105,7 +102,7 @@ class articulo(osv.osv):
         # -------------------------------------------
         # Correo al autor
         #2. Mediante el articulo        
-        autor_user = user_obj.browse(cr, uid, articulo.user_id, context)
+        autor_user = user_obj.browse(cr, 1, articulo.user_id, context)
         email_autor = autor_user.login
         
         # Asunto y texto del email
