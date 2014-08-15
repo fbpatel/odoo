@@ -8,8 +8,13 @@ class seccion(osv.osv):
     _columns = {
         'nombre' : fields.char('Nombre', size=128),
         'descripcion': fields.char('Descripcion', size=128),
+        'max_articulos': fields.integer('Numero maximo de articulos por numero'),
         'editor':fields.one2many('editor', 'seccion_id','Editor'), 
         'maquetador':fields.one2many('maquetador', 'seccion_id','Maquetador'),
+        }
+                            
+    _defaults = {
+        'max_articulos' : 3, 
         }
     
     def name_get(self, cr, uid, ids, context=None):
