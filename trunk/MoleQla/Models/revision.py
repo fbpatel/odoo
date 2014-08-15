@@ -38,6 +38,20 @@ class revision(osv.osv):
         maquetacion_id = maquetacion_obj.search(cr, uid, [('articulo_id', '=', revision.articulo_id.id)])
         articulo_obj.write(cr, 1, revision.articulo_id.id, { 'state' : 'editing', 'maquetacion_id':maquetacion_id[0] })
         
+        #2. Mediante el articulo
+        autor_user_obj = self.pool.get('res.users')
+        autor_user = autor_user_obj.browse(cr, uid, revision.articulo_id.user_id, context)
+        email_autor = autor_user.login
+        estado = "en maquetacion"
+        
+        # Asunto y texto del email
+        asunto = "Articulo " + revision.articulo_id.nombre
+        texto = "Su articulo ha cambiado su estado a <b>" + estado + "</b>. En breve recibira mas noticias sobre su estado."
+        
+        # Se envia el correo
+        correo_obj = self.pool.get('correo')        
+        correo_obj.mail(cr, 1, email_autor, asunto, texto)  
+        
     def rechazar(self, cr, uid, ids, context=None):
         revision = self.browse(cr, uid, ids, context)
         self.write(cr, uid, ids, { 'state' : 'cancel' })
@@ -51,6 +65,20 @@ class revision(osv.osv):
                 'palabras_clave':articulo.palabras_clave,'user_id':1,'old_revision_id':revision.id}
         articulo_obj.create(cr, 1, vals, context=None)
         articulo_obj.write(cr, 1, revision.articulo_id.id, { 'state' : 'cancel' })
+        
+        #2. Mediante el articulo
+        autor_user_obj = self.pool.get('res.users')
+        autor_user = autor_user_obj.browse(cr, uid, revision.articulo_id.user_id, context)
+        email_autor = autor_user.login
+        estado = "rechazado por el editor de seccion"
+        
+        # Asunto y texto del email
+        asunto = "Articulo " + revision.articulo_id.nombre
+        texto = "Su articulo ha cambiado su estado a <b>" + estado + "</b>. En breve recibira mas noticias sobre su estado."
+        
+        # Se envia el correo
+        correo_obj = self.pool.get('correo')        
+        correo_obj.mail(cr, 1, email_autor, asunto, texto)  
         
     
     

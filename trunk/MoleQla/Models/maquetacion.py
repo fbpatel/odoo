@@ -31,6 +31,20 @@ class maquetacion(osv.osv):
         articulo_obj.write(cr, 1, maquetacion.articulo_id.id, { 'state' : 'published', 'fecha_maq':d})
         self.write(cr, uid, ids, { 'state' : 'send' })
         
+        #2. Mediante el articulo
+        autor_user_obj = self.pool.get('res.users')
+        autor_user = autor_user_obj.browse(cr, uid, maquetacion.articulo_id.user_id, context)
+        email_autor = autor_user.login
+        estado = "publicable"
+        
+        # Asunto y texto del email
+        asunto = "Articulo " + maquetacion.articulo_id.nombre
+        texto = "Su articulo ha cambiado su estado a <b>" + estado + "</b>. En breve recibira mas noticias sobre su estado."
+        
+        # Se envia el correo
+        correo_obj = self.pool.get('correo')        
+        correo_obj.mail(cr, 1, email_autor, asunto, texto)  
+        
         
     def rechazar(self, cr, uid, ids, context=None):
         maquetacion = self.browse(cr, uid, ids, context)
@@ -46,6 +60,20 @@ class maquetacion(osv.osv):
         articulo_obj.create(cr, 1, vals, context=None)
         
         articulo_obj.write(cr, 1, maquetacion.articulo_id.id, { 'state' : 'cancel_m' })
+        
+        #2. Mediante el articulo
+        autor_user_obj = self.pool.get('res.users')
+        autor_user = autor_user_obj.browse(cr, uid, maquetacion.articulo_id.user_id, context)
+        email_autor = autor_user.login
+        estado = "rechazado por el maquetador de seccion"
+        
+        # Asunto y texto del email
+        asunto = "Articulo " + maquetacion.articulo_id.nombre
+        texto = "Su articulo ha cambiado su estado a <b>" + estado + "</b>. En breve recibira mas noticias sobre su estado."
+        
+        # Se envia el correo
+        correo_obj = self.pool.get('correo')        
+        correo_obj.mail(cr, 1, email_autor, asunto, texto) 
         
     
     
