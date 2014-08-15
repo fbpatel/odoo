@@ -90,14 +90,8 @@
 			<field name="act_window_id" ref="act_articulo" />
 		</record> -->
 
-		<!-- Menu -->
-		<menuitem id="moleqla_submenu_jefe" name="Moleqla" action="act_articulo"
-			sequence="1" />
-		<menuitem id="moleqla_submenu_lateral_jefe" parent="moleqla_submenu_jefe"
-			name="Editor Jefe" />
+		
 		<menuitem name="Articulos" id="articulos_submenu" parent="moleqla_submenu_lateral_autor"
 			sequence="80" action="act_articulo" />
-		<menuitem name="Articulos" id="articulos_submenu_seccion"
-			parent="moleqla_submenu_lateral_jefe" sequence="100" action="act_articulo" />
 	</data>
 </openerp>
