@@ -17,9 +17,9 @@ import java.sql.Statement;
 public class ConnectionPSQL {
 
     //DATOS PARA LA CONEXION
-    private static String bd = "moleqlafinal";
-    private static String user = "postgres";
-    private static String password = "admin";
+    private static String bd = "moleqla";
+    private static String user = "openuser";
+    private static String password = "openerp";
     private static String url = "jdbc:postgresql://localhost:5432/" + bd;
 
     private ResultSet resultSet = null;

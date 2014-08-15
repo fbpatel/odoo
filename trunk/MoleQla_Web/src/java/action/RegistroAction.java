@@ -100,8 +100,7 @@ public class RegistroAction extends org.apache.struts.action.Action {
                         insertResPartner(connection, nombreUTF8, nombreCompleto, email, fechaHora);
 
                         //Update de la tabla res_partner
-                        updateResPartner(connection, email);
-
+                        //updateResPartner(connection, email);
                         int partner_id = consultarIdUltResPartner(email);
                         if (partner_id > 0) {
                             //Insert en la tabla res_users
@@ -113,11 +112,9 @@ public class RegistroAction extends org.apache.struts.action.Action {
                                 insertResCompanyUsersRel(connection, user_id);
 
                                 //Insert en la tabla mail_alias
-                                insertMailAlias(connection, fechaHora, user_id);
-
+                                //insertMailAlias(connection, fechaHora, user_id);
                                 //Update de la tabla res_users para añadirle el alias_id de mail_alias
-                                updateResUser_MailAlias(connection, email);
-
+                                //updateResUser_MailAlias(connection, email);
                                 //Insert en la tabla res_groups_users_rel
                                 insertResGroupUserRel(connection, user_id);
 
@@ -177,6 +174,25 @@ public class RegistroAction extends org.apache.struts.action.Action {
         }
     }
 
+    public int consultarIdResGroups(String nombreGrupo) throws SQLException {
+        int id = -1;
+        try (Connection connection = ConnectionPSQL.connection()) {
+            ResultSet rs = connection.createStatement().executeQuery(
+                    "SELECT id FROM res_groups WHERE name = '" + nombreGrupo + "'");
+
+            if (rs != null) {
+
+                while (rs.next()) {
+                    id = rs.getInt(1);
+                }
+                rs.close();
+            }
+
+            connection.close();
+        }
+        return id;
+    }
+
     public int consultarIdUltResUsers(String email) throws SQLException {
         int id = -1;
         try (Connection connection = ConnectionPSQL.connection()) {
@@ -195,7 +211,7 @@ public class RegistroAction extends org.apache.struts.action.Action {
         }
         return id;
     }
-    
+
     public int consultarIdUltResPartner(String email) throws SQLException {
         int id = -1;
         try (Connection connection = ConnectionPSQL.connection()) {
@@ -214,7 +230,7 @@ public class RegistroAction extends org.apache.struts.action.Action {
         }
         return id;
     }
-    
+
     public int consultarIdUltMailAlias(int users_id) throws SQLException {
         int id = -1;
         try (Connection connection = ConnectionPSQL.connection()) {
@@ -243,17 +259,13 @@ public class RegistroAction extends org.apache.struts.action.Action {
                 + "zip, title, function, country_id, parent_id, employee, type, "
                 + "email, vat, website, lang, fax, create_uid, street2, phone, credit_limit, "
                 + "write_date, date, tz, write_uid, display_name, customer, image_medium, "
-                + "mobile, ref, image_small, birthdate, is_company, state_id, commercial_partner_id, "
-                + "notify_email, message_last_post, opt_out, section_id, signup_type, "
-                + "signup_expiration, signup_token)"
+                + "mobile, ref, image_small, birthdate, is_company, state_id, commercial_partner_id)"
                 + "    VALUES (DEFAULT, '" + nombreUTF8 + "', 1, DEFAULT, DEFAULT, '" + fechaHora.toString() + "', 0, DEFAULT, "
                 + "FALSE, TRUE, DEFAULT, FALSE, DEFAULT, DEFAULT, "
                 + "DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, FALSE, 'contact', "
                 + "'" + email + "', DEFAULT, DEFAULT, 'es_ES', DEFAULT, 1, DEFAULT, DEFAULT, 0, "
                 + "'" + fechaHora.toString() + "', DEFAULT, DEFAULT, 1, '" + nombreCompleto + "', FALSE, DEFAULT, "
-                + "DEFAULT, DEFAULT, DEFAULT, DEFAULT, FALSE, DEFAULT, DEFAULT, "
-                + "'always', DEFAULT, FALSE, DEFAULT, DEFAULT, "
-                + "DEFAULT, DEFAULT);");
+                + "DEFAULT, DEFAULT, DEFAULT, DEFAULT, FALSE, DEFAULT, DEFAULT);");
 
         connection.commit();
 
@@ -265,26 +277,27 @@ public class RegistroAction extends org.apache.struts.action.Action {
 
         boolean rsq = connection.createStatement().execute("INSERT INTO res_users("
                 + "id, active, login, password, company_id, partner_id, create_date,"
-                + "create_uid, write_uid, login_date, write_date, signature, action_id,"
-                + "alias_id, display_groups_suggestions, default_section_id, share)"
+                + "create_uid, write_uid, login_date, write_date, signature, action_id)"
                 + " VALUES (DEFAULT, TRUE, '" + email + "', '" + passOriginal + "', 1, " + partner_id + ", '" + fechaHora.toString() + "',"
-                + "1, 1, DEFAULT, '" + fechaHora.toString() + "', DEFAULT, DEFAULT,"
-                + "1, TRUE, DEFAULT, FALSE);");
+                + "1, 1, DEFAULT, '" + fechaHora.toString() + "', DEFAULT, DEFAULT);");
 
         connection.commit();
 
     }
 
     private void insertResGroupUserRel(Connection connection, int user_id) throws SQLException {
+
+        int employee = consultarIdResGroups("Employee");
+        int perfil = consultarIdResGroups("Perfil");
         connection.setAutoCommit(false);
 
         boolean rsq = connection.createStatement().execute("INSERT INTO res_groups_users_rel("
                 + "gid, uid)"
-                + " VALUES (20, " + user_id + ");");
+                + " VALUES (" + employee + ", " + user_id + ");");
 
         boolean rsqa = connection.createStatement().execute("INSERT INTO res_groups_users_rel("
                 + "gid, uid)"
-                + " VALUES (5, " + user_id + ");");
+                + " VALUES (" + perfil + ", " + user_id + ");");
 
         connection.commit();
 
@@ -337,7 +350,7 @@ public class RegistroAction extends org.apache.struts.action.Action {
 
         int idUser = consultarIdUltResUsers(email);
         int idMailAlias = consultarIdUltMailAlias(idUser);
-        
+
         int rsq = connection.createStatement().executeUpdate("UPDATE res_users"
                 + "   SET alias_id=" + idMailAlias + ""
                 + " WHERE id = " + idUser + ";");
@@ -366,7 +379,7 @@ public class RegistroAction extends org.apache.struts.action.Action {
         boolean existe = false;
         try (Connection connection = ConnectionPSQL.connection()) {
             ResultSet rs = connection.createStatement().executeQuery(
-                    "SELECT id FROM res_partner WHERE email = '" + email + "'");
+                    "SELECT id FROM res_users WHERE login = '" + email + "'");
 
             boolean error = false;
             if (rs != null) {
