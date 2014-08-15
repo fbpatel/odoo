@@ -22,6 +22,7 @@ class articulo(osv.osv):
         'old_revision_id' : fields.many2one('revision', 'Revision'),
         'old_maquetacion_id' : fields.many2one('maquetacion', 'Maquetacion'),
         'numero_id' : fields.many2one('numero', 'Numero'),
+        'fecha_maq' : fields.date('Fecha de Aceptacion')
         }
     
     _defaults = {

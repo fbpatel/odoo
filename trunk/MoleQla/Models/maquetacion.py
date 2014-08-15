@@ -27,8 +27,8 @@ class maquetacion(osv.osv):
     def aceptar(self, cr, uid, ids, context=None):
         maquetacion = self.browse(cr, uid, ids, context)
         articulo_obj = self.pool.get('articulo')
-        articulo_obj.write(cr, 1, maquetacion.articulo_id.id, { 'state' : 'published' })
-        #d = fields.date.today()
+        d = fields.date.today()
+        articulo_obj.write(cr, 1, maquetacion.articulo_id.id, { 'state' : 'published', 'fecha_maq':d})
         self.write(cr, uid, ids, { 'state' : 'send' })
         
         
