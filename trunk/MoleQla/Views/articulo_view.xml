@@ -63,7 +63,7 @@
 		</record>
 
 		<!-- Graph -->
-		<record model="ir.ui.view" id="view_graph_articulos">
+<!-- 		<record model="ir.ui.view" id="view_graph_articulos">
 			<field name="name">Articulo</field>
 			<field name="model">articulo</field>
 			<field name="type">graph</field>
@@ -72,7 +72,7 @@
 					<field name="state" group="True" />
 				</graph>
 			</field>
-		</record>
+		</record> -->
 
 		<!-- Action -->
 		<record id="act_articulo" model="ir.actions.act_window">
@@ -83,12 +83,12 @@
 			<field name="view_model">tree,form</field>
 		</record>
 
-		<record model="ir.actions.act_window.view" id="action_stock_move_graph_all">
+<!-- 		<record model="ir.actions.act_window.view" id="action_stock_move_graph_all">
 			<field name="sequence" eval="3" />
 			<field name="view_mode">graph</field>
 			<field name="view_id" ref="view_graph_articulos" />
 			<field name="act_window_id" ref="act_articulo" />
-		</record>
+		</record> -->
 
 		<!-- Menu -->
 		<menuitem id="moleqla_submenu_jefe" name="Moleqla" action="act_articulo"
