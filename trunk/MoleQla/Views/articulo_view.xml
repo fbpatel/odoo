@@ -20,16 +20,16 @@
 							</group>
 						</header>
 						<group col="4">
-							<field name="nombre" attrs="{'readonly':[('state','!=','start')]}"></field>
+							<field name="nombre" attrs="{'readonly':['|','|',('state','=','send'),('state','=','editing'),('state','=','published')]}"></field>
 							<field name="seccion_id" attrs="{'readonly':[('state','!=','start')]}"></field>
-							<field name="tipo_articulo" attrs="{'readonly':[('state','!=','start')]}"></field>
-							<field name="tipo_autor" attrs="{'readonly':[('state','!=','start')]}" />
+							<field name="tipo_articulo" attrs="{'readonly':['|','|',('state','=','send'),('state','=','editing'),('state','=','published')]}"></field>
+							<field name="tipo_autor" attrs="{'readonly':['|','|',('state','=','send'),('state','=','editing'),('state','=','published')]}" />
 						</group>
 						<group col="2">
-							<field name="descripcion" attrs="{'readonly':[('state','!=','start')]}"></field>
-							<field name="palabras_clave" attrs="{'readonly':[('state','!=','start')]}" />
+							<field name="descripcion" attrs="{'readonly':['|','|',('state','=','send'),('state','=','editing'),('state','=','published')]}"></field>
+							<field name="palabras_clave" attrs="{'readonly':['|','|',('state','=','send'),('state','=','editing'),('state','=','published')]}" />
 							<field name="archivo" filename="filename"
-								attrs="{'readonly':[('state','!=','start')]}" />
+								attrs="{'readonly':['|','|',('state','=','send'),('state','=','editing'),('state','=','published')]}" />
 
 						</group>
 						<notebook colspan="4">
