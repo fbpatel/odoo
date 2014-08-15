@@ -20,10 +20,10 @@
 						</header>
 						<group col="2">
 						<!-- Se puede poner '!=' o 'not in' -->
-							<field name="articulo_id" attrs="{'readonly':[('state','!=','start')]}"></field>
-							<field name="comentarios" attrs="{'readonly':[('state','!=','start')]}"/>
-							<field name="observaciones" filename="filenameObv" attrs="{'readonly':[('state','!=','start')]}"></field>
-							<field name="versiones_anteriores" attrs="{'readonly':[('state','!=','start')]}"></field>
+							<field name="articulo_id" attrs="{'readonly':'1'}"></field>
+							<field name="comentarios" />
+							<field name="observaciones" filename="filenameObv"></field>
+							<field name="versiones_anteriores" attrs="{'readonly':'1'}"></field>
 
 						</group>
 
