@@ -32,6 +32,7 @@
                         'Views/revision_view.xml',
                         'Views/maquetacion_view.xml',
                         'Views/numero_view.xml',
+                        'Views/correo_view.xml',
                         'Workflows/articulo_workflow.xml',
                         
 						
