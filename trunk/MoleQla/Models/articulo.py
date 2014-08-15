@@ -18,6 +18,7 @@ class articulo(osv.osv):
         'state':fields.selection([('start', 'Borrador'),('send', 'Enviado'), ('cancel', 'Rechazado'), 
                                   ('editing', 'En Maquetacion'), ('cancel_m', 'No Maquetado'), ('published', 'Publicable')], 'Estado del Articulo'),
         'revision_id': fields.many2one('revision','Revision'),
+        'revision_observaciones' : fields.related('revision_id','observaciones',string="Observaciones", type="binary",readonly=True),
         'maquetacion_id': fields.many2one('maquetacion','Maquetacion'),
         'old_revision_id' : fields.many2one('revision', 'Revision'),
         'old_maquetacion_id' : fields.many2one('maquetacion', 'Maquetacion'),
