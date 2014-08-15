@@ -49,6 +49,13 @@ class articulo(osv.osv):
         articulo = self.browse(cr, uid, ids, context)
         revision_obj = self.pool.get('revision')
         maquetacion_obj = self.pool.get('maquetacion')
+        
+        # Obtenemos el autor
+        autor_obj = self.pool.get('autor')
+        autor = autor_obj.browse(cr, uid, articulo.user_id, context)
+        
+        #DAO res.users
+        user_obj = self.pool.get('res.users')
         if ((articulo.state) == ('start')):
             
             editor_obj = self.pool.get('editor')
@@ -59,6 +66,22 @@ class articulo(osv.osv):
             revision_id = revision_obj.search(cr, uid, [('articulo_id', '=', articulo.id)])
             self.write(cr, uid, ids, { 'state' : 'send' , 'revision_id': revision_id[0]})
             estado = "enviado"
+            
+            # -------------------------------------------
+            # Correo al editor de seccion
+            #2. Mediante el articulo    
+            # Obtenemos el editor de seccion  
+            user_editor = user_obj.browse(cr, uid, revisor.user_id.id, context)
+            email_editor = user_editor.login
+            
+            # Asunto y texto del email
+            asunto = "Articulo Nuevo " + articulo.nombre
+            texto = "Se ha recibido un nuevo articulo. <br /> Autor: " + autor.nombre
+            
+            # Se envia el correo
+            correo_obj = self.pool.get('correo')        
+            correo_obj.mail(cr, 1, email_editor, asunto, texto)
+            # -------------------------------------------
             
         if ((articulo.state) == ('cancel')):
             revision_id = revision_obj.search(cr, uid, [('articulo_id', '=', articulo.id)])
@@ -79,9 +102,10 @@ class articulo(osv.osv):
         # email = current_user.login
         #=======================================================================
         
+        # -------------------------------------------
+        # Correo al autor
         #2. Mediante el articulo        
-        autor_user_obj = self.pool.get('res.users')
-        autor_user = autor_user_obj.browse(cr, uid, articulo.user_id, context)
+        autor_user = user_obj.browse(cr, uid, articulo.user_id, context)
         email_autor = autor_user.login
         
         # Asunto y texto del email
@@ -90,12 +114,9 @@ class articulo(osv.osv):
         
         # Se envia el correo
         correo_obj = self.pool.get('correo')        
-        correo_obj.mail(cr, 1, email_autor, asunto, texto)    
-        
-        
-    
-        
-        
+        correo_obj.mail(cr, 1, email_autor, asunto, texto)  
+        # -------------------------------------------
+       
     def name_get(self, cr, uid, ids, context=None):
         
         if context is None:

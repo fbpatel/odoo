@@ -38,6 +38,29 @@ class revision(osv.osv):
         maquetacion_id = maquetacion_obj.search(cr, uid, [('articulo_id', '=', revision.articulo_id.id)])
         articulo_obj.write(cr, 1, revision.articulo_id.id, { 'state' : 'editing', 'maquetacion_id':maquetacion_id[0] })
         
+        # -------------------------------------------
+        #Correo al maquetador de seccion
+        #2. Mediante el articulo 
+        # Obtenemos el autor
+        autor_obj = self.pool.get('autor')
+        autor = autor_obj.browse(cr, uid, revision.articulo_id.user_id, context)
+               
+        # Obtenemos el maquetador
+        user_maquetador_obj = self.pool.get('res.users')
+        user_maquetador = user_maquetador_obj.browse(cr, uid, maquetador.user_id.id, context)
+        email_maquetador= user_maquetador.login
+        
+        # Asunto y texto del email
+        asunto = "Articulo Nuevo " + revision.articulo_id.nombre
+        texto = "Se ha recibido un nuevo articulo. <br /> Autor: " + autor.nombre
+        
+        # Se envia el correo
+        correo_obj = self.pool.get('correo')        
+        correo_obj.mail(cr, 1, email_maquetador, asunto, texto)
+        # -------------------------------------------
+        
+        # -------------------------------------------
+        # Correo al autor
         #2. Mediante el articulo
         autor_user_obj = self.pool.get('res.users')
         autor_user = autor_user_obj.browse(cr, uid, revision.articulo_id.user_id, context)
@@ -50,7 +73,8 @@ class revision(osv.osv):
         
         # Se envia el correo
         correo_obj = self.pool.get('correo')        
-        correo_obj.mail(cr, 1, email_autor, asunto, texto)  
+        correo_obj.mail(cr, 1, email_autor, asunto, texto)
+        # -------------------------------------------  
         
     def rechazar(self, cr, uid, ids, context=None):
         revision = self.browse(cr, uid, ids, context)
