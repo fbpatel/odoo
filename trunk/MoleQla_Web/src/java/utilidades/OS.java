@@ -22,7 +22,7 @@ public class OS {
     public static String getDirectorySeparator(){
         String separator="\\";
         if(getNameOS().indexOf("Windows")<0)//No es Windows
-            separator="//";
+            separator="/";
         
         return separator;
             

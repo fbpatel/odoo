@@ -9,12 +9,14 @@ import actionForm.CrearRevistaActionForm;
 import actionForm.RegistroActionForm;
 import connection.ConnectionPSQL;
 import email.Mail;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -66,13 +68,13 @@ public class CrearRevistaAction extends org.apache.struts.action.Action {
             return mapping.findForward(CANCEL);
         } else {
             CrearRevistaActionForm formBean = (CrearRevistaActionForm) form;
-            String rutaNumeros = formBean.getRutaNumeros();
+            String rutaWEBINF = formBean.getRutaNumeros();
 
             DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
             Date date = new Date();
             String nombreNum = dateFormat.format(date);
 
-            if (consultaListaNumeros(rutaNumeros, nombreNum) == false) {
+            if (consultaListaNumeros(rutaWEBINF, nombreNum) == false) {
                 formBean.setErrorMsg(Constantes.getERROR_CREAR_NUMERO());
                 return mapping.findForward(FAILURE);
             }
@@ -81,67 +83,34 @@ public class CrearRevistaAction extends org.apache.struts.action.Action {
         }
     }
 
-    private boolean consultaListaNumeros(String rutaDestino, String nombreNum) throws SQLException {
+    private boolean consultaListaNumeros(String rutaWEBINF, String nombreNum) throws SQLException {
+        String separator = OS.getDirectorySeparator();
         List<InputStream> listaNumerosArt = null;
         List<String> listaNombresArt = new ArrayList();
         boolean res = true;
 
-        try (Connection connection = ConnectionPSQL.connection()) {
-            ResultSet rs = connection.createStatement().executeQuery(
-                    "SELECT archivo, numero_id FROM articulo A WHERE (SELECT state FROM numero N WHERE N.id = A.numero_id) = '" + Constantes.getESTADO_NUMEROS_PUBLICAR() + "'");
+        String fichero = rutaWEBINF + separator + "numeros" + separator + "pdf.py";
+        String rutaDestino = rutaWEBINF + separator + "numeros";
+        String[] cmd = new String[2];
+        cmd[0] = fichero;
+        cmd[1] = rutaDestino;
 
-            listaNumerosArt = new ArrayList();
-            byte[] imgBytes = null;
-            int numero_id = 0, i = 0;
-            String separator = OS.getDirectorySeparator();
-            String nombreArt = "";
-            if (rs != null) {
-                while (rs.next()) {
-                    imgBytes = rs.getBytes(1);
-                    numero_id = rs.getInt(2);
-                    nombreArt = String.valueOf(numero_id) + "_" + String.valueOf(i);
-
-                    FileOutputStream os = new FileOutputStream(rutaDestino + separator + nombreArt + ".pdf");
-                    os.write(imgBytes);
-                    os.flush();
-                    os.close();
-
-                    // Guardamos la ruta de los articulos para luego poder borrarlos
-                    listaNombresArt.add(rutaDestino + separator + nombreArt + ".pdf");
-
-                    //Añadimos los pdf a la lista
-                    FileInputStream pdf = new FileInputStream(rutaDestino + separator + nombreArt + ".pdf");
-                    listaNumerosArt.add(pdf);
-                    //pdf.close();
-
-                    i++;
-                }
-                rs.close();
-            }
-            connection.close();
-
-            //Vamos a crear el numero final
+        Process f;
+        try {
+            f = Runtime.getRuntime().exec(cmd);
             try {
-                String rutaResultado = rutaDestino + separator + nombreNum + ".pdf";
-                OutputStream output = new FileOutputStream(rutaResultado);
-                MergePDF.concatPDFs(listaNumerosArt, output, true);
-
-                res = comprobacion_eliminacion(rutaResultado, listaNombresArt);
-            } catch (Exception e) {
-                e.printStackTrace();
+                f.waitFor();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(CrearRevistaAction.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-        } catch (SQLException e) {
-            res = false;
-            System.out.println("\n" + e.getMessage()
-                    + "\n-----------------\n"
-                    + Constantes.getERROR_CREAR_NUMERO()
-                    + "\n-----------------\n");
-        } catch (FileNotFoundException ex) {
-            res = false;
-            Logger.getLogger(CrearRevistaAction.class.getName()).log(Level.SEVERE, null, ex);
+            // retrieve output from python script
+            BufferedReader bfr = new BufferedReader(new InputStreamReader(f.getInputStream()));
+            String numero = "";
+            while ((numero = bfr.readLine()) != null) {
+                System.out.println(numero);
+            }
         } catch (IOException ex) {
-            res = false;
             Logger.getLogger(CrearRevistaAction.class.getName()).log(Level.SEVERE, null, ex);
         }
 

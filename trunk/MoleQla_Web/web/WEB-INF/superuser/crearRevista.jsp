@@ -28,7 +28,7 @@
                 <div class="span9">
                     <%
                         String separator = OS.getDirectorySeparator();
-                        String ubicacionNumeros = application.getRealPath(separator + "WEB-INF" + separator + "numeros");
+                        String ubicacionNumeros = application.getRealPath(separator + "WEB-INF");
                     %>
                     <html:form action="/crearRevista" styleId="contact-new-revista" styleClass="contact-new-revista">                   
                         <p><bean:write name="CrearRevistaActionForm" property="errorMsg" filter="false"/></p>
