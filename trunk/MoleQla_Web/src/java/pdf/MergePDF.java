@@ -19,22 +19,51 @@ import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfImportedPage;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import utilidades.OS;
 
 public class MergePDF {
 
     /*public static void main(String[] args) {
-        try {
-            List<InputStream> pdfs = new ArrayList<InputStream>();
-            pdfs.add(new FileInputStream("c:\\pdf\\one.pdf"));
-            pdfs.add(new FileInputStream("c:\\pdf\\two.pdf"));
-            pdfs.add(new FileInputStream("c:\\pdf\\three.pdf"));
-            pdfs.add(new FileInputStream("c:\\pdf\\one.pdf"));
-            OutputStream output = new FileOutputStream("c:\\pdf\\merge.pdf");
-            MergePDF.concatPDFs(pdfs, output, true);
-        } catch (Exception e) {
-            e.printStackTrace();
+     try {
+     List<InputStream> pdfs = new ArrayList<InputStream>();
+     pdfs.add(new FileInputStream("/home/rafa/MoleQla_Web/build/web/WEB-INF/numeros/3_0.pdf"));
+     pdfs.add(new FileInputStream("/home/rafa/MoleQla_Web/build/web/WEB-INF/numeros/3_1.pdf"));
+     OutputStream output = new FileOutputStream("/home/rafa/MoleQla_Web/build/web/WEB-INF/numeros/3.pdf");
+     MergePDF.concatPDFs(pdfs, output, true);
+     } catch (Exception e) {
+     e.printStackTrace();
+     }
+     }*/
+    public static String crearNumeroRevista(String rutaNumeros, String numero) {
+
+        File f = new File(rutaNumeros);
+        List<InputStream> pdfs = new ArrayList<InputStream>();
+        String separator = OS.getDirectorySeparator();
+        String numeroPDF = "";
+        if (f.exists()) { // Directorio existe 
+
+            File[] ficheros = f.listFiles();
+            try {
+                for (File fichero : ficheros) {
+                    if (fichero.getName().equals("pdf.py")==false) {
+                        pdfs.add(new FileInputStream(fichero.getPath()));
+                    }
+                }
+
+                numeroPDF = rutaNumeros + separator + numero + ".pdf";
+                OutputStream output = new FileOutputStream(numeroPDF);
+                MergePDF.concatPDFs(pdfs, output, true);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(MergePDF.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else { //Directorio no existe
         }
-    }*/
+        return numeroPDF;
+    }
 
     public static void concatPDFs(List<InputStream> streamOfPDFFiles,
             OutputStream outputStream, boolean paginate) {

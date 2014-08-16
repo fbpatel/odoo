@@ -74,20 +74,38 @@ public class CrearRevistaAction extends org.apache.struts.action.Action {
             Date date = new Date();
             String nombreNum = dateFormat.format(date);
 
-            if (consultaListaNumeros(rutaWEBINF, nombreNum) == false) {
+            //Se crean el pdf de todos los articulos correspondientes
+            String numero = consultaListaNumeros(rutaWEBINF, nombreNum);
+            if (numero.isEmpty()) {
                 formBean.setErrorMsg(Constantes.getERROR_CREAR_NUMERO());
                 return mapping.findForward(FAILURE);
             }
+            
+            //Se crea el numero con todos los pdfs creados anteriormente
+            String separator = OS.getDirectorySeparator();
+            String rutaNumeros = rutaWEBINF + separator + "numeros";
+            String numeroPDF = MergePDF.crearNumeroRevista(rutaNumeros, numero);
+            
+            //Se comprueba que el numero se haya creado correctamente
+            if(numeroPDF.isEmpty()){
+                formBean.setErrorMsg(Constantes.getERROR_CREAR_NUMERO());
+                return mapping.findForward(FAILURE);
+            }
+            
+            File numeroCreado = new File(numeroPDF);
+            if(numeroCreado.exists()==false){
+                formBean.setErrorMsg(Constantes.getERROR_CREAR_NUMERO());
+                return mapping.findForward(FAILURE);
+            }
+            
             formBean.setMsg(Constantes.getCREACION_NUMERO_OK());
             return mapping.findForward(SUCCESS);
         }
     }
 
-    private boolean consultaListaNumeros(String rutaWEBINF, String nombreNum) throws SQLException {
+    private String consultaListaNumeros(String rutaWEBINF, String nombreNum) throws SQLException {
         String separator = OS.getDirectorySeparator();
-        List<InputStream> listaNumerosArt = null;
-        List<String> listaNombresArt = new ArrayList();
-        boolean res = true;
+        String res = "";
 
         String fichero = rutaWEBINF + separator + "numeros" + separator + "pdf.py";
         String rutaDestino = rutaWEBINF + separator + "numeros";
@@ -106,10 +124,12 @@ public class CrearRevistaAction extends org.apache.struts.action.Action {
 
             // retrieve output from python script
             BufferedReader bfr = new BufferedReader(new InputStreamReader(f.getInputStream()));
-            String numero = "";
-            while ((numero = bfr.readLine()) != null) {
-                System.out.println(numero);
+            String line = "", numero = "";
+            while ((line = bfr.readLine()) != null) {
+                numero = line;
+                System.out.println("Articulos creados. Numero " + line);
             }
+            res = numero;
         } catch (IOException ex) {
             Logger.getLogger(CrearRevistaAction.class.getName()).log(Level.SEVERE, null, ex);
         }
