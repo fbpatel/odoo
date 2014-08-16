@@ -11,7 +11,7 @@ class numero(osv.osv):
         'numero' : fields.integer('Numero',),
         'articulos_id' : fields.one2many('articulo', 'numero_id','Articulos'),
         'fecha_p' : fields.date('Fecha de Publicacion'),
-        'state':fields.selection([('start', 'Borrador'), ('builded', 'En construccion'),('send', 'Publicada'), ('voted', 'En votacion'),('closed', 'Cerrado')], 'Estado del numero'),
+        'state':fields.selection([('start', 'Borrador'), ('builded', 'En construccion'),('a_publicar', 'Publicada'), ('voted', 'En votacion'),('closed', 'Cerrado')], 'Estado del numero'),
         }
     
     _defaults = {
@@ -25,8 +25,8 @@ class numero(osv.osv):
         #for id in ides:
         obj.write(cr, uid, ides, {'numero_id' : ids[0]})
      
-    def send(self, cr, uid, ids, context=None):
-        self.write(cr, uid, ids, { 'state' : 'send',  })
+    def a_publicar(self, cr, uid, ids, context=None):
+        self.write(cr, uid, ids, { 'state' : 'a_publicar',  })
          
     def vote(self, cr, uid, ids, context=None):
         self.write(cr, uid, ids, { 'state' : 'voted'})
