@@ -30,7 +30,7 @@
                         String separator = OS.getDirectorySeparator();
                         String ubicacionNumeros = application.getRealPath(separator + "WEB-INF" + separator + "numeros");
                     %>
-                    <html:form action="/WEB-INF/superuser/crearRevista" styleId="contact-new-revista" styleClass="contact-new-revista">                   
+                    <html:form action="/crearRevista" styleId="contact-new-revista" styleClass="contact-new-revista">                   
                         <p><bean:write name="CrearRevistaActionForm" property="errorMsg" filter="false"/></p>
                         <p><bean:write name="CrearRevistaActionForm" property="msg" filter="false"/></p>
                         <html:hidden name="CrearRevistaActionForm" property="rutaNumeros" value="<%=ubicacionNumeros%>"/>

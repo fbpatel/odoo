@@ -88,8 +88,7 @@ public class CrearRevistaAction extends org.apache.struts.action.Action {
 
         try (Connection connection = ConnectionPSQL.connection()) {
             ResultSet rs = connection.createStatement().executeQuery(
-                    "SELECT archivo, numero_id FROM articulo "
-                    + "WHERE (SELECT state FROM numero N WHERE N.id = A.numero_id) = '" + Constantes.getESTADO_NUMEROS_PUBLICAR() + "'");
+                    "SELECT archivo, numero_id FROM articulo A WHERE (SELECT state FROM numero N WHERE N.id = A.numero_id) = '" + Constantes.getESTADO_NUMEROS_PUBLICAR() + "'");
 
             listaNumerosArt = new ArrayList();
             byte[] imgBytes = null;
@@ -113,7 +112,7 @@ public class CrearRevistaAction extends org.apache.struts.action.Action {
                     //Añadimos los pdf a la lista
                     FileInputStream pdf = new FileInputStream(rutaDestino + separator + nombreArt + ".pdf");
                     listaNumerosArt.add(pdf);
-                    pdf.close();
+                    //pdf.close();
 
                     i++;
                 }
@@ -133,13 +132,16 @@ public class CrearRevistaAction extends org.apache.struts.action.Action {
             }
 
         } catch (SQLException e) {
+            res = false;
             System.out.println("\n" + e.getMessage()
                     + "\n-----------------\n"
                     + Constantes.getERROR_CREAR_NUMERO()
                     + "\n-----------------\n");
         } catch (FileNotFoundException ex) {
+            res = false;
             Logger.getLogger(CrearRevistaAction.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
+            res = false;
             Logger.getLogger(CrearRevistaAction.class.getName()).log(Level.SEVERE, null, ex);
         }
 

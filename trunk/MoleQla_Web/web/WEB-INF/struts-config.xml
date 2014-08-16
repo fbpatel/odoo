@@ -42,7 +42,7 @@
         </action>
         
         <!-- Crear revista -->
-        <action name="CrearRevistaActionForm" path="/WEB-INF/superuser/crearRevista" scope="request" type="action.CrearRevistaAction" validate="false">
+        <action input="/WEB-INF/superuser/crearRevista.jsp" name="CrearRevistaActionForm" path="/crearRevista" scope="request" type="action.CrearRevistaAction" validate="false">
             <forward name="success" path="/WEB-INF/superuser/crearRevista.jsp"/>
             <forward name="failure" path="/WEB-INF/superuser/crearRevista.jsp"/>
             <forward name="cancel" path="/WEB-INF/superuser/crearRevista.jsp"/>
