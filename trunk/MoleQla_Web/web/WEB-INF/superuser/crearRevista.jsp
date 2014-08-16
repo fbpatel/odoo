@@ -28,12 +28,12 @@
                 <div class="span9">
                     <%
                         String separator = OS.getDirectorySeparator();
-                        String ubicacionNumeros = application.getRealPath(separator + "WEB-INF");
+                        String ubicacionWEBINF = application.getRealPath(separator + "WEB-INF");
                     %>
                     <html:form action="/crearRevista" styleId="contact-new-revista" styleClass="contact-new-revista">                   
                         <p><bean:write name="CrearRevistaActionForm" property="errorMsg" filter="false"/></p>
                         <p><bean:write name="CrearRevistaActionForm" property="msg" filter="false"/></p>
-                        <html:hidden name="CrearRevistaActionForm" property="rutaNumeros" value="<%=ubicacionNumeros%>"/>
+                        <html:hidden name="CrearRevistaActionForm" property="rutaNumeros" value="<%=ubicacionWEBINF%>"/>
                         <p class="contact-submit">
                             <html:submit styleId="contact-submit-new-revista" styleClass="submit" value="Create">Create</html:submit> 
                             </p>
