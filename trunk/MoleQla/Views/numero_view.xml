@@ -13,7 +13,7 @@
 								statusbar_colors='{"start":"blue","builded":"green","a_publicar":"yellow", "voted":"red","closed":"orange"}' />
 							<button name="build" states="start" string="Montar Revista" type="object"
 								colspan="1" icon="gtk-apply" />
-							<button name="a_publicar" states="builded" string="Publicar" type="object"
+							<button name="send" states="builded" string="Publicar" type="object"
 								colspan="1" icon="gtk-apply" />
 							<button name="vote" string="Votar Articulos Destacados" states="a_publicar" type="object" icon="gtk-apply"/>
 							<button name="close" string="Cerrar Revista" states="voted" type="object" icon="gtk-apply"/>
