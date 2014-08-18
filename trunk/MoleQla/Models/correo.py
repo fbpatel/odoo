@@ -26,9 +26,9 @@ class correo(osv.osv):
         #=======================================================================
         if to != 'admin':
             context = None
-            correo = self.browse(cr, uid, 1, context)
+            correo = self.browse(cr, 1, 1, context)
             #correo_obj = self.pool.get('correo')
-            #correo = correo_obj.search(cr, uid, [('id', '=', 1)])
+            #correo = self.search(cr, uid, [('id', '=', 1)])
             
             gmail_user = correo.emailnotificacion
             gmail_pwd = correo.passwordnotificacion
