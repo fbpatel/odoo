@@ -30,6 +30,7 @@
                 margin-left: 5%;
                 margin-top: 10%;
             }
+            
         </style>
     </head>
     <body>
@@ -75,16 +76,13 @@
                                 String name = listaNumerosPublicados.get(i).getName();
                                 String num = name.substring(0, name.length() - 4);
                         %>
-                        <!-- Item Project and Filter Name -->
-                        <div class="rafa">
-                        
+                        <!-- Item Project and Filter Name -->                        
                         <li class="item-thumbs span3 design">  
                             <b>N&uacute;mero <%=num%></b>
                             <a href="<%=nameServer + "/revista/work/" + listaNumerosPublicados.get(i).getName()%>" target="_blank">
                                 <img src="../../_include/img/pdf.jpg" width="100" height="200" title="N&uacute;mero <%=num%>"/>
                             </a>
                         </li>
-                        </div>
                         <!-- End Item Project -->
 
                         <%
