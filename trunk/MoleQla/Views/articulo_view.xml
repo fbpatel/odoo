@@ -34,7 +34,7 @@
 
 						</group>
 						<notebook colspan="4">
-							<page string="Revision" attrs="{'visible':[('state','not in','start')]>
+							<page string="Revision" attrs="{'visible':[('state','not in','start')]}" >
 								<field name="revision_observaciones"></field>
 								<!-- <field name="revision_id" readonly="1"
 									states="send,cancel,editing,cancel_m,published" /> -->
