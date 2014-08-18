@@ -7,14 +7,19 @@ package action;
 
 import actionForm.LoginActionForm;
 import connection.ConnectionPSQL;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import utilidades.Constantes;
 
 /**
  *
@@ -41,6 +46,7 @@ public class LoginAction extends org.apache.struts.action.Action {
     public ActionForward execute(ActionMapping mapping, ActionForm form,
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
+        boolean error = true;
         if (isCancelled(request)) {
             return mapping.findForward(CANCEL);
         } else {
@@ -49,24 +55,31 @@ public class LoginAction extends org.apache.struts.action.Action {
             String user = formBean.getUser();
             String password = formBean.getPassword();
 
-            Connection connection = ConnectionPSQL.connection();
-            ResultSet rs = connection.createStatement().executeQuery(
-                    "SELECT password FROM res_users WHERE login = '" + user + "'");
+            if (user.isEmpty() || password.isEmpty()) {
+                formBean.setErrorMsg(Constantes.getERROR_LOGIN());
+                return mapping.findForward(FAILURE);
+            } else {
 
-            boolean error = false;
-            if (rs != null) {
-                while (rs.next()) {
-                    if (password.equals(rs.getString(1)) == false) {
-                        error = true;
+                try (Connection connection = ConnectionPSQL.connection()) {
+                    ResultSet rs = connection.createStatement().executeQuery(
+                            "SELECT password FROM res_users WHERE login = '" + user + "'");
+                    error = false;
+                    if (rs != null) {
+                        while (rs.next()) {
+                            if (password.equals(rs.getString(1)) == false) {
+                                error = true;
+                            }
+                        }
+                        rs.close();
                     }
+                } catch (SQLException ex) {
+                    Logger.getLogger(CrearRevistaAction.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                rs.close();
             }
-
-            connection.close();
+            
 
             if (error == true) {
-                formBean.setError();
+                formBean.setErrorMsg(Constantes.getERROR_LOGIN());
                 return mapping.findForward(FAILURE);
             }
 

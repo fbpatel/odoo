@@ -19,6 +19,15 @@ public class LoginActionForm extends org.apache.struts.action.ActionForm {
 
     private String user;
     private String password;
+    private String errorMsg;
+
+    public String getErrorMsg() {
+        return errorMsg;
+    }
+
+    public void setErrorMsg(String errorMsg) {
+        this.errorMsg = "<span style='color:red'>"+errorMsg+"</span>";
+    }
 
     // error message
     private String error;

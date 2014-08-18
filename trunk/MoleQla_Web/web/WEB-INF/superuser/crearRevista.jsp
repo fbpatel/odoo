@@ -29,6 +29,9 @@
                     <%
                         String separator = OS.getDirectorySeparator();
                         String ubicacionWEBINF = application.getRealPath(separator + "WEB-INF");
+
+                        String ubicacionRaiz = application.getRealPath(separator);
+                        request.setAttribute("ubicacionRaiz", ubicacionRaiz);
                     %>
                     <html:form action="/crearRevista" styleId="contact-new-revista" styleClass="contact-new-revista">                   
                         <p><bean:write name="CrearRevistaActionForm" property="errorMsg" filter="false"/></p>

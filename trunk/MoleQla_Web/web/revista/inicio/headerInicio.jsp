@@ -11,7 +11,7 @@ and open the template in the editor.
     <nav id="menu">
         <ul id="menu-nav">
             <li class="current"><a href="inicio.jsp" class="external">Inicio</a></li>
-            <li><a href="../work/work.jsp" class="external">Revistas</a></li>
+            <li><html:link action="/revista/work/work" styleClass="external">Revistas</html:link></li>
             <li><a href="../about/about.jsp" class="external">Equipo Editorial</a></li>
             <li><a href="../articulo/registrarAutor.jsp" class="external">Enviar Articulo</a></li>
             <li><a href="../contact/contact.jsp" class="external">Contactar</a></li>

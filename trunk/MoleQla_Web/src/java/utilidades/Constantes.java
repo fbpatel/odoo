@@ -18,6 +18,7 @@ public class Constantes {
 
     //Constante para el error
     private static final String ERROR_FORM = "All field are required";
+    private static final String ERROR_LOGIN = "User and/or password incorrect";
 
     private static final String ERROR_FORM_ADD = "Error en la inserseccion";
     private static final String ERROR_CREACION_REVISTA = "Error al crear la revista";
@@ -42,6 +43,10 @@ public class Constantes {
     
     private static String SEPARATOR;
 
+    public static String getERROR_LOGIN() {
+        return ERROR_LOGIN;
+    }    
+    
     public static String getERROR_CREAR_NUMERO() {
         return ERROR_CREAR_NUMERO;
     }    

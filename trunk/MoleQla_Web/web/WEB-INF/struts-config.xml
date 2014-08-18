@@ -10,14 +10,17 @@
     	<!-- Bean Login -->
         <form-bean name="LoginActionForm" type="actionForm.LoginActionForm"/>
         
-        <!-- Bean Login -->
+        <!-- Bean Logout -->
         <form-bean name="LogoutActionForm" type="actionForm.LogoutActionForm"/>
         
-        <!-- Bean Login -->
+        <!-- Bean Crear Revista -->
         <form-bean name="CrearRevistaActionForm" type="actionForm.CrearRevistaActionForm"/>
         
-        <!-- Bean Login -->
+        <!-- Bean Registro -->
         <form-bean name="RegistroActionForm" type="actionForm.RegistroActionForm"/>
+        
+        <!-- Bean Login -->
+        <form-bean name="MostrarNumerosActionForm" type="actionForm.MostrarNumerosActionForm"/>
     </form-beans>
     
     <global-exceptions>
@@ -30,7 +33,7 @@
 
     <action-mappings>
         <!-- Login Admin -->
-        <action input="/login.jsp" name="LoginActionForm" path="/login" scope="request" type="action.LoginAction" validate="false">
+        <action input="/login.jsp" name="LoginActionForm" path="/revista/login/login" scope="request" type="action.LoginAction" validate="false">
             <forward name="superuser" path="/WEB-INF/superuser/crearRevista.jsp"/>
             <forward name="failure" path="/revista/login/login.jsp"/>
             <forward name="cancel" path="/revista/login/login.jsp"/>
@@ -39,6 +42,12 @@
         <!-- Logout Admin -->
         <action name="LogoutActionForm" path="/logout" scope="request" type="action.LogoutAction" validate="false">
             <forward name="success" path="/revista/login/login.jsp"/>
+        </action>
+        
+        <!-- Mostrar revista -->
+        <action name="MostrarNumerosActionForm" path="/revista/work/work" scope="request" type="action.MostrarNumerosAction" validate="false">
+            <forward name="success" path="/revista/work/work.jsp"/>
+            <forward name="failure" path="/revista/work/work.jsp"/>
         </action>
         
         <!-- Crear revista -->

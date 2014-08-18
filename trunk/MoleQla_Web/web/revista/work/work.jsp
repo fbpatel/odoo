@@ -4,6 +4,10 @@
     Author     : Rafa
 --%>
 
+<%@page import="java.util.Comparator"%>
+<%@page import="java.util.Collections"%>
+<%@page import="java.io.File"%>
+<%@page import="java.util.List"%>
 <%@page import="utilidades.OS"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -15,45 +19,76 @@
 <html lang="en-US"> <!--<![endif]-->
     <head>
         <%@include file="../head.html" %>
-        <style type="text/css">
-            #bljaIMGte{
-                float:left;position:relative;
+        <style>
+            table {
+                margin-left: 25%;
+                margin-top: 5%;
+                width: 50%;
+                text-align: center; 
+                color: #000;
             }
-            #bljaIMGte .bljaIMGtex {
-                width:320px;
-                position:absolute;
-                top:60px;
-                left:25px;
-                font-size: 80px
+            
+            table td{
+                padding: 5%;
             }
         </style>
     </head>
     <body>
+        <%
+
+            List<File> listaNumerosPublicados = (List<File>) request.getAttribute("listaNumerosPublicados");
+
+            String nameServer = request.getContextPath();
+        %>
         <%@include file="../circulo.html" %>
 
         <header>
             <%@include file="headerWork.jsp" %>
         </header>
-        <%
 
-            String separator = OS.getDirectorySeparator();
-            String ubicacionNumeros = application.getRealPath(separator + "WEB-INF" + separator + "numeros");
+        <table>
+            <caption>N&uacute;meros de la revista</caption>
+            <%
+                // A continuación, se va a ordenador la lista por orden de numero
+                Collections.sort(listaNumerosPublicados, new Comparator<File>() {
+                    @Override
+                    public int compare(File u1, File u2) {
+                         //cadena.substring(0, cadena.length()-1); 
+                        Integer uu1 = Integer.parseInt(u1.getName().substring(0, u1.getName().length()-4));
+                        Integer uu2 = Integer.parseInt(u2.getName().substring(0, u2.getName().length()-4));
+                        
+                        //return uu1.compareTo(uu2);//de menos a mayor
+                        return uu2.compareTo(uu1);//de mayor a menor
+                    }
+                });
 
-            session.setAttribute("ubicacionNumeros", ubicacionNumeros);
-        %>
+                int i = 0, j;
 
+                while (i < listaNumerosPublicados.size()) {
+            %>            
+            <tr>
+                <%
+                    j = 0;
+                    while (j < 4 && i < listaNumerosPublicados.size()) {
+                        String name = listaNumerosPublicados.get(i).getName();
+                        String num = name.substring(0, name.length()-4);
+                %>
+                <td>
+                    <b>N&uacute;mero <%=num %></b>
+                    <a href="<%=nameServer + "/revista/work/" + listaNumerosPublicados.get(i).getName()%>" target="_blank">
+                        <img src="../../_include/img/pdf.jpg" width="100" height="200"/>
+                    </a>
+                </td>
+                <%
+                        i++;
+                        j++;
 
-        <a id="bljaIMGte" href="http://www.marca.com">
-            <img src="../../_include/img/pdf.jpg" width="150" height="300"/>
-            <div class="bljaIMGtex" style="color:#000000;">
-                <p>14</p>
-            </div>
-        </a>
-
-        <div>
-            <embed scale="tofit" name="PDFEmbed" alt="" height="554" id="PDFEmbedID" 
-                   src="pdfimagen.pdf" 
-                   type="application/pdf" controller="true" width="100%">
-        </div>
+                    }
+                %>
+            </tr>
+            <%
+                }
+            %>
+        </table>
     </body>
 </html>

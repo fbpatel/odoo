@@ -59,24 +59,31 @@ public class MostrarNumerosAction extends org.apache.struts.action.Action {
             return mapping.findForward(CANCEL);
         } else {
             MostrarNumerosActionForm formBean = (MostrarNumerosActionForm) form;
+            String rutaRaiz = request.getServletContext().getRealPath("/");            
+            
+            List<File> listaNumerosPublicados = consultaNumeros(rutaRaiz);
+            formBean.setListaNumerosPublicados(listaNumerosPublicados);
+            request.setAttribute("listaNumerosPublicados", listaNumerosPublicados);
 
             formBean.setMsg(Constantes.getCREACION_NUMERO_OK());
             return mapping.findForward(SUCCESS);
         }
     }
 
-    public List<File> consultaNumeros(String rutaNumeros) {
-        List<File> listaNumeros = new ArrayList();
-
-        File f = new File(rutaNumeros);
-        List<InputStream> pdfs = new ArrayList<InputStream>();
+    public List<File> consultaNumeros(String rutaRaiz) {
+        //Obtenemos la ruta donde estan los numeros creados
         String separator = OS.getDirectorySeparator();
-        String numeroPDF = "";
+        String rutaWork = rutaRaiz + "revista" + separator + "work";        
+        File f = new File(rutaWork);
+        
+        //Se añaden todos los numeros a la lista que se va a retornar
+        List<File> listaNumeros = new ArrayList();
         if (f.exists()) { // Directorio existe 
 
             File[] ficheros = f.listFiles();
             for (File fichero : ficheros) {
-                if (fichero.getName().equals("pdf.py") == false) {
+                if (fichero.getName().equals("headerWork.jsp") == false &&
+                        fichero.getName().equals("work.jsp") == false) {
                     listaNumeros.add(fichero);
                 }
             }

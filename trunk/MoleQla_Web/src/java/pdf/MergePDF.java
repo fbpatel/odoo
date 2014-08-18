@@ -38,7 +38,7 @@ public class MergePDF {
      e.printStackTrace();
      }
      }*/
-    public static String crearNumeroRevista(String rutaNumeros, String numero) {
+    public static String crearNumeroRevista(String rutaRaiz, String rutaNumeros, String numero) {
 
         File f = new File(rutaNumeros);
         List<InputStream> pdfs = new ArrayList<InputStream>();
@@ -49,12 +49,12 @@ public class MergePDF {
             File[] ficheros = f.listFiles();
             try {
                 for (File fichero : ficheros) {
-                    if (fichero.getName().equals("pdf.py")==false) {
+                    if (fichero.getName().equals("pdf.py") == false) {
                         pdfs.add(new FileInputStream(fichero.getPath()));
                     }
                 }
 
-                numeroPDF = rutaNumeros + separator + numero + ".pdf";
+                numeroPDF = rutaRaiz + "revista" + separator + "work" + separator + numero + ".pdf";
                 OutputStream output = new FileOutputStream(numeroPDF);
                 MergePDF.concatPDFs(pdfs, output, true);
             } catch (FileNotFoundException ex) {
