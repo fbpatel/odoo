@@ -16,7 +16,7 @@ class articulo(osv.osv):
         'user_id': fields.integer('Usuario'),
         'seccion_id': fields.many2one('seccion', 'Seccion'),
         'state':fields.selection([('start', 'Borrador'), ('send', 'Enviado'), ('cancel', 'Rechazado'),
-                                  ('editing', 'En Maquetacion'), ('cancel_m', 'No Maquetado'), ('published', 'Publicable')], 'Estado del Articulo'),
+                                  ('editing', 'En Maquetacion'), ('cancel_m', 'No Maquetado'), ('published', 'Publicable'), ('impress', 'Publicado')], 'Estado del Articulo'),
         'revision_id': fields.many2one('revision', 'Revision'),
         'revision_observaciones' : fields.related('revision_id', 'observaciones', string="Observaciones", type="binary", readonly=True),
         'maquetacion_id': fields.many2one('maquetacion', 'Maquetacion'),
