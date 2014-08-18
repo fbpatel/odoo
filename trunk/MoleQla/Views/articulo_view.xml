@@ -20,21 +20,21 @@
 							</group>
 						</header>
 						<group col="4">
-							<field name="nombre" attrs="{'readonly':['|','|',('state','=','send'),('state','=','editing'),('state','=','published'),('state','=','impress')]}"></field>
-							<field name="seccion_id" attrs="{'readonly':[('state','!=','start'),('state','=','impress')]}"></field>
-							<field name="fecha_maq" attrs="{'readonly':'1','invisible':[('state','!=','published'),('state','=','impress')]}"></field>
-							<field name="tipo_articulo" attrs="{'readonly':['|','|',('state','=','send'),('state','=','editing'),('state','=','published'),('state','=','impress')]}"></field>
-							<field name="tipo_autor" attrs="{'readonly':['|','|',('state','=','send'),('state','=','editing'),('state','=','published'),('state','=','impress')]}" />
+							<field name="nombre" attrs="{'readonly':['|','|','|',('state','=','send'),('state','=','editing'),('state','=','published'),('state','=','impress')]}"></field>
+							<field name="seccion_id" attrs="{'readonly':[('state','!=','start')]}"></field>
+							<field name="fecha_maq" attrs="{'readonly':'1','invisible':['|','|','|','|',('state','=','start'),('state','=','send'),('state','=','cancel'),('state','=','editing'),('state','=','cancel_m')]}"></field>
+							<field name="tipo_articulo" attrs="{'readonly':['|','|','|',('state','=','send'),('state','=','editing'),('state','=','published'),('state','=','impress')]}"></field>
+							<field name="tipo_autor" attrs="{'readonly':['|','|','|',('state','=','send'),('state','=','editing'),('state','=','published'),('state','=','impress')]}" />
 						</group>
 						<group col="2">
-							<field name="descripcion" attrs="{'readonly':['|','|',('state','=','send'),('state','=','editing'),('state','=','published'),('state','=','impress')]}"></field>
-							<field name="palabras_clave" attrs="{'readonly':['|','|',('state','=','send'),('state','=','editing'),('state','=','published'),('state','=','impress')]}" />
+							<field name="descripcion" attrs="{'readonly':['|','|','|',('state','=','send'),('state','=','editing'),('state','=','published'),('state','=','impress')]}"></field>
+							<field name="palabras_clave" attrs="{'readonly':['|','|','|',('state','=','send'),('state','=','editing'),('state','=','published'),('state','=','impress')]}" />
 							<field name="archivo" filename="filename"
-								attrs="{'readonly':['|','|',('state','=','send'),('state','=','editing'),('state','=','published'),('state','=','impress')]}" />
+								attrs="{'readonly':['|','|','|',('state','=','send'),('state','=','editing'),('state','=','published'),('state','=','impress')]}" />
 
 						</group>
 						<notebook colspan="4">
-							<page string="Revision" attrs="{'visible':[('state','not in','start')]}" >
+							<page string="Revision" attrs="{'invisible':[('state','=','start')]}" >
 								<field name="revision_observaciones"></field>
 								<!-- <field name="revision_id" readonly="1"
 									states="send,cancel,editing,cancel_m,published" /> -->
