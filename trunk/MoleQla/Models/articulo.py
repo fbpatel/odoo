@@ -76,7 +76,8 @@ class articulo(osv.osv):
             texto = "Se ha recibido un nuevo articulo."
             
             # Se envia el correo
-            correo_obj = self.pool.get('correo')        
+            correo_obj = self.pool.get('correo') 
+                   
             correo_obj.mail(cr, 1, email_editor, asunto, texto)
             # -------------------------------------------
             
