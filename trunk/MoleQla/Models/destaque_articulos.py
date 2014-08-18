@@ -6,8 +6,8 @@ class destaque_articulos(osv.osv):
     _description = "Destaque"
     
     _columns = {       
-        'articulo_divulgativo': fields.many2one('articulo','Articulo'), 
-        'articulo_investigacion': fields.many2one('articulo','Articulo'),  
+        'articulo_divulgativo': fields.many2one('articulo','Articulo Divulgativo'), 
+        'articulo_investigacion': fields.many2one('articulo','Articulo de Investigacion'),  
         'revisor_id': fields.integer('Editor'),
         'numero_id':fields.many2one('numero','Numero'), 
         'fecha_fin': fields.date('Plazo Maximo'),
