@@ -20,16 +20,15 @@
     <head>
         <%@include file="../head.html" %>
         <style>
-            table {
-                margin-left: 25%;
-                margin-top: 5%;
-                width: 50%;
+            .span9 {
+                width: 100%;
                 text-align: center; 
                 color: #000;
             }
             
-            table td{
-                padding: 5%;
+            #projects{
+                margin-left: 5%;
+                margin-top: 10%;
             }
         </style>
     </head>
@@ -46,49 +45,62 @@
             <%@include file="headerWork.jsp" %>
         </header>
 
-        <table>
-            <caption>N&uacute;meros de la revista</caption>
-            <%
-                // A continuación, se va a ordenador la lista por orden de numero
-                Collections.sort(listaNumerosPublicados, new Comparator<File>() {
-                    @Override
-                    public int compare(File u1, File u2) {
-                         //cadena.substring(0, cadena.length()-1); 
-                        Integer uu1 = Integer.parseInt(u1.getName().substring(0, u1.getName().length()-4));
-                        Integer uu2 = Integer.parseInt(u2.getName().substring(0, u2.getName().length()-4));
+        <!-- Comienzo de la galeria de numeros -->
+        <div class="span9">
+            <div class="row">
+                <section id="projects">
+                    
+                    <%
+                        // A continuación, se va a ordenador la lista por orden de numero
+                        Collections.sort(listaNumerosPublicados, new Comparator<File>() {
+                            @Override
+                            public int compare(File u1, File u2) {
+                                //cadena.substring(0, cadena.length()-1); 
+                                Integer uu1 = Integer.parseInt(u1.getName().substring(0, u1.getName().length() - 4));
+                                Integer uu2 = Integer.parseInt(u2.getName().substring(0, u2.getName().length() - 4));
+
+                                //return uu1.compareTo(uu2);//de menos a mayor
+                                return uu2.compareTo(uu1);//de mayor a menor
+                            }
+                        });
+
+                        int i = 0, j;
+
+                        while (i < listaNumerosPublicados.size()) {
+                    %>            
+                    <ul id="thumbs">
+                        <%
+                            j = 0;
+                            while (j < 4 && i < listaNumerosPublicados.size()) {
+                                String name = listaNumerosPublicados.get(i).getName();
+                                String num = name.substring(0, name.length() - 4);
+                        %>
+                        <!-- Item Project and Filter Name -->
+                        <div class="rafa">
                         
-                        //return uu1.compareTo(uu2);//de menos a mayor
-                        return uu2.compareTo(uu1);//de mayor a menor
-                    }
-                });
+                        <li class="item-thumbs span3 design">  
+                            <b>N&uacute;mero <%=num%></b>
+                            <a href="<%=nameServer + "/revista/work/" + listaNumerosPublicados.get(i).getName()%>" target="_blank">
+                                <img src="../../_include/img/pdf.jpg" width="100" height="200" title="N&uacute;mero <%=num%>"/>
+                            </a>
+                        </li>
+                        </div>
+                        <!-- End Item Project -->
 
-                int i = 0, j;
+                        <%
+                                i++;
+                                j++;
 
-                while (i < listaNumerosPublicados.size()) {
-            %>            
-            <tr>
-                <%
-                    j = 0;
-                    while (j < 4 && i < listaNumerosPublicados.size()) {
-                        String name = listaNumerosPublicados.get(i).getName();
-                        String num = name.substring(0, name.length()-4);
-                %>
-                <td>
-                    <b>N&uacute;mero <%=num %></b>
-                    <a href="<%=nameServer + "/revista/work/" + listaNumerosPublicados.get(i).getName()%>" target="_blank">
-                        <img src="../../_include/img/pdf.jpg" width="100" height="200"/>
-                    </a>
-                </td>
-                <%
-                        i++;
-                        j++;
-
-                    }
-                %>
-            </tr>
-            <%
-                }
-            %>
-        </table>
-    </body>
+                            }
+                        %>
+                    </ul>
+                    <%
+                        }
+                    %>
+                </section>
+            </div>
+        </div>
+    </div>
+    <!-- End Galeria -->
+</body>
 </html>
