@@ -8,7 +8,7 @@ class numero(osv.osv):
     
     _columns = {
         'nombre' : fields.char('Nombre', size=128, required=True),
-        'numero' : fields.integer('Numero',),
+        'numero' : fields.integer('Numero'),
         'articulos_id' : fields.one2many('articulo', 'numero_id','Articulos'),
         'fecha_p' : fields.date('Fecha de Publicacion'),
         'state':fields.selection([('start', 'Borrador'), ('builded', 'En construccion'),('a_publicar', 'Publicada'), ('voted', 'En votacion'),('closed', 'Cerrado')], 'Estado del numero'),
@@ -17,6 +17,8 @@ class numero(osv.osv):
     _defaults = {
                   'state':'start',
                   }
+    
+    
     
     def build(self, cr, uid, ids, context=None):
         self.write(cr, uid, ids, { 'state' : 'builded'})
@@ -32,11 +34,9 @@ class numero(osv.osv):
                 for ide in ids_articulos:
                     i=i+1
                     if i<=seccion_.max_articulos:
-                        #articulos[cont]=obj_articulo.browse(cr, uid, id, context)[0]
                         ides.append(ide)
             else:
                 for ide in ids_articulos:
-                        #articulos[cont]=obj_articulo.browse(cr, uid, id, context)[0]
                         ides.append(ide)             
         obj_articulo.write(cr, uid, ides, {'numero_id' : ids[0]})
      
