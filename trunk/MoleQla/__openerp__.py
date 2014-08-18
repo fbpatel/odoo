@@ -33,6 +33,7 @@
                         'Views/maquetacion_view.xml',
                         'Views/numero_view.xml',
                         'Views/correo_view.xml',
+                        'Views/destaque_articulos_view.xml',
                         'Workflows/articulo_workflow.xml',
                         
 						
