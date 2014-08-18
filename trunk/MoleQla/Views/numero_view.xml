@@ -16,7 +16,7 @@
 							<button name="a_publicar" states="builded" string="Publicar" type="object"
 								colspan="1" icon="gtk-apply" />
 							<button name="vote" string="Votar Articulos Destacados" states="a_publicar" type="object" icon="gtk-apply"/>
-							<button name="close" string="Cerrar Revista" states="a_publicar" type="object" icon="gtk-apply"/>
+							<button name="close" string="Cerrar Revista" states="voted" type="object" icon="gtk-apply"/>
 						</group>
 	            	</header>
 	            		<group col="4">
@@ -28,7 +28,7 @@
 							<notebook>
 								<page String="Articulos">
 									<field name="articulos_id" widget="many2many"
-										attrs="{'readonly': [('state','=','a_publicar')],
+										attrs="{'readonly': [('state','!=','builded')],
 												'invisible': [('state','=','start')]}"
 										domain="[('state', 'ilike', 'published')]" />
 								</page>
