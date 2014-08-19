@@ -5,6 +5,29 @@ class articulo(osv.osv):
     _name = "articulo"
     _description = "Articulo"
     
+    def _get_autor(self, cr, uid, context=None):
+        autor_obj = self.pool.get('autor')
+        autor_id = autor_obj.search(cr, uid, [('user_id', '=', uid)])
+        autor = autor_obj.browse(cr, uid, autor_id, context)
+        res = autor.nombre
+        return res
+
+
+    def _set_autor(self, cr, uid, ids, name, args, context=None):
+        res = {}
+        print "\n\nset function call"  
+        for i in self.browse(cr, uid, ids, context=context):
+            autor_obj = self.pool.get('autor')
+            autor_id = autor_obj.search(cr, uid, [('user_id', '=', i.user_id)])
+            autor = autor_obj.browse(cr, uid, autor_id, context)
+            res[i.id] = autor.nombre
+        return res
+        
+        
+        
+        
+        
+    
     _columns = {
         'nombre' : fields.char('Nombre', size=128, required=True),
         'tipo_autor':fields.selection([('interno', 'Interno'), ('externo', 'Externo')], 'Tipo de Autor', required=True),
@@ -29,10 +52,12 @@ class articulo(osv.osv):
         'fecha_maq' : fields.date('Fecha de Aceptacion'),
         'destacado' : fields.boolean('Destacado'),
         'premiado' : fields.boolean('Premiado'),
+        'autor': fields.function(_set_autor,readonly=True, string='Autor',type='char')
         }
     
     _defaults = {
                   'state':'start',
+                  'autor':_get_autor,
                   }
     
     
