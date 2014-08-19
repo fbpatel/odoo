@@ -17,10 +17,12 @@
 							</group>
 						</header>
 						<group col="2">
-							<field name="articulo_divulgativo" ></field>
-							<field name="articulo_investigacion" ></field>
-							<field name="numero_id" />
-							<field name="fecha_fin" />
+							<field name="articulo_divulgativo" domain="[('numero_id', 'ilike', numero_id),('seccion_id', 'ilike', seccion_id)
+							,('tipo_articulo','ilike','divulgativo')]" attrs="{'readonly': [('state','=','send')]}"></field>
+							<field name="articulo_investigacion" domain="[('numero_id', 'ilike', numero_id),('seccion_id', 'ilike', seccion_id)
+							,('tipo_articulo','ilike','investigacion')]" attrs="{'readonly': [('state','=','send')]}"></field>
+							<field name="numero_id" readonly="1"/>
+							<field name="seccion_id" readonly="1"/>
 							
 
 						</group>
@@ -43,7 +45,6 @@
 			<field name="arch" type="xml">
 				<tree string="Revisiones">
 					<field name="numero_id"></field>
-					<field name="fecha_fin" />
 					<field name="state"></field>
 				</tree>
 			</field>
