@@ -13,6 +13,8 @@
 									statusbar_visible='start,send,cancel,editing,cancel_m,published,impress'
 									statusbar_colors='{"start":"blue","send":"yellow", "cancel":"red","editing":"orange"
 								, "cancel_m":"red","published":"green","impress":"purple"}' />
+							</group>
+							<group col="10">								
 								<button name="to_send" states="start" string="Enviar"
 									colspan="1" icon="gtk-apply" />
 								<button name="enviar" string="Reenviar" states="cancel,cancel_m"
