@@ -18,19 +18,35 @@
 
 							</group>
 						</header>
-						<group col="2">
-						<!-- Se puede poner '!=' o 'not in' -->
-							<field name="articulo_id" attrs="{'readonly':'1'}"></field>
-							<field name="comentarios" />
-							<field name="observaciones" filename="filenameObv"></field>
-							<field name="versiones_anteriores" attrs="{'readonly':'1'}"></field>
 
-						</group>
+						<notebook colspan="4">
+							<page string="Articulo" attrs="{'readonly':'1'}">
+								<group col="2">
+									<field name="articulo_nombre" />
+									<field name="articulo_descripcion" />
+									<field name="articulo_seccion" />
+									<field name="articulo_tipoArticulo" />
+									<field name="articulo_tipoAutor" />
+									<field name="articulo_archivo" filename="filenameArt" />
+								</group>
+							</page>
+						</notebook>
 
-						<group>
-							<field name='state' widget='statusbar' statusbar_visible='start,cancel,send'
-								statusbar_colors='{’start’:’blue’,’cancel’:’orange’,’send’:’yellow’}' />
-						</group>
+						<notebook colspan="8">
+							<page string="Revision">
+								<group col="2">
+									<!-- Se puede poner '!=' o 'not in' -->
+									<field name="comentarios" />
+									<field name="observaciones" filename="filenameObv"></field>
+									<field name="versiones_anteriores" attrs="{'readonly':'1'}"></field>
+								</group>
+
+								<group>
+									<field name='state' widget='statusbar' statusbar_visible='start,cancel,send'
+										statusbar_colors='{’start’:’blue’,’cancel’:’orange’,’send’:’yellow’}' />
+								</group>
+							</page>
+						</notebook>
 
 
 

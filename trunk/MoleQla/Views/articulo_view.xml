@@ -37,15 +37,19 @@
 							<page string="Revision" attrs="{'invisible':[('state','=','start')]}" >
 								<group col="2">
 									<field name="revision_observaciones" string="Observaciones" />
-									<field name="revision_comentarios"  />
+									<field name="revision_comentarios" string="Comentarios" />
 								</group>
 								<!-- <field name="revision_id" readonly="1"
 									states="send,cancel,editing,cancel_m,published" /> -->
 							</page>
-							<page string="Maquetacion">
-								<field name="maquetacion_id" readonly="1"
-									states="send,cancel,editing,cancel_m,published,impress" />
+							<page string="Maquetacion" attrs="{'invisible':[('state','=','start')]}">
+								<group col="2">
+									<field name="maquetacion_observaciones" string="Observaciones" />
+									<field name="maquetacion_comentarios" string="Comentarios" />
+								</group>
 							</page>
+							<!-- <field name="maquetacion_id" readonly="1"
+									states="send,cancel,editing,cancel_m,published,impress" /> -->
 						</notebook>
 					</sheet>
 				</form>

@@ -21,6 +21,8 @@ class articulo(osv.osv):
         'revision_observaciones' : fields.related('revision_id', 'observaciones', string='Observaciones', type='binary', readonly=True),
         'revision_comentarios' : fields.related('revision_id', 'comentarios', string='Comentarios', type='text', readonly=True),
         'maquetacion_id': fields.many2one('maquetacion', 'Maquetacion'),
+        'maquetacion_observaciones' : fields.related('maquetacion_id', 'observaciones', string='Observaciones', type='binary', readonly=True),
+        'maquetacion_comentarios' : fields.related('maquetacion_id', 'comentarios', string='Comentarios', type='text', readonly=True),
         'old_revision_id' : fields.many2one('revision', 'Revision'),
         'old_maquetacion_id' : fields.many2one('maquetacion', 'Maquetacion'),
         'numero_id' : fields.many2one('numero', 'Numero'),

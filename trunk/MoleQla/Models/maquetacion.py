@@ -1,5 +1,4 @@
 from openerp.osv import fields, osv
-from datetime import date
 
 class maquetacion(osv.osv):
     
@@ -15,11 +14,19 @@ class maquetacion(osv.osv):
         'state':fields.selection([('start', 'En Maquetacion'), ('send', 'Maquetado'), ('cancel', 'Rechazado')], 'Estado de la maquetacion'),
         'comentarios': fields.text('Comentarios'),
         'versiones_anteriores' : fields.one2many('articulo', 'old_maquetacion_id','Version anterior'),
+        'articulo_nombre' : fields.related('articulo_id', 'nombre', string='Nombre', type='text', readonly=True),
+        'articulo_descripcion' : fields.related('articulo_id', 'descripcion', string='Descripcion', type='text', readonly=True),
+        'articulo_seccion' : fields.related('articulo_id', 'seccion_id', string='Seccion', type='text', readonly=True),
+        'articulo_tipoArticulo' : fields.related('articulo_id', 'tipo_articulo', string='Tipo Articulo', type='text', readonly=True),
+        'articulo_tipoAutor' : fields.related('articulo_id', 'tipo_autor', string='Tipo Autor', type='text', readonly=True),
+        'filenameArt': fields.char('FilenameObv'),
+        'articulo_archivo' : fields.related('articulo_id', 'archivo', string='Archivo', type='binary', readonly=True)
         }
     
     _defaults = {
                   'state':'start',
-                  'filenameObv':'observaciones.pdf'
+                  'filenameObv':'observaciones.pdf',
+                  'filenameArt': 'articulo.pdf'
                   }
     
     
