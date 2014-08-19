@@ -27,6 +27,7 @@
 							<field name="fecha_maq" attrs="{'readonly':'1','invisible':['|','|','|','|',('state','=','start'),('state','=','send'),('state','=','cancel'),('state','=','editing'),('state','=','cancel_m')]}"></field>
 							<field name="tipo_articulo" attrs="{'readonly':['|','|','|',('state','=','send'),('state','=','editing'),('state','=','published'),('state','=','impress')]}"></field>
 							<field name="tipo_autor" attrs="{'readonly':['|','|','|',('state','=','send'),('state','=','editing'),('state','=','published'),('state','=','impress')]}" />
+							<field name="destacado" attrs="{'readonly':'1','invisible':['|','|','|','|','|',('state','=','start'),('state','=','send'),('state','=','cancel'),('state','=','editing'),('state','=','cancel_m'),('state','=','published')]}" />
 						</group>
 						<group col="2">
 							<field name="descripcion" attrs="{'readonly':['|','|','|',('state','=','send'),('state','=','editing'),('state','=','published'),('state','=','impress')]}"></field>
