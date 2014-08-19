@@ -44,6 +44,22 @@ class numero(osv.osv):
         obj_articulo= self.pool.get('articulo')
         articulos = obj_articulo.search(cr, uid, [('numero_id', '=', ids[0])])
         obj_articulo.write(cr, uid, articulos, { 'state' : 'impress',  })
+        obj_seccion = self.pool.get('seccion')
+        secciones = obj_seccion.search(cr, uid, [('id', '>', 0)])
+        ides= []
+        for seccion in secciones:
+            seccion_ = obj_seccion.browse(cr, uid, seccion, context)
+            ids_articulos= obj_articulo.search(cr, uid, [('state', '=', 'impress'),('numero_id','=',ids[0]),('seccion_id', '=', seccion_.id)])
+            if len(ids_articulos) > 0:
+                obj_revisor = self.pool.get('editor')
+                editor_id = obj_revisor.search(cr, uid, [('seccion_id', '=', seccion_.id)])
+                editor = obj_revisor.browse(cr, uid, editor_id, context)
+                revisor_id = editor[0].user_id.id
+                obj_destaque = self.pool.get('destaque_articulos')
+                vals = {'seccion_id':seccion_.id,'revisor_id':revisor_id,'numero_id':ids[0]}
+                obj_destaque.create(cr, 1, vals, context=None)
+                 
+        
         self.write(cr, uid, ids, { 'state' : 'a_publicar',  })
         
         
