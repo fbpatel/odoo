@@ -6,7 +6,9 @@ class autor(osv.osv):
     _description = "Autor"
     
     _columns = {
-        'nombre' : fields.char('Nombre', size=128),
         'user_id': fields.many2one('res.users','Usuario'),
+        'iden_partner' : fields.related('user_id', 'partner_id', string='Identificador Partner', relation="res.users",type='many2one', readonly=True),
+        'nombre' : fields.related('iden_partner', 'display_name', string='Nombre', relation="res.partner",type='char', readonly=True)
         }
+        
 autor()
