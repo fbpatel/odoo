@@ -7,8 +7,8 @@ class articulo(osv.osv):
     
     _columns = {
         'nombre' : fields.char('Nombre', size=128, required=True),
-        'tipo_articulo':fields.selection([('interno', 'Interno'), ('externo', 'Externo')], 'Tipo de Articulo', required=True),
-        'tipo_autor':fields.selection([('divulgativo', 'Divulgativo'), ('investigacion', 'Investigacion')], 'Tipo de Autor', required=True),
+        'tipo_autor':fields.selection([('interno', 'Interno'), ('externo', 'Externo')], 'Tipo de Autor', required=True),
+        'tipo_articulo':fields.selection([('divulgativo', 'Divulgativo'), ('investigacion', 'Investigacion')], 'Tipo de Articulo', required=True),
         'archivo': fields.binary('Archivo', filters='*.pdf"', required=True),
         'descripcion': fields.text('Descripcion'),
         'palabras_clave': fields.text('Palabras Claves'),
@@ -26,7 +26,9 @@ class articulo(osv.osv):
         'old_revision_id' : fields.many2one('revision', 'Revision'),
         'old_maquetacion_id' : fields.many2one('maquetacion', 'Maquetacion'),
         'numero_id' : fields.many2one('numero', 'Numero'),
-        'fecha_maq' : fields.date('Fecha de Aceptacion')
+        'fecha_maq' : fields.date('Fecha de Aceptacion'),
+        'destacado' : fields.boolean('Destacado'),
+        'premiado' : fields.boolean('Premiado'),
         }
     
     _defaults = {
