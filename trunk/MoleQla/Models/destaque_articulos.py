@@ -10,12 +10,21 @@ class destaque_articulos(osv.osv):
         'articulo_investigacion': fields.many2one('articulo','Articulo de Investigacion'),  
         'revisor_id': fields.integer('Editor'),
         'numero_id':fields.many2one('numero','Numero'), 
-        'fecha_fin': fields.date('Plazo Maximo'),
         'state':fields.selection([('start', 'Pendiente'), ('send', 'Confirmado')], 'Estado del proceso'),
+        'seccion_id': fields.many2one('seccion','Seccion'), 
         }
     
+    _defaults = {
+        'state' : 'start'
+                 }
+    
     def aceptar(self, cr, uid, ids, context=None):
-        self.write(cr, uid, ids, { 'state' : 'send'})
+        art_divulgativo = self.browse(cr, 1, ids, context).articulo_divulgativo
+        art_investigacion = self.browse(cr, 1, ids, context).articulo_investigacion
+        obj_articulo= self.pool.get('articulo')
+        obj_articulo.write(cr, 1, art_divulgativo.id, { 'destacado' : 'TRUE'  })
+        obj_articulo.write(cr, 1, art_investigacion.id, { 'destacado' : 'TRUE' })
+        self.write(cr, 1, ids, { 'state' : 'send'})
     
     
 destaque_articulos()
