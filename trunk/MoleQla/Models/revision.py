@@ -27,7 +27,6 @@ class revision(osv.osv):
     _defaults = {
                   'state':'start',
                   'filenameObv':'observaciones.pdf',
-                  'filenameArt': 'articulo.pdf'
                   }
     
     
