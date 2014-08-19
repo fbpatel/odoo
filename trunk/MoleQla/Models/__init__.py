@@ -23,3 +23,5 @@ import maquetacion
 import numero
 import correo
 import destaque_articulos
+import votacion
+import linea_votacion
