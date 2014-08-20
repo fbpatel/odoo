@@ -5,7 +5,7 @@
             <field name="name">Editor</field>
             <field name="model">editor</field>
             <field name="arch" type="xml">
-	            <form string="Seccion" version="8.0">
+	            <form string="Editor" version="8.0">
 	            	<group col="4">
 		            	<field name="nombre"></field>
 		            	<field name="apellidos"/>
@@ -20,7 +20,7 @@
             <field name="name">Editores</field>    
             <field name="model">editor</field>
             <field name="arch" type="xml">
-            <tree string="Secciones">
+            <tree string="Editores">
             	<field name="nombre"></field>
 		            	<field name="apellidos"/>
 		            	<field name="seccion_id" />
