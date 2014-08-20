@@ -8,6 +8,8 @@
 	            <form string="Autor" version="8.0">
 	            	<group col="4">
 		            	<field name="nombre"></field>
+		            	<field name="apellidos"></field>
+		            	<field name="user_id"></field>
 	            	</group>
 	            </form>
             </field>
@@ -19,6 +21,8 @@
             <field name="arch" type="xml">
             <tree string="Autores">
             	<field name="nombre"></field>
+            	<field name="apellidos"></field>
+            	<field name="user_id"></field>
             </tree>
             </field>
         </record>
