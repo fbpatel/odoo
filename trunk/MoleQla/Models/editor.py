@@ -7,7 +7,8 @@ class editor(osv.osv):
     
     _columns = {
         'nombre' : fields.char('Nombre', size=128),
-        'apellidos': fields.char('Apellidos', size=128),        
+        'apellidos': fields.char('Apellidos', size=128), 
+        'descripcion': fields.text('Descripcion'),       
         'user_id': fields.many2one('res.users','Usuario'),
         'seccion_id': fields.many2one('seccion','Seccion'),
         }

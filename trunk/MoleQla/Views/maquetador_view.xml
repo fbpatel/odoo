@@ -11,6 +11,7 @@
 		            	<field name="apellidos"/>
 		            	<field name="seccion_id"/>
 		            	<field name="user_id"/>
+		            	<field name="descripcion" />
 	            	</group>
 	            </form>
             </field>
