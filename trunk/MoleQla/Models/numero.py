@@ -65,7 +65,35 @@ class numero(osv.osv):
         
          
     def vote(self, cr, uid, ids, context=None):
-        self.write(cr, uid, ids, { 'state' : 'voted'})
+        obj_editor = self.pool.get('editor')
+        obj_maquetador = self.pool.get('maquetador')
+        obj_votacion = self.pool.get('votacion')
+        obj_articulo = self.pool.get('articulo')
+        obj_linea_votacion = self.pool.get('linea_votacion')
+        editores = obj_editor.search(cr, 1, [('id', '>', 0)])
+        maquetadores = obj_maquetador.search(cr, 1, [('id', '>', 0)])
+        articulos = obj_articulo.search(cr, 1, [('numero_id', '=', ids[0]),('destacado', '=', 'TRUE')])  
+        for editor in editores:
+            editor_ = obj_editor.browse(cr, 1, editor, context) 
+            vals = {}
+            vals = {'user_id':editor_.user_id.id,'numero_id':ids[0]}
+            obj_votacion.create(cr, 1, vals, context=None)
+            for articulo in articulos:
+                vals_linea = {}
+                votacion_id = obj_votacion.search(cr, 1, [('numero_id', '=', ids[0]),('user_id', '=', editor_.user_id.id)])
+                vals_linea = {'votacion_id':votacion_id[0],'articulo':articulo}
+                obj_linea_votacion.create(cr, 1, vals_linea, context=None) 
+        for maquetador in maquetadores:
+            maquetador_ = obj_maquetador.browse(cr, 1, maquetador, context) 
+            vals = {}
+            vals = {'user_id':maquetador_.user_id.id,'numero_id':ids[0]}
+            obj_votacion.create(cr, 1, vals, context=None)
+            for articulo in articulos:
+                vals_linea = {}
+                votacion_id = obj_votacion.search(cr, 1, [('numero_id', '=', ids[0]),('user_id', '=', maquetador_.user_id.id)])
+                vals_linea = {'votacion_id':votacion_id[0],'articulo':articulo}
+                obj_linea_votacion.create(cr, 1, vals_linea, context=None)       
+        self.write(cr, uid, ids, { 'state' : 'voted'})    
          
     def close(self, cr, uid, ids, context=None):
         self.write(cr, uid, ids, { 'state' : 'closed'})
