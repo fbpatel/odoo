@@ -5,10 +5,20 @@ class numero(osv.osv):
     _name = "numero"
     _description = "Numero"
     
+    def _getUlt(self, cr, uid, ids, context=None):
+        cr.execute('select MAX(numero) from numero')
+        id_returned = cr.fetchone()
+        
+        if not id_returned[0]:
+            num_numero = 1
+        else:
+            num_numero = id_returned[0] + 1
+        
+        return num_numero
     
     _columns = {
         'nombre' : fields.char('Nombre', size=128, required=True),
-        'numero' : fields.integer('Numero'),
+        'numero' : fields.integer('Numero', readonly=True),
         'articulos_id' : fields.one2many('articulo', 'numero_id','Articulos'),
         'fecha_p' : fields.date('Fecha de Publicacion'),
         'state':fields.selection([('start', 'Borrador'), ('builded', 'En construccion'),('a_publicar', 'Publicada'), ('voted', 'En votacion'),('closed', 'Cerrado')], 'Estado del numero'),
@@ -16,9 +26,18 @@ class numero(osv.osv):
     
     _defaults = {
                   'state':'start',
+                  'numero': _getUlt
                   }
     
-    
+    def create(self, cr, uid, vals, context=None):
+        numero_obj = self.pool.get('numero')
+        numeros_start = numero_obj.search(cr, 1, [('state', '=', 'start')])
+        numeros_builded = numero_obj.search(cr, 1, [('state', '=', 'builded')])
+        
+        if not numeros_start:      
+            if not numeros_builded:    
+                return super(numero, self).create(cr, 1, vals, context)            
+              
     
     def build(self, cr, uid, ids, context=None):
         self.write(cr, uid, ids, { 'state' : 'builded'})
