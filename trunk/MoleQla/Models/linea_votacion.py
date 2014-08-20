@@ -10,5 +10,9 @@ class linea_votacion(osv.osv):
         'puntos': fields.integer('Puntos'),
         'votacion_id': fields.many2one('votacion','Votacion'), 
         }
+    
+    _defaults = {
+        'puntos':0,        
+        }
        
 linea_votacion()
