@@ -69,6 +69,22 @@ class numero(osv.osv):
          
     def close(self, cr, uid, ids, context=None):
         self.write(cr, uid, ids, { 'state' : 'closed'})
+        
+    def name_get(self, cr, uid, ids, context=None):
+        
+        if context is None:
+            context = {}
+        res = []
+        
+        for record in self.browse(cr, uid, ids, context=context):
+            numero_name = record.nombre
+            numero_num = record.numero
+            
+            string = numero_name + " (" + str(numero_num) + ")"
+            
+            
+            res.append((record.id, string))
+        return res
             
        
        
