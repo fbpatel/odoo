@@ -119,7 +119,7 @@ public class RegistroAction extends org.apache.struts.action.Action {
                                 insertResGroupUserRel(connection, user_id);
 
                                 //Insert en la tabla autor
-                                insertAutor(connection, user_id, fechaHora, nombreUTF8);
+                                insertAutor(connection, user_id, fechaHora, nombreUTF8, apellido1UTF8 + " " + apellido2UTF8);
 
                             } else {
                                 System.out.println("\n ERROR: select consultarIdMax(res_users)"
@@ -303,13 +303,13 @@ public class RegistroAction extends org.apache.struts.action.Action {
 
     }
 
-    private void insertAutor(Connection connection, int user_id, Timestamp fechaHora, String nombreUTF8) throws SQLException {
+    private void insertAutor(Connection connection, int user_id, Timestamp fechaHora, String nombreUTF8, String apellidosUTF8) throws SQLException {
         connection.setAutoCommit(false);
 
         boolean rsq = connection.createStatement().execute("INSERT INTO autor("
                 + "id, create_uid, create_date, user_id, write_uid, write_date, "
-                + "nombre)"
-                + " VALUES (DEFAULT, 1, '" + fechaHora.toString() + "', '" + user_id + "',1, '" + fechaHora.toString() + "','" + nombreUTF8 + "');");
+                + "nombre, apellidos)"
+                + " VALUES (DEFAULT, 1, '" + fechaHora.toString() + "', '" + user_id + "',1, '" + fechaHora.toString() + "','" + nombreUTF8 + "','" + apellidosUTF8 + "');");
 
         connection.commit();
 
