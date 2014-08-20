@@ -34,6 +34,8 @@
                         'Views/numero_view.xml',
                         'Views/correo_view.xml',
                         'Views/destaque_articulos_view.xml',
+                        'Views/votacion_view.xml',
+                        'Views/linea_votacion_view.xml',
                         'Workflows/articulo_workflow.xml',
                         
 						
