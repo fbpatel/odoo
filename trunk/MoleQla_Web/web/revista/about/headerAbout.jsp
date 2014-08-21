@@ -12,7 +12,7 @@ and open the template in the editor.
         <ul id="menu-nav">
             <li><a href="../inicio/inicio.jsp" class="external">Inicio</a></li>
             <li><html:link action="/revista/work/work" styleClass="external">Revistas</html:link></li>
-            <li class="current"><a href="about.jsp" class="external">Equipo Editorial</a></li>
+            <li class="current"><html:link action="/revista/about/about">Equipo Editorial</html:link></li>
             <li><a href="../articulo/registrarAutor.jsp" class="external">Enviar Articulo</a></li>
             <li><a href="../contact/contact.jsp" class="external">Contactar</a></li>
         </ul>
