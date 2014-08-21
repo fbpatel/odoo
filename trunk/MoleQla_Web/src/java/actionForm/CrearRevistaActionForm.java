@@ -21,6 +21,15 @@ public class CrearRevistaActionForm extends org.apache.struts.action.ActionForm 
     private String errorMsg;
     private String msg;
     private String rutaNumeros;
+    private String rutaRaiz;
+
+    public String getRutaRaiz() {
+        return rutaRaiz;
+    }
+
+    public void setRutaRaiz(String rutaRaiz) {
+        this.rutaRaiz = rutaRaiz;
+    }
 
     public String getRutaNumeros() {
         return rutaNumeros;

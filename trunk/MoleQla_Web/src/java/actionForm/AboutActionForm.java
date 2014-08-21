@@ -23,14 +23,23 @@ public class AboutActionForm extends org.apache.struts.action.ActionForm {
     private String errorMsg;
     private String msg;
     private String rutaFotos;
-    private List<User> listaUsuarios;
+    private List<User> listaUsuariosEditor;
+    private List<User> listaUsuariosMaquetador;
 
-    public List<User> getListaUsuarios() {
-        return listaUsuarios;
+    public List<User> getListaUsuariosEditor() {
+        return listaUsuariosEditor;
     }
 
-    public void setListaUsuarios(List<User> listaUsuarios) {
-        this.listaUsuarios = listaUsuarios;
+    public void setListaUsuariosEditor(List<User> listaUsuariosEditor) {
+        this.listaUsuariosEditor = listaUsuariosEditor;
+    }
+
+    public List<User> getListaUsuariosMaquetador() {
+        return listaUsuariosMaquetador;
+    }
+
+    public void setListaUsuariosMaquetador(List<User> listaUsuariosMaquetador) {
+        this.listaUsuariosMaquetador = listaUsuariosMaquetador;
     }
 
     

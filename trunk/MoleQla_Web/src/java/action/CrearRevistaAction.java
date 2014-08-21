@@ -84,7 +84,7 @@ public class CrearRevistaAction extends org.apache.struts.action.Action {
             //Se crea el numero con todos los pdfs creados anteriormente
             String separator = OS.getDirectorySeparator();
             String rutaNumeros = rutaWEBINF + separator + "numeros";
-            String rutaRaiz = (String)request.getAttribute("ubicacionRaiz");
+            String rutaRaiz = formBean.getRutaRaiz();
             String numeroPDF = MergePDF.crearNumeroRevista(rutaRaiz,rutaNumeros, numero);
             
             //Se comprueba que el numero se haya creado correctamente

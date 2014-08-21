@@ -26,4 +26,4 @@ while (i < len(editores)):
 
 cursor.close()
 conn.close()
-print "Fotos creadas"
+print "Fotos editores creadas"

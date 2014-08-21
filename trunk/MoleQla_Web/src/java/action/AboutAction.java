@@ -69,14 +69,57 @@ public class AboutAction extends org.apache.struts.action.Action {
         AboutActionForm formBean = (AboutActionForm) form;
         String rutaRaiz = request.getServletContext().getRealPath("/");
 
-        List<User> listaDatosUser = consultaDatosUser(rutaRaiz);
-        formBean.setListaUsuarios(listaDatosUser);
-        request.setAttribute("listaDatosUser", listaDatosUser);
+        List<User> listaDatosUserEditor = consultaDatosUserEditor(rutaRaiz);
+        formBean.setListaUsuariosEditor(listaDatosUserEditor);
+        request.setAttribute("listaDatosUserEditor", listaDatosUserEditor);
+
+        List<User> listaDatosUserMaquetador = consultaDatosUserMaquetador(rutaRaiz);
+        formBean.setListaUsuariosMaquetador(listaDatosUserMaquetador);
+        request.setAttribute("listaDatosUserMaquetador", listaDatosUserMaquetador);
 
         return mapping.findForward(SUCCESS);
     }
 
-    private List<User> consultaDatosUser(String rutaRaiz) {
+    private List<User> consultaDatosUserMaquetador(String rutaRaiz) {
+        List<User> listaUsuarios = new ArrayList();
+        String separator = OS.getDirectorySeparator();
+        String ruta_fotos = rutaRaiz + separator + "WEB-INF" + separator + "about"
+                + separator + "fotos";
+
+        try (Connection connection = ConnectionPSQL.connection()) {
+            ResultSet rs = connection.createStatement().executeQuery(
+                    "SELECT rp.id, e.nombre, e.descripcion FROM maquetador e INNER JOIN res_users ru ON e.user_id = ru.id LEFT JOIN res_partner rp ON ru.partner_id = rp.id");
+
+            int id = 0;
+            String nombre = "", descripcion = "";
+            if (rs != null) {
+
+                while (rs.next()) {
+                    id = rs.getInt(1);
+                    nombre = rs.getString(2);
+                    descripcion = rs.getString(3);
+
+                    File foto = new File(ruta_fotos + separator + id + ".jpg");
+                    if (foto.exists()) {
+                        User us = new User();
+                        us.setId(id);
+                        us.setNombre(nombre);
+                        us.setDescripcion(descripcion);
+                        us.setFoto(foto);
+
+                        listaUsuarios.add(us);
+                    }
+                }
+                rs.close();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AboutAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return listaUsuarios;
+    }
+
+    private List<User> consultaDatosUserEditor(String rutaRaiz) {
         List<User> listaUsuarios = new ArrayList();
         String separator = OS.getDirectorySeparator();
         String ruta_fotos = rutaRaiz + separator + "WEB-INF" + separator + "about"

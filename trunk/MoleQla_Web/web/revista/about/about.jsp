@@ -20,7 +20,8 @@
     <body>
         <%
 
-            List<User> listaDatosUser = (List<User>) request.getAttribute("listaDatosUser");
+            List<User> listaDatosUserEditor = (List<User>) request.getAttribute("listaDatosUserEditor");
+            List<User> listaDatosUserMaquetador = (List<User>) request.getAttribute("listaDatosUserMaquetador");
             String nameServer = request.getContextPath();
         %>
         <%@include file="../circulo.html" %>
@@ -41,7 +42,8 @@
                 <!-- Comienzo de la galeria de user -->
 
                 <div class="row">
-                    <% for (int i = 0; i < listaDatosUser.size(); i++) {%>
+                    <!-- Editores -->
+                    <% for (int i = 0; i < listaDatosUserEditor.size(); i++) {%>
                     <!-- Start Profile -->
                     <div class="span4 profile">
                         <div class="image-wrap">
@@ -49,11 +51,31 @@
                                 <span class="overlay-img"></span>
                                 <span class="overlay-text-thumb">Editor de Seccion</span>
                             </div>
-                            <img src="<%=nameServer + "/revista/about/fotos/" + listaDatosUser.get(i).getFoto().getName()%>" alt="<%=listaDatosUser.get(i).getNombre()%>"
+                            <img src="<%=nameServer + "/revista/about/fotos/" + listaDatosUserEditor.get(i).getFoto().getName()%>" alt="<%=listaDatosUserEditor.get(i).getNombre()%>"
                                  style="width: 370px !important; height: 270px !important">
                         </div>
-                        <h3 class="profile-name"><%=listaDatosUser.get(i).getNombre()%></h3>
-                        <p class="profile-description"><%=listaDatosUser.get(i).getDescripcion()%></p>
+                        <h3 class="profile-name"><%=listaDatosUserEditor.get(i).getNombre()%></h3>
+                        <p class="profile-description"><%=listaDatosUserEditor.get(i).getDescripcion()%></p>
+
+                    </div>
+                    <!-- End Profile -->  
+                    <% }%>
+                    
+                    
+                    <!-- Maquetadores -->
+                    <% for (int i = 0; i < listaDatosUserMaquetador.size(); i++) {%>
+                    <!-- Start Profile -->
+                    <div class="span4 profile">
+                        <div class="image-wrap">
+                            <div class="hover-wrap">
+                                <span class="overlay-img"></span>
+                                <span class="overlay-text-thumb">Maquetador de Seccion</span>
+                            </div>
+                            <img src="<%=nameServer + "/revista/about/fotos/" + listaDatosUserMaquetador.get(i).getFoto().getName()%>" alt="<%=listaDatosUserMaquetador.get(i).getNombre()%>"
+                                 style="width: 370px !important; height: 270px !important">
+                        </div>
+                        <h3 class="profile-name"><%=listaDatosUserMaquetador.get(i).getNombre()%></h3>
+                        <p class="profile-description"><%=listaDatosUserMaquetador.get(i).getDescripcion()%></p>
 
                     </div>
                     <!-- End Profile -->  
