@@ -1,5 +1,6 @@
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
+import datetime
 
 class numero(osv.osv):
     
@@ -34,15 +35,20 @@ class numero(osv.osv):
         numero_obj = self.pool.get('numero')
         numeros_start = numero_obj.search(cr, 1, [('state', '=', 'start')])
         numeros_builded = numero_obj.search(cr, 1, [('state', '=', 'builded')])
+        hoy = datetime.date.today().strftime('%Y-%m-%d')        
+        fec = vals['fecha_p']
         
-        if not numeros_start:      
-            if not numeros_builded:    
-                return super(numero, self).create(cr, 1, vals, context) 
-            else:
-                raise osv.except_osv(_('Warning!'),_("No se puede crear un numero, ya hay uno en estado 'en construccion'."))
+        if fec < hoy:
+            raise osv.except_osv(_('Warning!'),_("La fehca de publicacion no puede ser menor a la del dia de hoy."))
         else:
-            raise osv.except_osv(_('Warning!'),_("No se puede crear un numero, ya hay uno en estado 'en borrador'."))           
-              
+            if not numeros_start:      
+                if not numeros_builded:    
+                    return super(numero, self).create(cr, 1, vals, context) 
+                else:
+                    raise osv.except_osv(_('Warning!'),_("No se puede crear un numero, ya hay uno en estado 'en construccion'."))
+            else:
+                raise osv.except_osv(_('Warning!'),_("No se puede crear un numero, ya hay uno en estado 'en borrador'."))           
+                  
     
     def build(self, cr, uid, ids, context=None):
         self.write(cr, uid, ids, { 'state' : 'builded'})
