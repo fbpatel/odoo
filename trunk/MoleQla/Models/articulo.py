@@ -33,7 +33,7 @@ class articulo(osv.osv):
         'tipo_autor':fields.selection([('interno', 'Interno'), ('externo', 'Externo')], 'Tipo de Autor', required=True),
         'tipo_articulo':fields.selection([('divulgativo', 'Divulgativo'), ('investigacion', 'Investigacion')], 'Tipo de Articulo', required=True),
         'archivo': fields.binary('Archivo', filters='*.pdf"', required=True),
-        'descripcion': fields.text('Descripcion'),
+        'descripcion': fields.text('Resumen'),
         'palabras_clave': fields.text('Palabras Claves'),
         'filename': fields.char('Filename'),
         'user_id': fields.integer('Usuario'),
