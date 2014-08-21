@@ -52,16 +52,44 @@ class articulo(osv.osv):
         'fecha_maq' : fields.date('Fecha de Aceptacion'),
         'destacado' : fields.boolean('Destacado'),
         'premiado' : fields.boolean('Premiado'),
-        'autor': fields.function(_set_autor,readonly=True, string='Autor',type='char')
+        'autor': fields.function(_set_autor,readonly=True, string='Autor',type='char'),
+        'asignatura' : fields.char('Asignatura'),
+        'tipo_autor_interno':fields.selection([('libre', 'Libre'), ('asignatura', 'Asignatura')],'Tipo de Autor Interno'),
+        'mostrar_tipo_autor_interno' : fields.boolean("Muestra tipo autor interno"),
+        'mostrar_asignatura' : fields.boolean("Muestra asignatura")
         }
     
     _defaults = {
                   'state':'start',
                   'autor':_get_autor,
+                  'mostrar_tipo_autor_interno':False,
+                  'mostrar_asignatura': False
                   }
     
     
+    def onchange_tipo_autor(self, cr, uid, ids,tipo_autor, context=None):
+        val = {}
+        if tipo_autor == 'interno':
+            val = {
+                   'mostrar_tipo_autor_interno':True
+                   }
+        else:
+            val = {
+                   'mostrar_tipo_autor_interno':False
+                   }
+        return {'value' : val}
     
+    def onchange_tipo_autor_interno(self, cr, uid, ids,tipo_autor_interno, context=None):
+        val = {}
+        if tipo_autor_interno == 'asignatura':
+            val = {
+                   'mostrar_asignatura':True
+                   }
+        else:
+            val = {
+                   'mostrar_asignatura':False
+                   }
+        return {'value' : val}
 
     def create(self, cr, uid, vals, context=None):
         if 'user_id' in vals.keys():  

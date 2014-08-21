@@ -27,7 +27,11 @@
 							<field name="autor" attrs="{'readonly':1}"/>
 							<field name="fecha_maq" attrs="{'readonly':'1','invisible':['|','|','|','|',('state','=','start'),('state','=','send'),('state','=','cancel'),('state','=','editing'),('state','=','cancel_m')]}"></field>
 							<field name="tipo_articulo" attrs="{'readonly':['|','|','|',('state','=','send'),('state','=','editing'),('state','=','published'),('state','=','impress')]}"></field>
-							<field name="tipo_autor" attrs="{'readonly':['|','|','|',('state','=','send'),('state','=','editing'),('state','=','published'),('state','=','impress')]}" />
+							<field name="tipo_autor" on_change="onchange_tipo_autor(tipo_autor,context)" attrs="{'readonly':['|','|','|',('state','=','send'),('state','=','editing'),('state','=','published'),('state','=','impress')]}" />
+							<field name="mostrar_tipo_autor_interno" invisible='1'></field>
+							<field name="tipo_autor_interno" attrs="{'invisible':[('mostrar_tipo_autor_interno','=', False)]}" on_change="onchange_tipo_autor_interno(tipo_autor_interno,context)"/>
+							<field name="mostrar_asignatura" invisible='1'></field>
+							<field name="asignatura" attrs="{'invisible':[('mostrar_asignatura','=', False)]}"></field>
 							<field name="destacado" attrs="{'readonly':'1','invisible':['|','|','|','|','|',('state','=','start'),('state','=','send'),('state','=','cancel'),('state','=','editing'),('state','=','cancel_m'),('state','=','published')]}" />
 						</group>
 						<group col="2">
