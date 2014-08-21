@@ -5,6 +5,16 @@
  */
 package utilidades;
 
+import action.AboutAction;
+import action.User;
+import connection.ConnectionPSQL;
+import java.io.File;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Rafa
@@ -36,61 +46,97 @@ public class Constantes {
     private static final String EMAIL_NOTIFICA = "moleqlanotify@gmail.com";
     private static final String EMAIL_NOTIFICA_PASS = "etwr80notifica";
     private static final String EMAIL_URL_LOGO = "http://www.upo.es/moleqla/export/system/modules/es.upo.moleqla.aquigar/resources/images/logos_seccion/logo1.jpg";
-    
+
     // Nuevo numero
     private static final String ESTADO_NUMEROS_PUBLICAR = "a_publicar";
     private static final String ERROR_CREAR_NUMERO = "ERROR: Try again";
-    
+
     private static String SEPARATOR;
 
     public static String getERROR_LOGIN() {
         return ERROR_LOGIN;
-    }    
-    
+    }
+
     public static String getERROR_CREAR_NUMERO() {
         return ERROR_CREAR_NUMERO;
-    }    
+    }
 
     public static String getCREACION_NUMERO_OK() {
         return CREACION_NUMERO_OK;
-    }   
-    
-    
+    }
+
     /**
-     * Estado para obtener los numeros aun no publicados, pero que ya se pueden publicar
-     * @return 
+     * Estado para obtener los numeros aun no publicados, pero que ya se pueden
+     * publicar
+     *
+     * @return
      */
     public static String getESTADO_NUMEROS_PUBLICAR() {
         return ESTADO_NUMEROS_PUBLICAR;
-    }    
-    
+    }
+
     /**
      * URL del logo que va insertado en el correo
-     * @return 
+     *
+     * @return
      */
     public static String getEMAIL_URL_LOGO() {
         return EMAIL_URL_LOGO;
     }
-    
+
     public static String getEMAIL_NOTIFICA() {
-        return EMAIL_NOTIFICA;
+        String email = "";
+        try (Connection connection = ConnectionPSQL.connection()) {
+            ResultSet rs = connection.createStatement().executeQuery(
+                    "SELECT emailnotificacion FROM correo");
+
+            
+            if (rs != null) {
+
+                while (rs.next()) {
+                    email = rs.getString(1);
+
+                }
+                rs.close();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AboutAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return email;
     }
 
     public static String getEMAIL_NOTIFICA_PASS() {
-        return EMAIL_NOTIFICA_PASS;
+        String pass = "";
+        try (Connection connection = ConnectionPSQL.connection()) {
+            ResultSet rs = connection.createStatement().executeQuery(
+                    "SELECT passwordnotificacion FROM correo");
+
+            
+            if (rs != null) {
+
+                while (rs.next()) {
+                    pass = rs.getString(1);
+
+                }
+                rs.close();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AboutAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return pass;
     }
- 
-    
+
     /**
      * Mensaje de que ya existe ese email
-     * @return 
+     *
+     * @return
      */
     public static String getEMAIL_EXIST() {
         return EMAIL_EXIST;
     }
 
-    
-    
     /**
      * Log de error al enviar el correo
      *
@@ -116,7 +162,7 @@ public class Constantes {
      * @param apellido1
      * @return
      */
-    public static String getEMAIL_BIENVENIDA(String email,String nombre, String apellido1, String apellido2, String pass) {
+    public static String getEMAIL_BIENVENIDA(String email, String nombre, String apellido1, String apellido2, String pass) {
         String cad = "";
         if (apellido2.isEmpty()) {
             cad = "Welcome to MoleQla <b>" + nombre + " " + apellido1 + "</b>. <br />"
@@ -136,7 +182,7 @@ public class Constantes {
                     + "<li> Password: " + pass + "</li>"
                     + "<br />If you wish to change your data...";
         }
-        
+
         cad += "<br />Go to this url and login with your credentials <a href=\"www.openerp.com\">Odoo</a>";
         return cad;
     }
