@@ -1,4 +1,5 @@
 from openerp.osv import fields, osv
+from openerp.tools.translate import _
 
 class numero(osv.osv):
     
@@ -36,7 +37,11 @@ class numero(osv.osv):
         
         if not numeros_start:      
             if not numeros_builded:    
-                return super(numero, self).create(cr, 1, vals, context)            
+                return super(numero, self).create(cr, 1, vals, context) 
+            else:
+                raise osv.except_osv(_('Warning!'),_("No se puede crear un numero, ya hay uno en estado 'en construccion'."))
+        else:
+            raise osv.except_osv(_('Warning!'),_("No se puede crear un numero, ya hay uno en estado 'en borrador'."))           
               
     
     def build(self, cr, uid, ids, context=None):
