@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 from openerp.osv import fields, osv
 
 class articulo(osv.osv):
@@ -56,14 +57,17 @@ class articulo(osv.osv):
         'asignatura' : fields.char('Asignatura'),
         'tipo_autor_interno':fields.selection([('libre', 'Libre'), ('asignatura', 'Asignatura')],'Tipo de Autor Interno'),
         'mostrar_tipo_autor_interno' : fields.boolean("Muestra tipo autor interno"),
-        'mostrar_asignatura' : fields.boolean("Muestra asignatura")
+        'mostrar_asignatura' : fields.boolean("Muestra asignatura"),
+        'archivo_diff' : fields.binary('Archivo Diferencias', filters='*.pdf"', help="Este archivo contendrá las diferencias entre la version antigua y la version nuevo del articulo"),        
+        'filenameDiff': fields.char('FilenameDiff'),
         }
     
     _defaults = {
                   'state':'start',
                   'autor':_get_autor,
                   'mostrar_tipo_autor_interno':False,
-                  'mostrar_asignatura': False
+                  'mostrar_asignatura': False,
+                  'filenameDiff':'diferencias.pdf'
                   }
     
     

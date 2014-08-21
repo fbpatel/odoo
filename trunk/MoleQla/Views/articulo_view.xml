@@ -39,6 +39,8 @@
 							<field name="palabras_clave" attrs="{'readonly':['|','|','|',('state','=','send'),('state','=','editing'),('state','=','published'),('state','=','impress')]}" />
 							<field name="archivo" filename="filename"
 								attrs="{'readonly':['|','|','|',('state','=','send'),('state','=','editing'),('state','=','published'),('state','=','impress')]}" />
+							
+							<field name="archivo_diff" filename="filenameDiff" attrs="{'invisible':[('state','!=','cancel')]}"></field>
 
 						</group>
 						<notebook colspan="4">
