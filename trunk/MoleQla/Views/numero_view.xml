@@ -1,30 +1,35 @@
 <openerp>
-    <data>
-    
-    	<record model="ir.ui.view" id="view_numero_form">
-            <field name="name">Numero</field>
-            <field name="model">numero</field>
-            <field name="arch" type="xml">
-	            <form string="Numero" version="8.0"  >
-	            <sheet>
-	            	<header>
-	            		<group col="10">
-							<field name='state' widget='statusbar' statusbar_visible='start,builded,a_publicar,voted,closed'
-								statusbar_colors='{"start":"blue","builded":"green","a_publicar":"yellow", "voted":"red","closed":"orange"}' />
-							<button name="build" states="start" string="Montar Revista" type="object"
-								colspan="1" icon="gtk-apply" />
-							<button name="send" states="builded" string="Publicar" type="object"
-								colspan="1" icon="gtk-apply" />
-							<button name="vote" string="Votar Articulos Destacados" states="a_publicar" type="object" icon="gtk-apply"/>
-							<button name="close" string="Cerrar Revista" states="voted" type="object" icon="gtk-apply"/>
+	<data>
+
+		<record model="ir.ui.view" id="view_numero_form">
+			<field name="name">Numero</field>
+			<field name="model">numero</field>
+			<field name="arch" type="xml">
+				<form string="Numero" version="8.0">
+					<sheet>
+						<header>
+							<group col="10">
+								<field name='state' widget='statusbar'
+									statusbar_visible='start,builded,a_publicar,voted,closed'
+									statusbar_colors='{"start":"blue","builded":"green","a_publicar":"yellow", "voted":"red","closed":"orange"}' />
+							</group>
+							<group col="10">
+								<button name="build" states="start" string="Montar Revista"
+									type="object" colspan="1" icon="gtk-apply" />
+								<button name="send" states="builded" string="Publicar"
+									type="object" colspan="1" icon="gtk-apply" />
+								<button name="vote" string="Votar Articulos Destacados"
+									states="a_publicar" type="object" icon="gtk-apply" />
+								<button name="close" string="Cerrar Revista" states="voted"
+									type="object" icon="gtk-apply" />
+							</group>
+						</header>
+						<group col="4">
+							<field name="nombre"></field>
+							<field name="numero"></field>
+							<field name="fecha_p" attrs="{'invisible': [('state','!=','a_publicar')]}"></field>
 						</group>
-	            	</header>
-	            		<group col="4">
-			            	<field name="nombre"></field>
-			            	<field name="numero"></field>
-			            	<field name="fecha_p" attrs="{'invisible': [('state','!=','a_publicar')]}"></field>
-		            	</group>
-		            	<group col="1">
+						<group col="1">
 							<notebook>
 								<page String="Articulos">
 									<field name="articulos_id" widget="many2many"
@@ -34,42 +39,45 @@
 								</page>
 							</notebook>
 						</group>
-		            	
-		            
-		            	
-		            	
-		            	
+
+
+
+
+
 					</sheet>
-	            </form>
-            </field>
-        </record>
-        
-        <record model="ir.ui.view" id="view_numero_tree">
-            <field name="name">Numero</field>    
-            <field name="model">numero</field>
-            <field name="arch" type="xml">
-            <tree string="Numeros">
-            	<field name="nombre"></field>
-			    <field name="numero"></field>
-			    <field name="fecha_p"></field>
-            	<field name="state" />
-            </tree>
-            </field>
-        </record>
-        
-        <!-- Action -->
-        <record id="act_numero" model="ir.actions.act_window">
-                <field name="name">Numeros</field>
-                <field name="res_model">numero</field>
-                <field name="view_id" ref="view_numero_tree"/>
-                <field name="view_type">form</field>
-                <field name="view_model">tree,form</field>
-            </record>
-        
-        <!-- Menu --> 
-        <menuitem id="moleqla_submenu_jefe" name="Moleqla" action="act_articulo" sequence="1"/>
-        <menuitem id="moleqla_submenu_lateral_jefe" parent="moleqla_submenu_jefe" name="Editor Jefe"/>
-        <menuitem name="Numeros" id="numeros_submenu" parent="moleqla_submenu_lateral_jefe" sequence="120" action="act_numero"/>
-            
-    </data>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_numero_tree">
+			<field name="name">Numero</field>
+			<field name="model">numero</field>
+			<field name="arch" type="xml">
+				<tree string="Numeros">
+					<field name="nombre"></field>
+					<field name="numero"></field>
+					<field name="fecha_p"></field>
+					<field name="state" />
+				</tree>
+			</field>
+		</record>
+
+		<!-- Action -->
+		<record id="act_numero" model="ir.actions.act_window">
+			<field name="name">Numeros</field>
+			<field name="res_model">numero</field>
+			<field name="view_id" ref="view_numero_tree" />
+			<field name="view_type">form</field>
+			<field name="view_model">tree,form</field>
+		</record>
+
+		<!-- Menu -->
+		<menuitem id="moleqla_submenu_jefe" name="Moleqla" action="act_articulo"
+			sequence="1" />
+		<menuitem id="moleqla_submenu_lateral_jefe" parent="moleqla_submenu_jefe"
+			name="Editor Jefe" />
+		<menuitem name="Numeros" id="numeros_submenu" parent="moleqla_submenu_lateral_jefe"
+			sequence="120" action="act_numero" />
+
+	</data>
 </openerp>

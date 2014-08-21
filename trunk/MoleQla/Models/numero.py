@@ -1,7 +1,6 @@
 # -*- encoding: utf-8 -*-
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
-import datetime
 
 class numero(osv.osv):
     
@@ -36,7 +35,7 @@ class numero(osv.osv):
         numero_obj = self.pool.get('numero')
         numeros_start = numero_obj.search(cr, 1, [('state', '=', 'start')])
         numeros_builded = numero_obj.search(cr, 1, [('state', '=', 'builded')])
-        hoy = datetime.date.today().strftime('%Y-%m-%d')        
+        hoy = fields.date.today()       
         fec = vals['fecha_p']
         
         #=======================================================================
