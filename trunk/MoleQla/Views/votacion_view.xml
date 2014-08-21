@@ -18,10 +18,24 @@
 						</header>
 						<group col="2">
 							<field name="numero_id"/>
-							<field name="lineas_votacion"/>
+						</group>
+						<notebook colspan="4">
+							<page string="Articulos Divulgativos" >
+							
+								<group col="2">	
+									<field name="lineas_votacion_div" domain="[('puntos','ilike',0)]"/>
+								</group>
+							</page> 
+							<page string="Articulos de Investigacion" >
+							
+								<group col="2">	
+									<field name="lineas_votacion_inv" domain="[('puntos','ilike','0')]"/>
+								</group>
+							</page>
+						</notebook>
 							
 
-						</group>
+						
 
 						<group>
 							<field name='state' widget='statusbar' statusbar_visible='start,send'
@@ -40,7 +54,7 @@
 			<field name="model">votacion</field>
 			<field name="arch" type="xml">
 				<tree string="Votaciones">
-					<field name="lineas_votacion">
+					<field name="numero_id">
 					</field>
 				</tree>
 			</field>
