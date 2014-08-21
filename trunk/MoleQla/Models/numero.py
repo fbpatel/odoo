@@ -39,17 +39,19 @@ class numero(osv.osv):
         hoy = datetime.date.today().strftime('%Y-%m-%d')        
         fec = vals['fecha_p']
         
-        if fec < hoy:
-            raise osv.except_osv(_('Warning!'),_("La fehca de publicacion no puede ser menor a la del dia de hoy."))
-        else:
-            if not numeros_start:      
-                if not numeros_builded:    
-                    return super(numero, self).create(cr, 1, vals, context) 
-                else:
-                    raise osv.except_osv(_('Warning!'),_("No se puede crear un numero, ya hay uno en estado 'en construccion'."))
+        #=======================================================================
+        # if fec < hoy:
+        #     raise osv.except_osv(_('Warning!'),_("La fehca de publicacion no puede ser menor a la del dia de hoy."))
+        # else:
+        #=======================================================================
+        if not numeros_start:      
+            if not numeros_builded:    
+                return super(numero, self).create(cr, 1, vals, context) 
             else:
-                raise osv.except_osv(_('Warning!'),_("No se puede crear un numero, ya hay uno en estado 'en borrador'."))           
-                  
+                raise osv.except_osv(_('Warning!'),_("No se puede crear un numero, ya hay uno en estado 'en construccion'."))
+        else:
+            raise osv.except_osv(_('Warning!'),_("No se puede crear un numero, ya hay uno en estado 'en borrador'."))           
+              
     
     def build(self, cr, uid, ids, context=None):
         self.write(cr, uid, ids, { 'state' : 'builded'})
@@ -92,6 +94,10 @@ class numero(osv.osv):
                  
         
         self.write(cr, uid, ids, { 'state' : 'a_publicar',  })
+        
+        #Se le pone la fecha de publicacion el dia en que le da a publicar
+        hoy = fields.date.today()
+        self.write(cr, uid, ids, { 'fecha_p' : hoy,  })
         
         
          
