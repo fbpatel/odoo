@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_3.dtd">
+
+
+<struts-config>
+    <form-beans>
+    	<!-- Bean Login -->
+        <form-bean name="LoginActionForm" type="actionForm.LoginActionForm"/>
+        
+        <!-- Bean Logout -->
+        <form-bean name="LogoutActionForm" type="actionForm.LogoutActionForm"/>
+        
+        <!-- Bean Crear Revista -->
+        <form-bean name="CrearRevistaActionForm" type="actionForm.CrearRevistaActionForm"/>
+        
+        <!-- Bean Registro -->
+        <form-bean name="RegistroActionForm" type="actionForm.RegistroActionForm"/>
+        
+        <!-- Bean Login -->
+        <form-bean name="MostrarNumerosActionForm" type="actionForm.MostrarNumerosActionForm"/>
+    
+        <!-- Bean About -->
+        <form-bean name="AboutActionForm" type="actionForm.AboutActionForm"/>
+        
+        <!-- Bean Sincronize -->
+        <form-bean name="SincronizeUserActionForm" type="actionForm.SincronizeUserActionForm"/>
+    </form-beans>
+    
+    <global-exceptions>
+    
+    </global-exceptions>
+
+    <global-forwards>
+        <forward name="welcome"  path="/Welcome.do"/>
+    </global-forwards>
+
+    <action-mappings>
+        <!-- Login Admin -->
+        <action input="/login.jsp" name="LoginActionForm" path="/revista/login/login" scope="request" type="action.LoginAction" validate="false">
+            <forward name="superuser" path="/WEB-INF/superuser/acciones.jsp"/>
+            <forward name="failure" path="/revista/login/login.jsp"/>
+            <forward name="cancel" path="/revista/login/login.jsp"/>
+        </action>
+        
+        <!-- Logout Admin -->
+        <action name="LogoutActionForm" path="/logout" scope="request" type="action.LogoutAction" validate="false">
+            <forward name="success" path="/revista/login/login.jsp"/>
+        </action>
+        
+        <!-- Mostrar revista -->
+        <action name="MostrarNumerosActionForm" path="/revista/work/work" scope="request" type="action.MostrarNumerosAction" validate="false">
+            <forward name="success" path="/revista/work/work.jsp"/>
+            <forward name="failure" path="/revista/work/work.jsp"/>
+        </action>
+        
+        <!-- Mostrar usuarios -->
+        <action name="AboutActionForm" path="/revista/about/about" scope="request" type="action.AboutAction" validate="false">
+            <forward name="success" path="/revista/about/about.jsp"/>
+            <forward name="failure" path="/revista/about/about.jsp"/>
+        </action>
+        
+        <!-- Crear revista -->
+        <action input="/WEB-INF/superuser/crearRevista.jsp" name="CrearRevistaActionForm" path="/crearRevista" scope="request" type="action.CrearRevistaAction" validate="false">
+            <forward name="success" path="/WEB-INF/superuser/acciones.jsp"/>
+            <forward name="failure" path="/WEB-INF/superuser/acciones.jsp"/>
+            <forward name="cancel" path="/WEB-INF/superuser/acciones.jsp"/>
+        </action>
+        
+        <!-- Sincronize fotos -->
+        <action input="/WEB-INF/superuser/sincronizeUser.jsp" name="SincronizeUserActionForm" path="/sincronizeUser" scope="request" type="action.SincronizeUserAction" validate="false">
+            <forward name="success" path="/WEB-INF/superuser/acciones.jsp"/>
+            <forward name="failure" path="/WEB-INF/superuser/acciones.jsp"/>
+            <forward name="cancel" path="/WEB-INF/superuser/acciones.jsp"/>
+        </action>
+        
+        <!-- Registrar Autor -->       
+        <action input="/revista/articulo/registrarAutor.jsp" path="/revista/articulo/registrarAutor" name="RegistroActionForm" scope="request" type="action.RegistroAction" validate="false">
+            <forward name="success" path="/revista/articulo/registrarAutor.jsp"/>
+            <forward name="cancel" path="/revista/articulo/registrarAutor.jsp"/>
+            <forward name="failure" path="/revista/articulo/registrarAutor.jsp"/>
+            <forward name="anadir" path="/revista/articulo/registrarAutor.jsp"/>
+        </action>
+        
+    </action-mappings>
+    
+    <controller processorClass="org.apache.struts.tiles.TilesRequestProcessor"/>
+
+    <message-resources parameter="com/myapp/struts/ApplicationResource"/>    
+    
+    <!-- ========================= Tiles plugin ===============================-->
+    <!--
+    This plugin initialize Tiles definition factory. This later can takes some
+    parameters explained here after. The plugin first read parameters from
+    web.xml, thenoverload them with parameters defined here. All parameters
+    are optional.
+    The plugin should be declared in each struts-config file.
+    - definitions-config: (optional)
+    Specify configuration file names. There can be several comma
+    separated file names (default: ?? )
+    - moduleAware: (optional - struts1.1)
+    Specify if the Tiles definition factory is module aware. If true
+    (default), there will be one factory for each Struts module.
+    If false, there will be one common factory for all module. In this
+    later case, it is still needed to declare one plugin per module.
+    The factory will be initialized with parameters found in the first
+    initialized plugin (generally the one associated with the default
+    module).
+    true : One factory per module. (default)
+    false : one single shared factory for all modules
+    - definitions-parser-validate: (optional)
+    Specify if xml parser should validate the Tiles configuration file.
+    true : validate. DTD should be specified in file header (default)
+    false : no validation
+
+    Paths found in Tiles definitions are relative to the main context.
+    -->
+    <plug-in className="org.apache.struts.tiles.TilesPlugin" >
+        <set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml" />      
+        <set-property property="moduleAware" value="true" />
+    </plug-in>
+    
+    <!-- ========================= Validator plugin ================================= -->
+    <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+        <set-property
+            property="pathnames"
+            value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml"/>
+    </plug-in>
+  
+</struts-config>
