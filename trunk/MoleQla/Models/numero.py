@@ -21,6 +21,8 @@ class numero(osv.osv):
     _columns = {
         'nombre' : fields.char('Nombre', size=128, required=True),
         'numero' : fields.integer('Numero', readonly=True),
+        'premio_div' : fields.many2one('articulo','Premio Divulgativo'),
+        'premio_inv' : fields.many2one('articulo','Premio Investigacion'),
         'articulos_id' : fields.one2many('articulo', 'numero_id','Artículos'),
         'fecha_p' : fields.date('Fecha de Publicación'),
         'state':fields.selection([('start', 'Borrador'), ('builded', 'En construcción'),('a_publicar', 'Publicada'), ('voted', 'En votación'),('closed', 'Cerrado')], 'Estado del número'),
@@ -115,9 +117,13 @@ class numero(osv.osv):
             vals = {'user_id':editor_.user_id.id,'numero_id':ids[0]}
             obj_votacion.create(cr, 1, vals, context=None)
             for articulo in articulos:
+                articulo_ = obj_articulo.browse(cr, 1, articulo, context)
                 vals_linea = {}
                 votacion_id = obj_votacion.search(cr, 1, [('numero_id', '=', ids[0]),('user_id', '=', editor_.user_id.id)])
-                vals_linea = {'votacion_id':votacion_id[0],'articulo':articulo}
+                if articulo_.tipo_articulo == 'divulgativo':
+                    vals_linea = {'votacion_div_id':votacion_id[0],'articulo':articulo}
+                else:
+                    vals_linea = {'votacion_inv_id':votacion_id[0],'articulo':articulo}
                 obj_linea_votacion.create(cr, 1, vals_linea, context=None) 
         for maquetador in maquetadores:
             maquetador_ = obj_maquetador.browse(cr, 1, maquetador, context) 
@@ -125,14 +131,62 @@ class numero(osv.osv):
             vals = {'user_id':maquetador_.user_id.id,'numero_id':ids[0]}
             obj_votacion.create(cr, 1, vals, context=None)
             for articulo in articulos:
+                articulo_ = obj_articulo.browse(cr, 1, articulo, context)
                 vals_linea = {}
                 votacion_id = obj_votacion.search(cr, 1, [('numero_id', '=', ids[0]),('user_id', '=', maquetador_.user_id.id)])
-                vals_linea = {'votacion_id':votacion_id[0],'articulo':articulo}
+                if articulo_.tipo_articulo == 'divulgativo':
+                    vals_linea = {'votacion_div_id':votacion_id[0],'articulo':articulo}
+                else:
+                    vals_linea = {'votacion_inv_id':votacion_id[0],'articulo':articulo}
                 obj_linea_votacion.create(cr, 1, vals_linea, context=None)       
         self.write(cr, uid, ids, { 'state' : 'voted'})    
          
     def close(self, cr, uid, ids, context=None):
-        self.write(cr, uid, ids, { 'state' : 'closed'})
+        obj_votacion = self.pool.get('votacion')
+        obj_articulo = self.pool.get('articulo')
+        votaciones_id = obj_votacion.search(cr, 1, [('numero_id', '=', ids[0]),('state', '=', 'send')])
+        ids_div =[]
+        puntos_div= {}
+        ids_inv=[]
+        puntos_inv = {}
+        for votaciones in votaciones_id:
+            votacion_ = obj_votacion.browse(cr, 1, votaciones, context)
+            lineas_div = votacion_.lineas_votacion_div
+            for linea in lineas_div:
+                id_articulo = linea.articulo.id
+                if id_articulo in puntos_div.keys():
+                    puntos_div[id_articulo]=puntos_div[id_articulo]+ linea.puntos
+                else:
+                    puntos_div[id_articulo]=linea.puntos
+            lineas_inv = votacion_.lineas_votacion_inv
+            for linea in lineas_inv:
+                id_articulo = linea.articulo.id
+                if id_articulo in puntos_inv.keys():
+                    puntos_inv[id_articulo]=puntos_inv[id_articulo]+ linea.puntos
+                else:
+                    puntos_inv[id_articulo]=linea.puntos
+                    
+        maximo_div = 0
+        puntos_div =puntos_div.items()
+        for i in range(len(puntos_div)):
+            if puntos_div[i][1] > maximo_div:
+                maximo_div=puntos_div[i][1]
+                maximo_div_id=puntos_div[i][0]
+                    
+        maximo_inv = 0
+        puntos_inv =puntos_inv.items()
+        for i in range(len(puntos_inv)):
+            if puntos_inv[i][1] > maximo_inv:
+                maximo_inv=puntos_inv[i][1]
+                maximo_inv_id=puntos_inv[i][0]
+
+            
+            
+          
+      
+        obj_articulo.write(cr, uid, maximo_div_id, { 'premiado' : 'TRUE'})  
+        obj_articulo.write(cr, uid, maximo_inv_id, { 'premiado' : 'TRUE'})  
+        self.write(cr, uid, ids, { 'state' : 'closed','premio_div':maximo_div_id,'premio_inv':maximo_inv_id})
         
     def name_get(self, cr, uid, ids, context=None):
         
