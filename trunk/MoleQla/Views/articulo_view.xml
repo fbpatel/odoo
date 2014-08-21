@@ -76,6 +76,7 @@
 					<field name="seccion_id"></field>
 					<field name="archivo" filename="filename" />
 					<field name="state" />
+					<field name="premiado" />
 				</tree>
 			</field>
 		</record>
