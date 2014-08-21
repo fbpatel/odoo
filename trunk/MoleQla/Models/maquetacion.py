@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 from openerp.osv import fields, osv
 
 class maquetacion(osv.osv):
@@ -6,18 +7,18 @@ class maquetacion(osv.osv):
     _description = "Maquetacion"
     
     _columns = {       
-        'articulo_id': fields.many2one('articulo','Articulo'), 
-        'seccion_id': fields.many2one('seccion','Seccion'),
+        'articulo_id': fields.many2one('articulo','Artículo'), 
+        'seccion_id': fields.many2one('seccion','Sección'),
         'observaciones': fields.binary('Observaciones'),
         'filenameObv': fields.char('FilenameObv'),  
         'maquetador_id': fields.integer('Maquetador'),
-        'state':fields.selection([('start', 'En Maquetacion'), ('send', 'Maquetado'), ('cancel', 'Rechazado')], 'Estado de la maquetacion'),
+        'state':fields.selection([('start', 'En Maquetación'), ('send', 'Maquetado'), ('cancel', 'Rechazado')], 'Estado de la maquetación'),
         'comentarios': fields.text('Comentarios'),
         'versiones_anteriores' : fields.one2many('articulo', 'old_maquetacion_id','Version anterior'),
         'articulo_nombre' : fields.related('articulo_id', 'nombre', string='Nombre', type='text', readonly=True),
-        'articulo_descripcion' : fields.related('articulo_id', 'descripcion', string='Descripcion', type='text', readonly=True),
+        'articulo_descripcion' : fields.related('articulo_id', 'descripcion', string='Descripción', type='text', readonly=True),
         'articulo_seccion' : fields.related('articulo_id', 'seccion_id', string='Seccion', type='text', readonly=True),
-        'articulo_tipoArticulo' : fields.related('articulo_id', 'tipo_articulo', string='Tipo Articulo', type='text', readonly=True),
+        'articulo_tipoArticulo' : fields.related('articulo_id', 'tipo_articulo', string='Tipo Artículo', type='text', readonly=True),
         'articulo_tipoAutor' : fields.related('articulo_id', 'tipo_autor', string='Tipo Autor', type='text', readonly=True),
         'filenameArt': fields.char('FilenameObv'),
         'articulo_archivo' : fields.related('articulo_id', 'archivo', string='Archivo', type='binary', readonly=True)

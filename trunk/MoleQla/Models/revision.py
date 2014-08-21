@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 from openerp.osv import fields, osv
 
 class revision(osv.osv):
@@ -6,19 +7,19 @@ class revision(osv.osv):
     _description = "Revision"
     
     _columns = {       
-        'articulo_id': fields.many2one('articulo','Articulo'), 
+        'articulo_id': fields.many2one('articulo','Artículo'), 
         'filename': fields.char('Filename'), 
-        'seccion_id': fields.many2one('seccion','Seccion'),
+        'seccion_id': fields.many2one('seccion','Sección'),
         'observaciones': fields.binary('Observaciones'),
         'filenameObv': fields.char('FilenameObv'),  
         'revisor_id': fields.integer('Editor'),
-        'state':fields.selection([('start', 'En Revision'), ('send', 'Aceptado'), ('cancel', 'Rechazado')], 'Estado de la revision'),
+        'state':fields.selection([('start', 'En Revisión'), ('send', 'Aceptado'), ('cancel', 'Rechazado')], 'Estado de la revisión'),
         'comentarios': fields.text('Comentarios'),
         'versiones_anteriores' : fields.one2many('articulo', 'old_revision_id','Version anterior'),
         'articulo_nombre' : fields.related('articulo_id', 'nombre', string='Nombre', type='text', readonly=True),
-        'articulo_descripcion' : fields.related('articulo_id', 'descripcion', string='Descripcion', type='text', readonly=True),
-        'articulo_seccion' : fields.related('articulo_id', 'seccion_id', string='Seccion', type='many2one', relation='seccion',readonly=True),      
-        'articulo_tipoArticulo' : fields.related('articulo_id', 'tipo_articulo', string='Tipo Articulo', type='text', readonly=True),
+        'articulo_descripcion' : fields.related('articulo_id', 'descripcion', string='Descripción', type='text', readonly=True),
+        'articulo_seccion' : fields.related('articulo_id', 'seccion_id', string='Sección', type='many2one', relation='seccion',readonly=True),      
+        'articulo_tipoArticulo' : fields.related('articulo_id', 'tipo_articulo', string='Tipo Artículo', type='text', readonly=True),
         'articulo_tipoAutor' : fields.related('articulo_id', 'tipo_autor', string='Tipo Autor', type='text', readonly=True),
         'filenameArt': fields.char('FilenameObv'),
         'articulo_archivo' : fields.related('articulo_id', 'archivo', string='Archivo', type='binary', readonly=True)

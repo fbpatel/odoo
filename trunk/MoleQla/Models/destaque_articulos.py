@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 from openerp.osv import fields, osv
 
 class destaque_articulos(osv.osv):
@@ -6,12 +7,12 @@ class destaque_articulos(osv.osv):
     _description = "Destaque"
     
     _columns = {       
-        'articulo_divulgativo': fields.many2one('articulo','Articulo Divulgativo'), 
-        'articulo_investigacion': fields.many2one('articulo','Articulo de Investigacion'),  
+        'articulo_divulgativo': fields.many2one('articulo','Artículo Divulgativo'), 
+        'articulo_investigacion': fields.many2one('articulo','Artículo de Investigacion'),  
         'revisor_id': fields.integer('Editor'),
-        'numero_id':fields.many2one('numero','Numero'), 
+        'numero_id':fields.many2one('numero','Número'), 
         'state':fields.selection([('start', 'Pendiente'), ('send', 'Confirmado')], 'Estado del proceso'),
-        'seccion_id': fields.many2one('seccion','Seccion'), 
+        'seccion_id': fields.many2one('seccion','Sección'), 
         }
     
     _defaults = {

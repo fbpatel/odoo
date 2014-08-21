@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 from openerp.osv import fields, osv
 
 class linea_votacion(osv.osv):
@@ -6,9 +7,9 @@ class linea_votacion(osv.osv):
     _description = "Linea de Votacion"
     
     _columns = {       
-        'articulo': fields.many2one('articulo','Articulo'), 
+        'articulo': fields.many2one('articulo','Artículo'), 
         'puntos': fields.integer('Puntos'),
-        'votacion_id': fields.many2one('votacion','Votacion'), 
+        'votacion_id': fields.many2one('votacion','Votación'), 
         }
     
     _defaults = {

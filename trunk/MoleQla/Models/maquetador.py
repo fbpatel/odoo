@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 from openerp.osv import fields, osv
 
 class maquetador(osv.osv):
@@ -8,9 +9,9 @@ class maquetador(osv.osv):
     _columns = {
         'nombre' : fields.char('Nombre', size=128),
         'apellidos': fields.char('Apellidos', size=128),
-        'descripcion': fields.text('Descripcion'),         
+        'descripcion': fields.text('Descripción'),         
         'user_id': fields.many2one('res.users','Usuario'),
-        'seccion_id': fields.many2one('seccion','Seccion'),
+        'seccion_id': fields.many2one('seccion','Sección'),
         }
 
     def name_get(self, cr, uid, ids, context=None):

@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 from openerp.osv import fields, osv
 import smtplib
 from email.MIMEMultipart import MIMEMultipart

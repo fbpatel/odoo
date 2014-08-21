@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 from openerp.osv import fields, osv
 from openerp.tools.translate import _
 import datetime
@@ -21,9 +22,9 @@ class numero(osv.osv):
     _columns = {
         'nombre' : fields.char('Nombre', size=128, required=True),
         'numero' : fields.integer('Numero', readonly=True),
-        'articulos_id' : fields.one2many('articulo', 'numero_id','Articulos'),
-        'fecha_p' : fields.date('Fecha de Publicacion'),
-        'state':fields.selection([('start', 'Borrador'), ('builded', 'En construccion'),('a_publicar', 'Publicada'), ('voted', 'En votacion'),('closed', 'Cerrado')], 'Estado del numero'),
+        'articulos_id' : fields.one2many('articulo', 'numero_id','Artículos'),
+        'fecha_p' : fields.date('Fecha de Publicación'),
+        'state':fields.selection([('start', 'Borrador'), ('builded', 'En construcción'),('a_publicar', 'Publicada'), ('voted', 'En votación'),('closed', 'Cerrado')], 'Estado del número'),
         }
     
     _defaults = {

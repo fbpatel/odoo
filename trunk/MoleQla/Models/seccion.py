@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 from openerp.osv import fields, osv
 
 class seccion(osv.osv):
@@ -7,8 +8,8 @@ class seccion(osv.osv):
     
     _columns = {
         'nombre' : fields.char('Nombre', size=128),
-        'descripcion': fields.char('Descripcion', size=128),
-        'max_articulos': fields.integer('Numero maximo de articulos por numero'),
+        'descripcion': fields.char('Descripción', size=128),
+        'max_articulos': fields.integer('Número máximo de artículos por número'),
         'editor':fields.one2many('editor', 'seccion_id','Editor'), 
         'maquetador':fields.one2many('maquetador', 'seccion_id','Maquetador'),
         }
