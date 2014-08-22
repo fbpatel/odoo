@@ -17,7 +17,7 @@ class maquetacion(osv.osv):
         'versiones_anteriores' : fields.one2many('articulo', 'old_maquetacion_id', 'Version anterior'),
         'articulo_nombre' : fields.related('articulo_id', 'nombre', string='Nombre', type='text', readonly=True),
         'articulo_descripcion' : fields.related('articulo_id', 'descripcion', string='Descripción', type='text', readonly=True),
-        'articulo_seccion' : fields.related('articulo_id', 'seccion_id', string='Sección', type='text', relation='seccion', readonly=True),
+        'articulo_seccion' : fields.related('articulo_id', 'seccion_id', string='Sección', type='many2one', relation='seccion', readonly=True),
         'articulo_tipoArticulo' : fields.related('articulo_id', 'tipo_articulo', string='Tipo Artículo', type='text', readonly=True),
         'articulo_tipoAutor' : fields.related('articulo_id', 'tipo_autor', string='Tipo Autor', type='text', readonly=True),
         'filenameArt': fields.char('FilenameObv'),
