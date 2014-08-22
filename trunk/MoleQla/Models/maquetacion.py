@@ -7,17 +7,17 @@ class maquetacion(osv.osv):
     _description = "Maquetacion"
     
     _columns = {       
-        'articulo_id': fields.many2one('articulo','Artículo'), 
-        'seccion_id': fields.many2one('seccion','Sección'),
+        'articulo_id': fields.many2one('articulo', 'Artículo'),
+        'seccion_id': fields.many2one('seccion', 'Sección'),
         'observaciones': fields.binary('Observaciones'),
-        'filenameObv': fields.char('FilenameObv'),  
+        'filenameObv': fields.char('FilenameObv'),
         'maquetador_id': fields.integer('Maquetador'),
         'state':fields.selection([('start', 'En Maquetación'), ('send', 'Maquetado'), ('cancel', 'Rechazado')], 'Estado de la maquetación'),
         'comentarios': fields.text('Comentarios'),
-        'versiones_anteriores' : fields.one2many('articulo', 'old_maquetacion_id','Version anterior'),
+        'versiones_anteriores' : fields.one2many('articulo', 'old_maquetacion_id', 'Version anterior'),
         'articulo_nombre' : fields.related('articulo_id', 'nombre', string='Nombre', type='text', readonly=True),
         'articulo_descripcion' : fields.related('articulo_id', 'descripcion', string='Descripción', type='text', readonly=True),
-        'articulo_seccion' : fields.related('articulo_id', 'seccion_id', string='Seccion', type='text', readonly=True),
+        'articulo_seccion' : fields.related('articulo_id', 'seccion_id', string='Sección', type='text', relation='seccion', readonly=True),
         'articulo_tipoArticulo' : fields.related('articulo_id', 'tipo_articulo', string='Tipo Artículo', type='text', readonly=True),
         'articulo_tipoAutor' : fields.related('articulo_id', 'tipo_autor', string='Tipo Autor', type='text', readonly=True),
         'filenameArt': fields.char('FilenameObv'),
@@ -39,7 +39,7 @@ class maquetacion(osv.osv):
         articulo_obj.write(cr, 1, maquetacion.articulo_id.id, { 'state' : 'published', 'fecha_maq':d})
         self.write(cr, uid, ids, { 'state' : 'send' })
         
-        #2. Mediante el articulo
+        # 2. Mediante el articulo
         autor_user_obj = self.pool.get('res.users')
         autor_user = autor_user_obj.browse(cr, uid, maquetacion.articulo_id.user_id, context)
         email_autor = autor_user.login
@@ -62,14 +62,14 @@ class maquetacion(osv.osv):
         articulo = articulo_obj.browse(cr, uid, articulo_id, context)
         
         vals = {'seccion_id':maquetacion.seccion_id.id,
-                'archivo':articulo.archivo,'filename':articulo.filename,'nombre':articulo.nombre,
-                'tipo_articulo':articulo.tipo_articulo,'tipo_autor':articulo.tipo_autor,
-                'palabras_clave':articulo.palabras_clave,'user_id':1,'old_maquetacion_id':maquetacion.id}
+                'archivo':articulo.archivo, 'filename':articulo.filename, 'nombre':articulo.nombre,
+                'tipo_articulo':articulo.tipo_articulo, 'tipo_autor':articulo.tipo_autor,
+                'palabras_clave':articulo.palabras_clave, 'user_id':1, 'old_maquetacion_id':maquetacion.id}
         articulo_obj.create(cr, 1, vals, context=None)
         
         articulo_obj.write(cr, 1, maquetacion.articulo_id.id, { 'state' : 'cancel_m' })
         
-        #2. Mediante el articulo
+        # 2. Mediante el articulo
         autor_user_obj = self.pool.get('res.users')
         autor_user = autor_user_obj.browse(cr, uid, maquetacion.articulo_id.user_id, context)
         email_autor = autor_user.login
