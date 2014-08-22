@@ -35,7 +35,6 @@
 						<notebook colspan="8">
 							<page string="Revision">
 								<group col="2">
-									<!-- Se puede poner '!=' o 'not in' -->
 									<field name="comentarios" />
 									<field name="observaciones" filename="filenameObv"></field>
 									<field name="versiones_anteriores" attrs="{'readonly':'1'}"></field>
