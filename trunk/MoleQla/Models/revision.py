@@ -21,13 +21,14 @@ class revision(osv.osv):
         'articulo_seccion' : fields.related('articulo_id', 'seccion_id', string='Sección', type='many2one', relation='seccion',readonly=True),      
         'articulo_tipoArticulo' : fields.related('articulo_id', 'tipo_articulo', string='Tipo Artículo', type='text', readonly=True),
         'articulo_tipoAutor' : fields.related('articulo_id', 'tipo_autor', string='Tipo Autor', type='text', readonly=True),
-        'filenameArt': fields.char('FilenameObv'),
+        'filenameArt': fields.char('FilenameArt'),
         'articulo_archivo' : fields.related('articulo_id', 'archivo', string='Archivo', type='binary', readonly=True)
         }
     
     _defaults = {
                   'state':'start',
                   'filenameObv':'observaciones.pdf',
+                  'filenameArt' : 'articulo.pdf'
                   }
     
     
