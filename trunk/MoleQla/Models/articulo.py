@@ -60,6 +60,7 @@ class articulo(osv.osv):
         'mostrar_asignatura' : fields.boolean("Muestra asignatura"),
         'archivo_diff' : fields.binary('Archivo Diferencias', filters='*.pdf"', help="Este archivo contendrá las diferencias entre la versión antigua y la versión nuevo del artículo"),        
         'filenameDiff': fields.char('FilenameDiff'),
+        'filenameObv': fields.char('FilenameObv'),
         }
     
     _defaults = {
@@ -67,7 +68,8 @@ class articulo(osv.osv):
                   'autor':_get_autor,
                   'mostrar_tipo_autor_interno':False,
                   'mostrar_asignatura': False,
-                  'filenameDiff':'diferencias.pdf'
+                  'filenameDiff':'diferencias.pdf',
+                  'filenameObv':'observaciones.pdf'
                   }
     
     
