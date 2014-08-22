@@ -121,9 +121,9 @@ class numero(osv.osv):
                 vals_linea = {}
                 votacion_id = obj_votacion.search(cr, 1, [('numero_id', '=', ids[0]),('user_id', '=', editor_.user_id.id)])
                 if articulo_.tipo_articulo == 'divulgativo':
-                    vals_linea = {'votacion_div_id':votacion_id[0],'articulo':articulo}
+                    vals_linea = {'votacion_div_id':votacion_id[0],'articulo':articulo,'filename':articulo_.filename}
                 else:
-                    vals_linea = {'votacion_inv_id':votacion_id[0],'articulo':articulo}
+                    vals_linea = {'votacion_inv_id':votacion_id[0],'articulo':articulo,'filename':articulo_.filename}
                 obj_linea_votacion.create(cr, 1, vals_linea, context=None) 
         for maquetador in maquetadores:
             maquetador_ = obj_maquetador.browse(cr, 1, maquetador, context) 
