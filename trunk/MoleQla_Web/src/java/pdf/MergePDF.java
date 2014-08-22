@@ -39,21 +39,46 @@ public class MergePDF {
      }
      }*/
     public static String crearNumeroRevista(String rutaRaiz, String rutaNumeros, String numero) {
-
+        String separator = OS.getDirectorySeparator();
+        
+        //Portada
+        String ruta_portada = rutaRaiz + "WEB-INF" + separator + "numeros" + separator + "portada.pdf";
+        File portada = new File(ruta_portada);
+        
+        //Portada
+        String ruta_participantes = rutaRaiz + "WEB-INF" + separator + "numeros" + separator + "participantes.pdf";
+        File participantes = new File(ruta_participantes);
+        
+        //Contraportada
+        String ruta_contraportada = rutaRaiz + "WEB-INF" + separator + "numeros" + separator + "contraportada.pdf";
+        File contraportada = new File(ruta_contraportada);
+        
         File f = new File(rutaNumeros);
         List<InputStream> pdfs = new ArrayList<InputStream>();
-        String separator = OS.getDirectorySeparator();
+        
+        try {
+            //Se añade la portada
+            pdfs.add(new FileInputStream(portada.getPath()));
+            
+            //Se añade el fichero de las personas participantes
+            pdfs.add(new FileInputStream(participantes.getPath()));
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(MergePDF.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         String numeroPDF = "";
         if (f.exists()) { // Directorio existe 
 
             File[] ficheros = f.listFiles();
             try {
                 for (File fichero : ficheros) {
-                    if (fichero.getName().equals("pdf.py") == false) {
-                        pdfs.add(new FileInputStream(fichero.getPath()));
-                    }
+                    pdfs.add(new FileInputStream(fichero.getPath()));
                 }
 
+                //Se añade la contraportada
+                pdfs.add(new FileInputStream(contraportada.getPath()));
+                
+                //Se monta el numero
                 numeroPDF = rutaRaiz + "revista" + separator + "work" + separator + numero + ".pdf";
                 OutputStream output = new FileOutputStream(numeroPDF);
                 MergePDF.concatPDFs(pdfs, output, true);
