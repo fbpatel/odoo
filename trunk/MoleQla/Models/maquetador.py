@@ -37,8 +37,12 @@ class maquetador(osv.osv):
         texto = "Your login details are: <br /> <ul> <li>User: "+email+"</li> <li>Password: password</li> </ul> <br /> <b>Please choose a password to access</b>"
         
         # Se envia el correo
-        correo_obj = self.pool.get('correo')        
-        correo_obj.mail(cr, 1, email, asunto, texto) 
+        correo_obj = self.pool.get('correo') 
+        try:       
+            correo_obj.mail(cr, 1, email, asunto, texto)
+        except:
+            print "ERROR: No ha sido posible enviar el correo a"+email
+            
         return super(maquetador, self).create(cr, uid, vals, context)  
 
     def name_get(self, cr, uid, ids, context=None):

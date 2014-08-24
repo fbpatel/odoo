@@ -141,8 +141,11 @@ class articulo(osv.osv):
             
             # Se envia el correo
             correo_obj = self.pool.get('correo') 
-                   
-            correo_obj.mail(cr, 1, email_editor, asunto, texto)
+            
+            try:       
+                correo_obj.mail(cr, 1, email_editor, asunto, texto)
+            except:
+                print "ERROR: No ha sido posible enviar el correo a"+email_editor
             # -------------------------------------------
             
         if ((articulo.state) == ('cancel')):
@@ -175,8 +178,11 @@ class articulo(osv.osv):
         texto = "Su articulo ha sido recibido por el equipo de MoleQla y se encuentra en el estado <b>" + estado + "</b>. En breve recibira mas noticias sobre su estado."
         
         # Se envia el correo
-        correo_obj = self.pool.get('correo')        
-        correo_obj.mail(cr, 1, email_autor, asunto, texto)  
+        correo_obj = self.pool.get('correo')
+        try:        
+            correo_obj.mail(cr, 1, email_autor, asunto, texto)  
+        except:
+            print "ERROR: No ha sido posible enviar el correo a"+email_autor
         # -------------------------------------------
        
     def name_get(self, cr, uid, ids, context=None):

@@ -61,6 +61,7 @@
 				<tree string="Revisiones">
 					<field name="articulo_id"></field>
 					<field name="state"></field>
+					<field name="seccion_id" />
 				</tree>
 			</field>
 		</record>

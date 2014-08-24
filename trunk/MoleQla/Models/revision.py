@@ -31,7 +31,18 @@ class revision(osv.osv):
                   'filenameArt' : 'articulo.pdf'
                   }
     
-    
+    def name_get(self, cr, uid, ids, context=None):
+        
+        if context is None:
+            context = {}
+        res = []
+        
+        for record in self.browse(cr, uid, ids, context=context):
+            revision_name = record.articulo_nombre
+            
+            
+            res.append((record.id, revision_name))
+        return res
     
     def aceptar(self, cr, uid, ids, context=None):
         revision = self.browse(cr, uid, ids, context)
@@ -60,8 +71,11 @@ class revision(osv.osv):
         texto = "Se ha recibido un nuevo articulo."
         
         # Se envia el correo
-        correo_obj = self.pool.get('correo')        
-        correo_obj.mail(cr, 1, email_maquetador, asunto, texto)
+        correo_obj = self.pool.get('correo') 
+        try:       
+            correo_obj.mail(cr, 1, email_maquetador, asunto, texto)
+        except:
+            print "ERROR: No ha sido posible enviar el correo a"+email_maquetador
         # -------------------------------------------
         
         # -------------------------------------------
@@ -77,8 +91,11 @@ class revision(osv.osv):
         texto = "Su articulo ha cambiado su estado a <b>" + estado + "</b>. En breve recibira mas noticias sobre su estado."
         
         # Se envia el correo
-        correo_obj = self.pool.get('correo')        
-        correo_obj.mail(cr, 1, email_autor, asunto, texto)
+        correo_obj = self.pool.get('correo') 
+        try:       
+            correo_obj.mail(cr, 1, email_autor, asunto, texto)
+        except:
+            print "ERROR: No ha sido posible enviar el correo a"+email_autor
         # -------------------------------------------  
         
     def rechazar(self, cr, uid, ids, context=None):
@@ -106,8 +123,11 @@ class revision(osv.osv):
         texto = "Su articulo ha cambiado su estado a <b>" + estado + "</b>. En breve recibira mas noticias sobre su estado."
         
         # Se envia el correo
-        correo_obj = self.pool.get('correo')        
-        correo_obj.mail(cr, 1, email_autor, asunto, texto)  
+        correo_obj = self.pool.get('correo') 
+        try:       
+            correo_obj.mail(cr, 1, email_autor, asunto, texto) 
+        except:
+            print "ERROR: No ha sido posible enviar el correo a"+email_autor 
         
     
     
