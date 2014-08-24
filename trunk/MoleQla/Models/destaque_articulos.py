@@ -18,6 +18,18 @@ class destaque_articulos(osv.osv):
     _defaults = {
         'state' : 'start'
                  }
+    def name_get(self, cr, uid, ids, context=None):
+        
+        if context is None:
+            context = {}
+        res = []
+        
+        for record in self.browse(cr, uid, ids, context=context):
+            destaque_name = record.numero_id[0].nombre
+            
+            
+            res.append((record.id, destaque_name))
+        return res
     
     def aceptar(self, cr, uid, ids, context=None):
         art_divulgativo = self.browse(cr, 1, ids, context).articulo_divulgativo

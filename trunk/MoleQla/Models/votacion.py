@@ -18,6 +18,19 @@ class votacion(osv.osv):
     _defaults = {
         'state' : 'start'
                  }
+    def name_get(self, cr, uid, ids, context=None):
+        
+        if context is None:
+            context = {}
+        res = []
+        
+        for record in self.browse(cr, uid, ids, context=context):
+            destaque_name = record.numero_id[0].nombre
+            
+            
+            res.append((record.id, destaque_name))
+        return res
+    
     def aceptar(self, cr, uid, ids, context=None):
         self.write(cr, 1, ids, { 'state' : 'send'})
         
