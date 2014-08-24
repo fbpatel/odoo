@@ -4,15 +4,6 @@ package pdf;
  *
  * @author Rafa
  */
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
@@ -20,7 +11,18 @@ import com.itextpdf.text.pdf.PdfImportedPage;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utilidades.OS;
@@ -40,44 +42,62 @@ public class MergePDF {
      }*/
     public static String crearNumeroRevista(String rutaRaiz, String rutaNumeros, String numero) {
         String separator = OS.getDirectorySeparator();
-        
+
         //Portada
         String ruta_portada = rutaRaiz + "WEB-INF" + separator + "numeros" + separator + "portada.pdf";
         File portada = new File(ruta_portada);
-        
+
         //Participantes
         String ruta_participantes = rutaRaiz + "WEB-INF" + separator + "numeros" + separator + "participantes.pdf";
         File participantes = new File(ruta_participantes);
-        
+
         //Contraportada
         String ruta_contraportada = rutaRaiz + "WEB-INF" + separator + "numeros" + separator + "contraportada.pdf";
         File contraportada = new File(ruta_contraportada);
-        
+
         File f = new File(rutaNumeros);
         List<InputStream> pdfs = new ArrayList<InputStream>();
-        
+
         try {
             //Se añade la portada
             pdfs.add(new FileInputStream(portada.getPath()));
-            
+
             //Se añade el fichero de las personas participantes
             pdfs.add(new FileInputStream(participantes.getPath()));
         } catch (FileNotFoundException ex) {
             Logger.getLogger(MergePDF.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         String numeroPDF = "";
         if (f.exists()) { // Directorio existe 
 
+            //Se añaden los ficheros a una lista para poder ordenadrla
             File[] ficheros = f.listFiles();
+            List<File> listaAllArticulos = Arrays.asList(ficheros);
+
+            // A continuación, se va a ordenador la lista por orden
+            Collections.sort(listaAllArticulos, new Comparator<File>() {
+                @Override
+                public int compare(File u1, File u2) {
+                    //cadena.substring(0, cadena.length()-1); 
+                    String uu1 = u1.getName().substring(0, u1.getName().length() - 4);
+                    String uu2 = u2.getName().substring(0, u2.getName().length() - 4);
+                    
+                    return uu1.compareTo(uu2);//de menor a mayor
+                    //return uu2.compareTo(uu1);//de mayor a menor
+                }
+            });
+
             try {
-                for (File fichero : ficheros) {
+                //Se añaden todos los articulos a la lista pdfs
+                for (File fichero : listaAllArticulos) {
                     pdfs.add(new FileInputStream(fichero.getPath()));
                 }
+                
 
                 //Se añade la contraportada
                 pdfs.add(new FileInputStream(contraportada.getPath()));
-                
+
                 //Se monta el numero
                 numeroPDF = rutaRaiz + "revista" + separator + "work" + separator + numero + ".pdf";
                 OutputStream output = new FileOutputStream(numeroPDF);
