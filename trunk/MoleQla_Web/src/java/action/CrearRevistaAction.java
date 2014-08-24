@@ -20,6 +20,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import pdf.MergePDF;
+import utilidades.BorrarDirectorio;
 import utilidades.Constantes;
 import utilidades.OS;
 
@@ -56,7 +57,8 @@ public class CrearRevistaAction extends org.apache.struts.action.Action {
 
             //Se crean el pdf de todos los articulos correspondientes
             String numero = consultaListaNumeros(rutaWEBINF);
-            if (numero.isEmpty()) {
+            //Si no hay nigun numero nuevo parará aquí
+            if (numero.equals("False")) {
                 formBean.setErrorMsg(Constantes.getERROR_CREAR_NUMERO());
                 return mapping.findForward(FAILURE);
             }
@@ -82,12 +84,21 @@ public class CrearRevistaAction extends org.apache.struts.action.Action {
                 formBean.setErrorMsg(Constantes.getERROR_CREAR_NUMERO());
                 return mapping.findForward(FAILURE);
             }
+            
+            //Se eliminan los articulos que han servido para este numero
+            comprobacion_eliminacion(numeroPDF, rutaNumerosAll);
 
             formBean.setMsg(Constantes.getCREACION_NUMERO_OK());
             return mapping.findForward(SUCCESS);
         }
     }
 
+    /**
+     * Retorna "False" si no hay un numero nuevo
+     * @param rutaWEBINF
+     * @return
+     * @throws SQLException 
+     */
     private String consultaListaNumeros(String rutaWEBINF) throws SQLException {
         String separator = OS.getDirectorySeparator();
         String res = "";
@@ -122,16 +133,12 @@ public class CrearRevistaAction extends org.apache.struts.action.Action {
         return res;
     }
 
-    private boolean comprobacion_eliminacion(String rutaDestino, List<String> listaNombresArt) {
+    private boolean comprobacion_eliminacion(String rutaDestino, String rutaAllArticulos) {
         File resNum = new File(rutaDestino);
         boolean borrado = true;
         if (resNum.exists()) {
-
-            int i = 0;
-            while (i < listaNombresArt.size() && borrado == true) {
-                File pdf = new File(listaNombresArt.get(i));
-                borrado = pdf.delete();
-            }
+            File dir_all_articulos = new File(rutaAllArticulos);
+            BorrarDirectorio.borrarDirectorio(dir_all_articulos);
         }
 
         return borrado;

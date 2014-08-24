@@ -18,15 +18,18 @@ cursorN = conn.cursor()
 cursorN.execute("SELECT numero_id FROM articulo A WHERE (SELECT state FROM numero N WHERE N.id = A.numero_id) = 'a_publicar'")
 numeros = cursorN.fetchall()
 
+#Si no hay ningun numero nuevo se devulve false
+if len(archivos) == 0:
+    print "False"
+else:
+    i=0
+    while (i < len(archivos)):
+            numero = numeros[i][0]
+            open(ruta+'/'+str(numero)+'_'+str(i)+'.pdf', 'wb').write(base64.decodestring(str(archivos[i][0])))
+            i = i + 1
 
-i=0
-while (i < len(archivos)):
-	numero = numeros[i][0]
-	open(ruta+'/'+str(numero)+'_'+str(i)+'.pdf', 'wb').write(base64.decodestring(str(archivos[i][0])))
-	i = i + 1
-
-#Devolvemos el numero
-print numeros[0][0]
+    #Devolvemos el numero
+    print numeros[0][0]
 
 cursor.close()
 cursorN.close()
