@@ -9,6 +9,14 @@ $strCnx = "host=$host port=$port dbname=$db user=$user password=$passwd";
 $conn = pg_connect($strCnx) or die ("Error de conexion. ". pg_last_error());
 echo "Conexion exitosa <hr>";
 
+//"/home/rafael/NetBeansProjects/MoleQla_Web/build/web/WEB-INF/numeros";
+
+echo "\n 0 ->".$argv[0];
+echo "\n 1 ->".$argv[1];
+echo "\n 2 ->".$argv[2];
+echo "\n 3 ->".$argv[3];
+        
+
 $rutaDestino = $argv[1];
 print $rutaDestino;
 
@@ -134,7 +142,7 @@ $html .= "<p></p>";
 $html .= '
 <table boder="0">
 	<tr>
-		<td style="margin: 0"><img src="images/upo.png" alt="test alt attribute" width="60" height="60" border="0"/></td>
+		<td style="margin: 0"><img src="images/upo.png" alt="UPO" width="60" height="60" border="0"/></td>
 		<td>ISSN 2173-0903<br />
 			Editado el 21 de Junio de 2014<br />
 			Universidad Pablo de Olavide, Sevilla, España</td>

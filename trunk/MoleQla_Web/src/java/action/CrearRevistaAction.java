@@ -140,14 +140,14 @@ public class CrearRevistaAction extends org.apache.struts.action.Action {
     private String crearFicheroParticipantes(String rutaWEBINF, String rutaNumeros) {
         String separator = OS.getDirectorySeparator();
         String res = "";
-        String fichero = "/etc/php5" + " " + rutaWEBINF + separator + "numeros" + separator + "participantes.php";
+        String fichero = Constantes.getRUTA_EJECUTABLE_PHP5() + " " + rutaWEBINF + separator + "numeros" + separator + "participantes.php" + " " + rutaNumeros;
         String[] cmd = new String[2];
         cmd[0] = fichero;
         cmd[1] = rutaNumeros;
 
         Process f;
         try {
-            f = Runtime.getRuntime().exec(cmd);
+            f = Runtime.getRuntime().exec(fichero);
             try {
                 f.waitFor();
             } catch (InterruptedException ex) {

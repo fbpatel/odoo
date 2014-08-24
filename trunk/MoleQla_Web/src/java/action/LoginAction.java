@@ -60,23 +60,27 @@ public class LoginAction extends org.apache.struts.action.Action {
                 return mapping.findForward(FAILURE);
             } else {
 
-                try (Connection connection = ConnectionPSQL.connection()) {
-                    ResultSet rs = connection.createStatement().executeQuery(
-                            "SELECT password FROM res_users WHERE login = '" + user + "'");
-                    error = false;
-                    if (rs != null) {
-                        while (rs.next()) {
-                            if (password.equals(rs.getString(1)) == false) {
-                                error = true;
-                            }
-                        }
-                        rs.close();
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(CrearRevistaAction.class.getName()).log(Level.SEVERE, null, ex);
+                if (user.equals(Constantes.getEMAIL_NOTIFICA())) {                    
+                    error = !password.equals(Constantes.getEMAIL_NOTIFICA_PASS());
+                } else {
+                    error = true;
                 }
+                /*try (Connection connection = ConnectionPSQL.connection()) {
+                 ResultSet rs = connection.createStatement().executeQuery(
+                 "SELECT password FROM res_users WHERE login = '" + user + "'");
+                 error = false;
+                 if (rs != null) {
+                 while (rs.next()) {
+                 if (password.equals(rs.getString(1)) == false) {
+                 error = true;
+                 }
+                 }
+                 rs.close();
+                 }
+                 } catch (SQLException ex) {
+                 Logger.getLogger(CrearRevistaAction.class.getName()).log(Level.SEVERE, null, ex);
+                 }*/
             }
-            
 
             if (error == true) {
                 formBean.setErrorMsg(Constantes.getERROR_LOGIN());

@@ -288,7 +288,7 @@ public class RegistroAction extends org.apache.struts.action.Action {
     private void insertResGroupUserRel(Connection connection, int user_id) throws SQLException {
 
         int employee = consultarIdResGroups("Employee");
-        int perfil = consultarIdResGroups("Perfil");
+        int perfil = consultarIdResGroups("Autores");
         connection.setAutoCommit(false);
 
         boolean rsq = connection.createStatement().execute("INSERT INTO res_groups_users_rel("

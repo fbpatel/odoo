@@ -50,6 +50,9 @@ public class Constantes {
     // Nuevo numero
     private static final String ESTADO_NUMEROS_PUBLICAR = "a_publicar";
     private static final String ERROR_CREAR_NUMERO = "ERROR: Try again";
+    
+    //PHP5
+    private static final String RUTA_EJECUTABLE_PHP5 = "/usr/bin/php5";
 
     private static String SEPARATOR;
 
@@ -65,6 +68,16 @@ public class Constantes {
         return CREACION_NUMERO_OK;
     }
 
+    /**
+     * Ruta para ejecutar un fichero php
+     * @return 
+     */
+    public static String getRUTA_EJECUTABLE_PHP5() {
+        return RUTA_EJECUTABLE_PHP5;
+    }
+
+    
+    
     /**
      * Estado para obtener los numeros aun no publicados, pero que ya se pueden
      * publicar

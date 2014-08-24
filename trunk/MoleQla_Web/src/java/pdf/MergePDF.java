@@ -45,7 +45,7 @@ public class MergePDF {
         String ruta_portada = rutaRaiz + "WEB-INF" + separator + "numeros" + separator + "portada.pdf";
         File portada = new File(ruta_portada);
         
-        //Portada
+        //Participantes
         String ruta_participantes = rutaRaiz + "WEB-INF" + separator + "numeros" + separator + "participantes.pdf";
         File participantes = new File(ruta_participantes);
         
