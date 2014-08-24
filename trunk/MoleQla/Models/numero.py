@@ -37,8 +37,8 @@ class numero(osv.osv):
         numero_obj = self.pool.get('numero')
         numeros_start = numero_obj.search(cr, 1, [('state', '=', 'start')])
         numeros_builded = numero_obj.search(cr, 1, [('state', '=', 'builded')])
-        hoy = fields.date.today()       
-        fec = vals['fecha_p']
+        #hoy = fields.date.today()       
+        #fec = vals['fecha_p']
         
         #=======================================================================
         # if fec < hoy:
@@ -80,7 +80,6 @@ class numero(osv.osv):
         obj_articulo.write(cr, uid, articulos, { 'state' : 'impress', })
         obj_seccion = self.pool.get('seccion')
         secciones = obj_seccion.search(cr, uid, [('id', '>', 0)])
-        ides = []
         for seccion in secciones:
             seccion_ = obj_seccion.browse(cr, uid, seccion, context)
             ids_articulos = obj_articulo.search(cr, uid, [('state', '=', 'impress'), ('numero_id', '=', ids[0]), ('seccion_id', '=', seccion_.id)])
@@ -180,11 +179,13 @@ class numero(osv.osv):
                 maximo_inv = puntos_inv[i][1]
                 maximo_inv_id = puntos_inv[i][0]          
             
-           
-        obj_articulo.write(cr, uid, maximo_div_id, { 'premiado' : 'TRUE'})  
-        obj_articulo.write(cr, uid, maximo_inv_id, { 'premiado' : 'TRUE'})  
-        self.write(cr, uid, ids, { 'state' : 'closed', 'premio_div':maximo_div_id, 'premio_inv':maximo_inv_id})
-        
+        try:   
+            obj_articulo.write(cr, uid, maximo_div_id, { 'premiado' : 'TRUE'})  
+            obj_articulo.write(cr, uid, maximo_inv_id, { 'premiado' : 'TRUE'})  
+            self.write(cr, uid, ids, { 'state' : 'closed', 'premio_div':maximo_div_id, 'premio_inv':maximo_inv_id})
+        except:
+            raise osv.except_osv(_('Error!'), _("No se ha podido cerrar el numero"))
+    
     def name_get(self, cr, uid, ids, context=None):
         
         if context is None:
