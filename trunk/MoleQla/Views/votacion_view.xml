@@ -23,13 +23,15 @@
 							<page string="Articulos Divulgativos" >
 							
 								<group col="2">	
-									<field name="lineas_votacion_div" domain="[('puntos','ilike',0)]"/>
+									<field name="lineas_votacion_div" 
+									attrs="{'readonly':[('state','=','send')]}"/>
 								</group>
 							</page> 
 							<page string="Articulos de Investigacion" >
 							
 								<group col="2">	
-									<field name="lineas_votacion_inv" domain="[('puntos','ilike','0')]"/>
+									<field name="lineas_votacion_inv" 
+									attrs="{'readonly':[('state','=','send')]}"/>
 								</group>
 							</page>
 						</notebook>
