@@ -22,14 +22,19 @@ class revision(osv.osv):
         'articulo_tipoArticulo' : fields.related('articulo_id', 'tipo_articulo', string='Tipo Artículo', type='text', readonly=True),
         'articulo_tipoAutor' : fields.related('articulo_id', 'tipo_autor', string='Tipo Autor', type='text', readonly=True),
         'filenameArt': fields.char('FilenameArt'),
-        'articulo_archivo' : fields.related('articulo_id', 'archivo', string='Archivo', type='binary', readonly=True)
+        'articulo_archivo' : fields.related('articulo_id', 'archivo', string='Archivo', type='binary', readonly=True),
+        'articulo_archivoDiff' : fields.related('articulo_id', 'archivo_diff', string='Archivo Diferencias', type='binary', readonly=True),
+        'filenameDiff': fields.char('FilenameDiff'),
         }
     
     _defaults = {
                   'state':'start',
                   'filenameObv':'observaciones.pdf',
-                  'filenameArt' : 'articulo.pdf'
+                  'filenameArt' : 'articulo.pdf',
+                  'filenameDiff' : 'diferencias.pdf'
                   }
+    
+    _order = 'state desc, id desc'
     
     def name_get(self, cr, uid, ids, context=None):
         
