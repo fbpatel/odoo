@@ -72,6 +72,7 @@ class articulo(osv.osv):
                   'filenameObv':'observaciones.pdf'
                   }
     
+    _order = 'id desc'
     
     def onchange_tipo_autor(self, cr, uid, ids,tipo_autor, context=None):
         val = {}
