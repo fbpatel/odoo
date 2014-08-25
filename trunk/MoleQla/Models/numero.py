@@ -26,11 +26,14 @@ class numero(osv.osv):
         'articulos_id' : fields.one2many('articulo', 'numero_id', 'Artículos'),
         'fecha_p' : fields.date('Fecha de Publicación'),
         'state':fields.selection([('start', 'Borrador'), ('builded', 'En construcción'), ('a_publicar', 'Publicada'), ('voted', 'En votación'), ('closed', 'Cerrado')], 'Estado del número'),
+        'entrevista': fields.binary('Entrevista', filters='*.pdf"'),
+        'filenameEnt': fields.char('FilenameEnt'),
         }
     
     _defaults = {
                   'state':'start',
-                  'numero': _getUlt
+                  'numero': _getUlt,
+                  'filenameEnt':'entrevista.pdf'
                   }
     
     _order = 'state desc, id desc'

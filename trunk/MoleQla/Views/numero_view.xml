@@ -27,6 +27,7 @@
 						<group col="4">
 							<field name="nombre"></field>
 							<field name="numero"></field>
+							<field name="entrevista" filename="filenameEnt" attrs="{'readonly':['|','|',('state','=','a_publicar'),('state','=','voted'),('state','=','closed')]}"></field>
 							<field name="fecha_p" attrs="{'invisible': [('state','!=','a_publicar')]}"></field>
 						</group>
 						<group col="1">
