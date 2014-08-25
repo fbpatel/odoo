@@ -28,6 +28,7 @@
 									<field name="articulo_tipoArticulo" />
 									<field name="articulo_tipoAutor" />
 									<field name="articulo_archivo" filename="filenameArt" />
+									<field name="articulo_archivoDiff" filename="filenameDiff" attrs="{'invisible':[('articulo_archivoDiff','=',False)]}"/>
 								</group>
 							</page>
 						</notebook>
@@ -35,8 +36,8 @@
 						<notebook colspan="8">
 							<page string="Revision">
 								<group col="2">
-									<field name="comentarios" />
-									<field name="observaciones" filename="filenameObv"></field>
+									<field name="comentarios" attrs="{'readonly':[('state','=','send')]}"/>
+									<field name="observaciones" filename="filenameObv" attrs="{'readonly':[('state','=','send')]}"></field>
 									<field name="versiones_anteriores" attrs="{'readonly':'1'}"></field>
 								</group>
 
