@@ -117,6 +117,7 @@ public class MergePDF {
                 numeroPDF = rutaRaiz + "revista" + separator + "work" + separator + numero + ".pdf";
                 OutputStream output = new FileOutputStream(numeroPDF);
                 MergePDF.concatPDFs(pdfs, output, true);
+                borrarFicherosDinamicos(rutaRaiz + "WEB-INF" + separator + "numeros" + separator);
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(MergePDF.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -140,11 +141,11 @@ public class MergePDF {
                 InputStream pdf = iteratorPDFs.next();
                 PdfReader pdfReader = new PdfReader(pdf);
                 readers.add(pdfReader);
-                
+
             }
             //Se calculan el numero total de articulos
-            totalPages = pdfs.size()- 4;
-            
+            totalPages = pdfs.size() - 4;
+
             // Create a writer for the outputstream
             PdfWriter writer = PdfWriter.getInstance(document, outputStream);
 
@@ -163,14 +164,14 @@ public class MergePDF {
             while (iteratorPDFReader.hasNext()) {
                 PdfReader pdfReader = iteratorPDFReader.next();
 
-                if(currentPageNumber != 0 && currentPageNumber != 1 && currentPageNumber != 2
-                        && numPage != totalPages){
+                if (currentPageNumber != 0 && currentPageNumber != 1 && currentPageNumber != 2
+                        && numPage != totalPages) {
                     paginate = true;
                     numPage++;
-                }else{
+                } else {
                     paginate = false;
                 }
-                
+
                 // Create a new page in the target for each source page.
                 while (pageOfCurrentReaderPDF < pdfReader.getNumberOfPages()) {
                     document.newPage();
@@ -209,6 +210,29 @@ public class MergePDF {
             } catch (IOException ioe) {
                 ioe.printStackTrace();
             }
+        }
+    }
+
+    private static void borrarFicherosDinamicos(String rutaNumeros) {
+        //Participantes
+        String ruta_participantes = rutaNumeros + "participantes.pdf";
+        File participantes = new File(ruta_participantes);
+        if (participantes.exists()) {
+            participantes.delete();
+        }
+
+        //Indice
+        String ruta_indice = rutaNumeros + "indice.pdf";
+        File indice = new File(ruta_indice);
+        if (indice.exists()) {
+            indice.delete();
+        }
+
+        //Entrevista
+        String ruta_entrevista = rutaNumeros + "entrevista.pdf";
+        File entrevista = new File(ruta_entrevista);
+        if (entrevista.exists()) {
+            entrevista.delete();
         }
     }
 }

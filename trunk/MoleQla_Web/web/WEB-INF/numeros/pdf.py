@@ -35,7 +35,8 @@ else:
             i = i + 1
 
    #Se crea la entrevista
-    open(rutaEntrevista+'/entrevista.pdf', 'wb').write(base64.decodestring(str(entrevista[0])))
+    if entrevista[0]:
+        open(rutaEntrevista+'/entrevista.pdf', 'wb').write(base64.decodestring(str(entrevista[0])))
     cursorEntrevista.close()
 
 
