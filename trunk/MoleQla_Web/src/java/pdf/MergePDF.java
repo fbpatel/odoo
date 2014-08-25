@@ -55,6 +55,10 @@ public class MergePDF {
         String ruta_indice = rutaRaiz + "WEB-INF" + separator + "numeros" + separator + "indice.pdf";
         File indice = new File(ruta_indice);
 
+        //Entrevista
+        String ruta_entrevista = rutaRaiz + "WEB-INF" + separator + "numeros" + separator + "entrevista.pdf";
+        File entrevista = new File(ruta_entrevista);
+
         //Contraportada
         String ruta_contraportada = rutaRaiz + "WEB-INF" + separator + "numeros" + separator + "contraportada.pdf";
         File contraportada = new File(ruta_contraportada);
@@ -71,6 +75,11 @@ public class MergePDF {
 
             //Se añade el indice
             pdfs.add(new FileInputStream(indice.getPath()));
+
+            if (entrevista.exists()) {
+                //Se añade la entrevista si existe
+                pdfs.add(new FileInputStream(entrevista.getPath()));
+            }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(MergePDF.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -131,10 +140,10 @@ public class MergePDF {
                 InputStream pdf = iteratorPDFs.next();
                 PdfReader pdfReader = new PdfReader(pdf);
                 readers.add(pdfReader);
-                totalPages += pdfReader.getNumberOfPages();
+                
             }
-            //Se le restan las pagians de portada, participantes, indice y contraportada
-            totalPages -= 4;
+            //Se calculan el numero total de articulos
+            totalPages = pdfs.size()- 4;
             
             // Create a writer for the outputstream
             PdfWriter writer = PdfWriter.getInstance(document, outputStream);
@@ -149,11 +158,19 @@ public class MergePDF {
             int currentPageNumber = 0;
             int pageOfCurrentReaderPDF = 0;
             Iterator<PdfReader> iteratorPDFReader = readers.iterator();
-
+            int numPage = 0;
             // Loop through the PDF files and add to the output.
             while (iteratorPDFReader.hasNext()) {
                 PdfReader pdfReader = iteratorPDFReader.next();
 
+                if(currentPageNumber != 0 && currentPageNumber != 1 && currentPageNumber != 2
+                        && numPage != totalPages){
+                    paginate = true;
+                    numPage++;
+                }else{
+                    paginate = false;
+                }
+                
                 // Create a new page in the target for each source page.
                 while (pageOfCurrentReaderPDF < pdfReader.getNumberOfPages()) {
                     document.newPage();
@@ -164,18 +181,15 @@ public class MergePDF {
                     cb.addTemplate(page, 0, 0);
 
                     // Code for pagination.
-                    if (currentPageNumber != 1 && currentPageNumber != 2 && currentPageNumber != 3 &&
-                            currentPageNumber != totalPages+1) {
-                        if (paginate) {
-                            currentPageNumber = currentPageNumber - (currentPageNumber -1);
-                            cb.beginText();
-                            cb.setFontAndSize(bf, 9);
-                            cb.showTextAligned(PdfContentByte.ALIGN_CENTER, ""
-                                    + currentPageNumber + " de " + totalPages, 520,
-                                    5, 0);
-                            cb.endText();
-                        }
+                    if (paginate) {
+                        cb.beginText();
+                        cb.setFontAndSize(bf, 9);
+                        cb.showTextAligned(PdfContentByte.ALIGN_CENTER, ""
+                                + numPage + " de " + totalPages, 520,
+                                5, 0);
+                        cb.endText();
                     }
+
                 }
                 pageOfCurrentReaderPDF = 0;
             }

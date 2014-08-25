@@ -50,8 +50,8 @@ $pdf->SetPrintHeader(false);
 $pdf->SetPrintFooter(false);
 
 //Margin
-$pdf->SetLeftMargin(5);
-$pdf->SetRightMargin(5);
+$pdf->SetLeftMargin(20);
+$pdf->SetRightMargin(20);
 
 // Anadir pagina
 $pdf->AddPage();

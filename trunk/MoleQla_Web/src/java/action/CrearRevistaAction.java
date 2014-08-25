@@ -108,9 +108,11 @@ public class CrearRevistaAction extends org.apache.struts.action.Action {
 
         String fichero = rutaWEBINF + separator + "numeros" + separator + "pdf.py";
         String rutaDestino = rutaWEBINF + separator + "numeros" + separator + "all";
-        String[] cmd = new String[2];
+        String rutaEntrevista = rutaWEBINF + separator + "numeros";
+        String[] cmd = new String[3];
         cmd[0] = fichero;
         cmd[1] = rutaDestino;
+        cmd[2] = rutaEntrevista;
 
         Process f;
         try {
