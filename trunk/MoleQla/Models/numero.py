@@ -33,6 +33,8 @@ class numero(osv.osv):
                   'numero': _getUlt
                   }
     
+    _order = 'state desc, id desc'
+    
     def create(self, cr, uid, vals, context=None):
         numero_obj = self.pool.get('numero')
         numeros_start = numero_obj.search(cr, 1, [('state', '=', 'start')])
@@ -143,6 +145,7 @@ class numero(osv.osv):
     def close(self, cr, uid, ids, context=None):
         obj_votacion = self.pool.get('votacion')
         obj_articulo = self.pool.get('articulo')
+        
         votaciones_id = obj_votacion.search(cr, 1, [('numero_id', '=', ids[0]), ('state', '=', 'send')])
         puntos_div = {}
         puntos_inv = {}
@@ -177,7 +180,12 @@ class numero(osv.osv):
         for i in range(len(puntos_inv)):
             if puntos_inv[i][1] > maximo_inv:
                 maximo_inv = puntos_inv[i][1]
-                maximo_inv_id = puntos_inv[i][0]          
+                maximo_inv_id = puntos_inv[i][0] 
+                        
+        votaciones_id_vacias = obj_votacion.search(cr, 1, [('numero_id', '=', ids[0]), ('state', '=', 'start')])
+         
+        for votaciones in votaciones_id_vacias:
+            obj_votacion.write(cr, uid, votaciones, { 'state' : 'send'})     
             
         try:   
             obj_articulo.write(cr, uid, maximo_div_id, { 'premiado' : 'TRUE'})  
