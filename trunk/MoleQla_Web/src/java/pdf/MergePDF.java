@@ -50,7 +50,7 @@ public class MergePDF {
         //Participantes
         String ruta_participantes = rutaRaiz + "WEB-INF" + separator + "numeros" + separator + "participantes.pdf";
         File participantes = new File(ruta_participantes);
-        
+
         //Indice
         String ruta_indice = rutaRaiz + "WEB-INF" + separator + "numeros" + separator + "indice.pdf";
         File indice = new File(ruta_indice);
@@ -68,7 +68,7 @@ public class MergePDF {
 
             //Se añade el fichero de las personas participantes
             pdfs.add(new FileInputStream(participantes.getPath()));
-            
+
             //Se añade el indice
             pdfs.add(new FileInputStream(indice.getPath()));
         } catch (FileNotFoundException ex) {
@@ -89,7 +89,7 @@ public class MergePDF {
                     //cadena.substring(0, cadena.length()-1); 
                     String uu1 = u1.getName().substring(0, u1.getName().length() - 4);
                     String uu2 = u2.getName().substring(0, u2.getName().length() - 4);
-                    
+
                     return uu1.compareTo(uu2);//de menor a mayor
                     //return uu2.compareTo(uu1);//de mayor a menor
                 }
@@ -100,7 +100,6 @@ public class MergePDF {
                 for (File fichero : listaAllArticulos) {
                     pdfs.add(new FileInputStream(fichero.getPath()));
                 }
-                
 
                 //Se añade la contraportada
                 pdfs.add(new FileInputStream(contraportada.getPath()));
@@ -134,6 +133,9 @@ public class MergePDF {
                 readers.add(pdfReader);
                 totalPages += pdfReader.getNumberOfPages();
             }
+            //Se le restan las pagians de portada, participantes, indice y contraportada
+            totalPages -= 4;
+            
             // Create a writer for the outputstream
             PdfWriter writer = PdfWriter.getInstance(document, outputStream);
 
@@ -162,13 +164,17 @@ public class MergePDF {
                     cb.addTemplate(page, 0, 0);
 
                     // Code for pagination.
-                    if (paginate) {
-                        cb.beginText();
-                        cb.setFontAndSize(bf, 9);
-                        cb.showTextAligned(PdfContentByte.ALIGN_CENTER, ""
-                                + currentPageNumber + " de " + totalPages, 520,
-                                5, 0);
-                        cb.endText();
+                    if (currentPageNumber != 1 && currentPageNumber != 2 && currentPageNumber != 3 &&
+                            currentPageNumber != totalPages+1) {
+                        if (paginate) {
+                            currentPageNumber = currentPageNumber - (currentPageNumber -1);
+                            cb.beginText();
+                            cb.setFontAndSize(bf, 9);
+                            cb.showTextAligned(PdfContentByte.ALIGN_CENTER, ""
+                                    + currentPageNumber + " de " + totalPages, 520,
+                                    5, 0);
+                            cb.endText();
+                        }
                     }
                 }
                 pageOfCurrentReaderPDF = 0;
