@@ -30,6 +30,8 @@ class maquetacion(osv.osv):
                   'filenameArt': 'articulo.pdf'
                   }
     
+    _order = 'state desc, id desc'
+    
     def name_get(self, cr, uid, ids, context=None):
         
         if context is None:
