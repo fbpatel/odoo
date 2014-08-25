@@ -18,6 +18,9 @@ class destaque_articulos(osv.osv):
     _defaults = {
         'state' : 'start'
                  }
+    
+    _order = 'state desc, id desc'
+    
     def name_get(self, cr, uid, ids, context=None):
         
         if context is None:
