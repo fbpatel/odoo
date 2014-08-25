@@ -11,11 +11,11 @@ conn_string = "host='localhost' dbname='moleqla' user='openuser' password='opene
 conn = psycopg2.connect(conn_string)
 
 cursor = conn.cursor()
-cursor.execute("SELECT archivo FROM articulo A WHERE (SELECT state FROM numero N WHERE N.id = A.numero_id) = 'a_publicar'")
+cursor.execute("SELECT A.archivo FROM articulo A WHERE (SELECT state FROM numero N WHERE N.id = A.numero_id) = 'a_publicar' ORDER BY A.seccion_id")
 archivos = cursor.fetchall()
 
 cursorN = conn.cursor()
-cursorN.execute("SELECT numero_id FROM articulo A WHERE (SELECT state FROM numero N WHERE N.id = A.numero_id) = 'a_publicar'")
+cursorN.execute("SELECT numero_id FROM articulo A WHERE (SELECT state FROM numero N WHERE N.id = A.numero_id) = 'a_publicar' ORDER BY A.seccion_id")
 numeros = cursorN.fetchall()
 
 #Si no hay ningun numero nuevo se devulve false

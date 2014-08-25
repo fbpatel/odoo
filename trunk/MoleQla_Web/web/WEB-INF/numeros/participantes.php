@@ -45,6 +45,14 @@ $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, "UTF-8",
 //Font
 $pdf->SetFont('times', '', 11);
 
+//Linea header and footer
+$pdf->SetPrintHeader(false);
+$pdf->SetPrintFooter(false);
+
+//Margin
+$pdf->SetLeftMargin(5);
+$pdf->SetRightMargin(5);
+
 // Anadir pagina
 $pdf->AddPage();
 
@@ -98,14 +106,14 @@ $html .= "
 <p><b>Responsables de las secciones que aparecen en este número</b></p>";
 
 
-$html .= "<ul>";
+$html .= "<dl>";
 while ($row = pg_fetch_row($resultEditores)) {
   $editor = $row[0];
   $seccion = $row[1];
 
-	$html .= "<li><b><i>MoleQla $seccion: </i></b>$editor</li>";
+	$html .= "<dd><b><i>MoleQla $seccion: </i></b>$editor</dd>";
 }
-$html .= "</ul>";
+$html .= "</dl>";
 
 $html .= "<p></p>";
 
@@ -114,14 +122,14 @@ $html .= "<p></p>";
 $html .= "
 <p><b>Responsables de maquetación de las secciones que aparecen en este número</b></p>";
 
-$html .= "<ul>";
+$html .= "<dl>";
 while ($row = pg_fetch_row($resultMaquetadores)) {
   $maquetador = $row[0];
   $seccion = $row[1];
 
-	$html .= "<li><b><i>MoleQla $seccion: </i></b>$maquetador</li>";
+	$html .= "<dd><b><i>MoleQla $seccion: </i></b>$maquetador</dd>";
 }
-$html .= "</ul>";
+$html .= "</dl>";
 
 $html .= "<p></p>";
 

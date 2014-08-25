@@ -67,6 +67,9 @@ public class CrearRevistaAction extends org.apache.struts.action.Action {
             String separator = OS.getDirectorySeparator();
             String rutaNumeros = rutaWEBINF + separator + "numeros";
             crearFicheroParticipantes(rutaWEBINF, rutaNumeros);
+            
+            //Se crea el indice
+            crearIndice(rutaWEBINF, rutaNumeros);
 
             //Se crea el numero con todos los pdfs creados anteriormente
             String rutaRaiz = formBean.getRutaRaiz();
@@ -148,9 +151,35 @@ public class CrearRevistaAction extends org.apache.struts.action.Action {
         String separator = OS.getDirectorySeparator();
         String res = "";
         String fichero = Constantes.getRUTA_EJECUTABLE_PHP5() + " " + rutaWEBINF + separator + "numeros" + separator + "participantes.php" + " " + rutaNumeros;
-        String[] cmd = new String[2];
-        cmd[0] = fichero;
-        cmd[1] = rutaNumeros;
+
+        Process f;
+        try {
+            f = Runtime.getRuntime().exec(fichero);
+            try {
+                f.waitFor();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(CrearRevistaAction.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            // retrieve output from python script
+            BufferedReader bfr = new BufferedReader(new InputStreamReader(f.getInputStream()));
+            String line = "", numero = "";
+            while ((line = bfr.readLine()) != null) {
+                numero = line;
+                System.out.println("Fichero participantes creado " + line);
+            }
+            res = numero;
+        } catch (IOException ex) {
+            Logger.getLogger(CrearRevistaAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return res;
+    }
+
+    private String crearIndice(String rutaWEBINF, String rutaNumeros) {
+        String separator = OS.getDirectorySeparator();
+        String res = "";
+        String fichero = Constantes.getRUTA_EJECUTABLE_PHP5() + " " + rutaWEBINF + separator + "numeros" + separator + "indice.php" + " " + rutaNumeros;
 
         Process f;
         try {

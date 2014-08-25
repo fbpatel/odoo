@@ -50,6 +50,10 @@ public class MergePDF {
         //Participantes
         String ruta_participantes = rutaRaiz + "WEB-INF" + separator + "numeros" + separator + "participantes.pdf";
         File participantes = new File(ruta_participantes);
+        
+        //Indice
+        String ruta_indice = rutaRaiz + "WEB-INF" + separator + "numeros" + separator + "indice.pdf";
+        File indice = new File(ruta_indice);
 
         //Contraportada
         String ruta_contraportada = rutaRaiz + "WEB-INF" + separator + "numeros" + separator + "contraportada.pdf";
@@ -64,6 +68,9 @@ public class MergePDF {
 
             //Se añade el fichero de las personas participantes
             pdfs.add(new FileInputStream(participantes.getPath()));
+            
+            //Se añade el indice
+            pdfs.add(new FileInputStream(indice.getPath()));
         } catch (FileNotFoundException ex) {
             Logger.getLogger(MergePDF.class.getName()).log(Level.SEVERE, null, ex);
         }
