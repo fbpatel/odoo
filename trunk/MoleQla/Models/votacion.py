@@ -8,7 +8,7 @@ class votacion(osv.osv):
     _description = "Votacion"
     
     _columns = {    
-        'numero_id' : fields.many2one('numero','Número'),  
+        'numero_id' : fields.many2one('numero','Número',readonly=True),  
         'user_id': fields.integer('Usuario'),
         'lineas_votacion_inv': fields.one2many('linea_votacion', 'votacion_inv_id','Artículos'), 
         'lineas_votacion_div': fields.one2many('linea_votacion', 'votacion_div_id','Artículos'),
@@ -18,6 +18,9 @@ class votacion(osv.osv):
     _defaults = {
         'state' : 'start'
                  }
+    
+    _order = 'state desc, id desc'
+    
     def name_get(self, cr, uid, ids, context=None):
         
         if context is None:
