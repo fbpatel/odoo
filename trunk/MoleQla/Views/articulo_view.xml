@@ -40,7 +40,8 @@
 							<field name="archivo" filename="filename"
 								attrs="{'readonly':['|','|','|',('state','=','send'),('state','=','editing'),('state','=','published'),('state','=','impress')]}" />
 							
-							<field name="archivo_diff" filename="filenameDiff" attrs="{'invisible':[('state','!=','cancel')]}"></field>
+							<field name="archivo_diff" filename="filenameDiff" attrs="{'invisible':['|','|','|','|',('state','=','start'),('state','=','send'),('state','=','editing'),('state','=','published'),('state','=','impress')],
+							'required':['|',('state','=','cancel'),('state','=','cancel_m')]}"></field>
 
 						</group>
 						<notebook colspan="4">
