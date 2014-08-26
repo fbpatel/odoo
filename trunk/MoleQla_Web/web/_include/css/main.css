@@ -1052,6 +1052,146 @@ nav#menu #menu-nav li a:hover {
     color: #FFFFFF;
 }
 
+/*-------- Accion Sincronizar --------*/
+#accion-sincronizar {
+	margin-bottom: 0;	
+}
+
+#accion-sincronizar p {
+	margin-bottom: 1px;	
+}
+
+#accion-sincronizar input,
+#accion-sincronizar textarea {
+    border: none;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+    border-radius: 0;
+	
+    -webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+	
+	background: #26292E;
+    color: #FFFFFF;
+    font-size: 16px;
+    height: auto;
+    padding: 15px;
+	margin: 0;
+	
+    resize: none;
+}
+
+#accion-sincronizar input {
+    width: 100%;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+#accion-sincronizar textarea {
+    width: 100%;
+	resize: vertical;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+#accion-sincronizar .submit {
+    background: #3C3F45;
+    color: #23262C;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 16px 40px;
+    text-align: center;
+    vertical-align: middle;
+    width: auto;
+	margin-top: 30px;
+	
+	-webkit-transition: background 0.1s linear 0s, color 0.1s linear 0s;	
+	   -moz-transition: background 0.1s linear 0s, color 0.1s linear 0s;
+		 -o-transition: background 0.1s linear 0s, color 0.1s linear 0s;
+		    transition: background 0.1s linear 0s, color 0.1s linear 0s;
+}
+
+#accion-sincronizar .submit:hover {
+    background: #DE5E60;
+    color: #FFFFFF;
+}
+
+
+/*-------- Accion Crear Revista--------*/
+#accion-crear {
+	margin-bottom: 0;	
+}
+
+#accion-crear p {
+	margin-bottom: 1px;	
+}
+
+#accion-crear input,
+#accion-crear textarea {
+    border: none;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+    border-radius: 0;
+	
+    -webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+	
+	background: #26292E;
+    color: #FFFFFF;
+    font-size: 16px;
+    height: auto;
+    padding: 15px;
+	margin: 0;
+	
+    resize: none;
+}
+
+#accion-crear input {
+    width: 100%;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+#accion-crear textarea {
+    width: 100%;
+	resize: vertical;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+#accion-crear .submit {
+    background: #3C3F45;
+    color: #23262C;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 16px 40px;
+    text-align: center;
+    vertical-align: middle;
+    width: auto;
+	margin-top: 30px;
+	
+	-webkit-transition: background 0.1s linear 0s, color 0.1s linear 0s;	
+	   -moz-transition: background 0.1s linear 0s, color 0.1s linear 0s;
+		 -o-transition: background 0.1s linear 0s, color 0.1s linear 0s;
+		    transition: background 0.1s linear 0s, color 0.1s linear 0s;
+}
+
+#accion-crear .submit:hover {
+    background: #DE5E60;
+    color: #FFFFFF;
+}
+
+
 /* ----- Form login --------*/
 #contact-login {
 	margin-bottom: 0;	

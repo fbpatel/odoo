@@ -30,6 +30,9 @@
         
         <!-- Bean Contact -->
         <form-bean name="ContactActionForm" type="actionForm.ContactActionForm"/>
+        
+        <!-- Bean Acciones -->
+        <form-bean name="AccionesActionForm" type="actionForm.AccionesActionForm"/>
     </form-beans>
     
     <global-exceptions>
@@ -67,16 +70,23 @@
         
         <!-- Crear revista -->
         <action input="/WEB-INF/superuser/crearRevista.jsp" name="CrearRevistaActionForm" path="/crearRevista" scope="request" type="action.CrearRevistaAction" validate="false">
-            <forward name="success" path="/WEB-INF/superuser/acciones.jsp"/>
+            <forward name="success" path="/WEB-INF/superuser/crearRevista.jsp"/>
+            <forward name="failure" path="/WEB-INF/superuser/crearRevista.jsp"/>
+            <forward name="cancel" path="/WEB-INF/superuser/crearRevista.jsp"/>
+        </action> 
+               
+        <!-- Acciones Admin -->
+        <action path="/acciones" name="AccionesActionForm" scope="request" type="action.AccionesAction" validate="false">
+            <forward name="crear" path="/WEB-INF/superuser/crearRevista.jsp"/>
+            <forward name="sincronizar" path="/WEB-INF/superuser/sincronizeUser.jsp"/>
             <forward name="failure" path="/WEB-INF/superuser/acciones.jsp"/>
-            <forward name="cancel" path="/WEB-INF/superuser/acciones.jsp"/>
         </action>
         
         <!-- Sincronize fotos -->
         <action input="/WEB-INF/superuser/sincronizeUser.jsp" name="SincronizeUserActionForm" path="/sincronizeUser" scope="request" type="action.SincronizeUserAction" validate="false">
-            <forward name="success" path="/WEB-INF/superuser/acciones.jsp"/>
-            <forward name="failure" path="/WEB-INF/superuser/acciones.jsp"/>
-            <forward name="cancel" path="/WEB-INF/superuser/acciones.jsp"/>
+            <forward name="success" path="/WEB-INF/superuser/sincronizeUser.jsp"/>
+            <forward name="failure" path="/WEB-INF/superuser/sincronizeUser.jsp"/>
+            <forward name="cancel" path="/WEB-INF/superuser/sincronizeUser.jsp"/>
         </action>
         
         <!-- Registrar Autor -->       

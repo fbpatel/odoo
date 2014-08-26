@@ -15,11 +15,11 @@
 <!--[if gt IE 8]><!--> 
 <html lang="en-US"> <!--<![endif]-->
     <head>
-        <%@include file="head.html" %>
+        <%@include file="headAcciones.html" %>
     </head>
     <body>
         <header>
-            <%@include file="headerRevista.jsp" %>
+            <%@include file="headerAcciones.jsp" %>
         </header>
         <div id="contact" class="page">
             <div class="container">
@@ -32,11 +32,17 @@
                 <!-- Contact Form -->
                 <div class="row">
                     <div class="span9">
-
-                        <jsp:include page="crearRevista.jsp"/>
-                        <jsp:include page="sincronizeUser.jsp" />
-
-
+                        <html:form styleId="accion-crear" action="/acciones">
+                            <p><bean:write name="AccionesActionForm" property="errorMsg" filter="false"/></p>
+                            <html:submit value="Sincronizar los numeros" styleClass="submit"/>
+                            <html:hidden value="crearRevista" property="opcion" />
+                        </html:form>
+                            
+                        <html:form styleId="accion-sincronizar" action="/acciones">
+                            <p><bean:write name="AccionesActionForm" property="errorMsg" filter="false"/></p>
+                            <html:submit value="Sincronizar los usuarios" styleClass="submit"/> 
+                            <html:hidden value="sincronizar" property="opcion" />
+                        </html:form>
                     </div>
 
                 </div>
