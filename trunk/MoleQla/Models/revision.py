@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 from openerp.osv import fields, osv
+from openerp.tools.translate import _
 
 class revision(osv.osv):
     
@@ -105,34 +106,37 @@ class revision(osv.osv):
         
     def rechazar(self, cr, uid, ids, context=None):
         revision = self.browse(cr, uid, ids, context)
-        self.write(cr, uid, ids, { 'state' : 'cancel' })
-        articulo_obj = self.pool.get('articulo') 
-        articulo_id = articulo_obj.search(cr, uid, [('revision_id', '=', revision.id)])
-        articulo = articulo_obj.browse(cr, uid, articulo_id, context)
-        
-        vals = {'seccion_id':revision.seccion_id.id,
-                'archivo':articulo.archivo,'filename':articulo.filename,'nombre':articulo.nombre,
-                'tipo_articulo':articulo.tipo_articulo,'tipo_autor':articulo.tipo_autor,
-                'palabras_clave':articulo.palabras_clave,'user_id':1,'old_revision_id':revision.id}
-        articulo_obj.create(cr, 1, vals, context=None)
-        articulo_obj.write(cr, 1, revision.articulo_id.id, { 'state' : 'cancel' })
-        
-        #2. Mediante el articulo
-        autor_user_obj = self.pool.get('res.users')
-        autor_user = autor_user_obj.browse(cr, uid, revision.articulo_id.user_id, context)
-        email_autor = autor_user.login
-        estado = "rechazado por el editor de seccion"
-        
-        # Asunto y texto del email
-        asunto = "Articulo " + revision.articulo_id.nombre
-        texto = "Su articulo ha cambiado su estado a <b>" + estado + "</b>. En breve recibira mas noticias sobre su estado."
-        
-        # Se envia el correo
-        correo_obj = self.pool.get('correo') 
-        try:       
-            correo_obj.mail(cr, 1, email_autor, asunto, texto) 
-        except:
-            print "ERROR: No ha sido posible enviar el correo a"+email_autor 
+        if revision.observaciones == None:
+            raise osv.except_osv(_('Warning!'), _("Es necesario añadir un archivo con las observaciones para rechazar el articulo."))
+        else:
+            self.write(cr, uid, ids, { 'state' : 'cancel' })
+            articulo_obj = self.pool.get('articulo') 
+            articulo_id = articulo_obj.search(cr, uid, [('revision_id', '=', revision.id)])
+            articulo = articulo_obj.browse(cr, uid, articulo_id, context)
+            
+            vals = {'seccion_id':revision.seccion_id.id,
+                    'archivo':articulo.archivo,'filename':articulo.filename,'nombre':articulo.nombre,
+                    'tipo_articulo':articulo.tipo_articulo,'tipo_autor':articulo.tipo_autor,
+                    'palabras_clave':articulo.palabras_clave,'user_id':1,'old_revision_id':revision.id}
+            articulo_obj.create(cr, 1, vals, context=None)
+            articulo_obj.write(cr, 1, revision.articulo_id.id, { 'state' : 'cancel' })
+            
+            #2. Mediante el articulo
+            autor_user_obj = self.pool.get('res.users')
+            autor_user = autor_user_obj.browse(cr, uid, revision.articulo_id.user_id, context)
+            email_autor = autor_user.login
+            estado = "rechazado por el editor de seccion"
+            
+            # Asunto y texto del email
+            asunto = "Articulo " + revision.articulo_id.nombre
+            texto = "Su articulo ha cambiado su estado a <b>" + estado + "</b>. En breve recibira mas noticias sobre su estado."
+            
+            # Se envia el correo
+            correo_obj = self.pool.get('correo') 
+            try:       
+                correo_obj.mail(cr, 1, email_autor, asunto, texto) 
+            except:
+                print "ERROR: No ha sido posible enviar el correo a"+email_autor 
         
     
     
