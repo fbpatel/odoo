@@ -25,6 +25,7 @@
 									<field name="articulo_tipoArticulo" />
 									<field name="articulo_tipoAutor" />
 									<field name="articulo_archivo" filename="filenameArt" />
+									<field name="articulo_archivoDiff_m" filename="filenameDiff" attrs="{'invisible':[('articulo_archivoDiff_m','=',False)]}"/>
 								</group>
 							</page>
 						</notebook>
