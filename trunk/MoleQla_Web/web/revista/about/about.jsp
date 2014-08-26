@@ -20,6 +20,7 @@
     <body>
         <%
 
+            List<User> listaDatosUserEditorJefe = (List<User>) request.getAttribute("listaDatosUserEditorJefe");
             List<User> listaDatosUserEditor = (List<User>) request.getAttribute("listaDatosUserEditor");
             List<User> listaDatosUserMaquetador = (List<User>) request.getAttribute("listaDatosUserMaquetador");
             String nameServer = request.getContextPath();
@@ -42,6 +43,27 @@
                 <!-- Comienzo de la galeria de user -->
 
                 <div class="row">
+                    <!-- Editores Jefe -->
+                    <% for (int i = 0; i < listaDatosUserEditorJefe.size(); i++) {%>
+                    <!-- Start Profile -->
+                    <div class="span4 profile">
+                        <div class="image-wrap">
+                            <div class="hover-wrap">
+                                <span class="overlay-img"></span>
+                                <span class="overlay-text-thumb">Editor Jefe</span>
+                            </div>
+                            <img src="<%=nameServer + "/revista/about/fotos/" + listaDatosUserEditorJefe.get(i).getFoto().getName()%>" alt="<%=listaDatosUserEditorJefe.get(i).getNombre()%>"
+                                 style="width: 370px !important; height: 270px !important">
+                        </div>
+                        <h3 class="profile-name"><%=listaDatosUserEditorJefe.get(i).getNombre()%></h3>
+                        <p class="profile-description"><%=listaDatosUserEditorJefe.get(i).getDescripcion()%></p>
+
+                    </div>
+                    <!-- End Profile -->  
+                    <% }%>
+                </div>
+
+                <div class="row">
                     <!-- Editores -->
                     <% for (int i = 0; i < listaDatosUserEditor.size(); i++) {%>
                     <!-- Start Profile -->
@@ -60,8 +82,9 @@
                     </div>
                     <!-- End Profile -->  
                     <% }%>
-                    
-                    
+                </div>
+
+                <div class="row">
                     <!-- Maquetadores -->
                     <% for (int i = 0; i < listaDatosUserMaquetador.size(); i++) {%>
                     <!-- Start Profile -->
@@ -83,6 +106,7 @@
                 </div>
             </div>
         </div>
+    </div>
 
-    </body>
+</body>
 </html>

@@ -76,14 +76,44 @@ public class SincronizeUserAction extends org.apache.struts.action.Action {
             guardaCopiaSeguridad(rutaRaiz);
 
             //Ahora creamos las fotos
+            consultaFotosEditoresJefe(rutaRaiz);
             consultaFotosEditores(rutaRaiz);
             consultaFotosMaquetadores(rutaRaiz);
-            
+
             //Copiar las fotos a /revista/about/fotos
             copiarFotos(rutaRaiz);
 
             formBean.setMsg(Constantes.getCREACION_NUMERO_OK());
             return mapping.findForward(SUCCESS);
+        }
+    }
+    
+        private void consultaFotosEditoresJefe(String rutaRaiz) {
+        String separator = OS.getDirectorySeparator();
+
+        String fichero = rutaRaiz + "WEB-INF" + separator + "about" + separator + "aboutJ.py";
+        String rutaDestino = rutaRaiz + "WEB-INF" + separator + "about" + separator + "fotos";
+        String[] cmd = new String[2];
+        cmd[0] = fichero;
+        cmd[1] = rutaDestino;
+
+        Process f;
+        try {
+            f = Runtime.getRuntime().exec(cmd);
+            try {
+                f.waitFor();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(SincronizeUserAction.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            // retrieve output from python script
+            BufferedReader bfr = new BufferedReader(new InputStreamReader(f.getInputStream()));
+            String line;
+            while ((line = bfr.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(SincronizeUserAction.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -116,7 +146,7 @@ public class SincronizeUserAction extends org.apache.struts.action.Action {
         }
 
     }
-    
+
     private void consultaFotosEditores(String rutaRaiz) throws SQLException {
         String separator = OS.getDirectorySeparator();
 
@@ -199,20 +229,21 @@ public class SincronizeUserAction extends org.apache.struts.action.Action {
         String separator = OS.getDirectorySeparator();
         String rutaOrigen = rutaRaiz + "WEB-INF" + separator + "about" + separator + "fotos";
         String rutaDestino = rutaRaiz + "revista" + separator + "about" + separator + "fotos";
-        
+
         //Primero se borran todas las fotos que haya en la carpeta, para luego añadir las nuevas
         File dest = new File(rutaDestino);
-        BorrarDirectorio.borrarDirectorio(dest);       
+        BorrarDirectorio.borrarDirectorio(dest);
         dest.mkdir();
-        
-        
+
         //Si no hay ninguna imagen en la BD al sincronizar, se eliminaran todas las fotos
         File dir_origen = new File(rutaOrigen);
-        File[]ficheros = dir_origen.listFiles();        
-        
+        File[] ficheros = dir_origen.listFiles();
+
         for (File fichero : ficheros) {
             File copiaFoto = new File(rutaDestino + separator + fichero.getName());
             FileCopy(fichero.getPath(), copiaFoto.getPath());
         }
     }
+
+
 }

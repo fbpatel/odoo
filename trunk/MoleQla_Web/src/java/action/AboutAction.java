@@ -69,6 +69,10 @@ public class AboutAction extends org.apache.struts.action.Action {
         AboutActionForm formBean = (AboutActionForm) form;
         String rutaRaiz = request.getServletContext().getRealPath("/");
 
+        List<User> listaDatosUserEditorJefe = consultaDatosUserEditorJefe(rutaRaiz);
+        formBean.setListaUsuariosEditorJefe(listaDatosUserEditorJefe);
+        request.setAttribute("listaDatosUserEditorJefe", listaDatosUserEditorJefe);
+        
         List<User> listaDatosUserEditor = consultaDatosUserEditor(rutaRaiz);
         formBean.setListaUsuariosEditor(listaDatosUserEditor);
         request.setAttribute("listaDatosUserEditor", listaDatosUserEditor);
@@ -80,6 +84,45 @@ public class AboutAction extends org.apache.struts.action.Action {
         return mapping.findForward(SUCCESS);
     }
 
+        private List<User> consultaDatosUserEditorJefe(String rutaRaiz) {
+        List<User> listaUsuarios = new ArrayList();
+        String separator = OS.getDirectorySeparator();
+        String ruta_fotos = rutaRaiz + separator + "WEB-INF" + separator + "about"
+                + separator + "fotos";
+
+        try (Connection connection = ConnectionPSQL.connection()) {
+            ResultSet rs = connection.createStatement().executeQuery(
+                    "SELECT rp.id, rp.display_name FROM res_partner rp WHERE rp.id IN( SELECT ru.partner_id FROM res_users ru  WHERE ru.id IN ( SELECT rg.uid FROM res_groups_users_rel rg  WHERE rg.gid IN ( SELECT g.id FROM res_groups g WHERE g.name = 'Editor Jefe' )AND rg.uid <> 1))");
+
+            int id = 0;
+            String nombre = "", descripcion = "";
+            if (rs != null) {
+
+                while (rs.next()) {
+                    id = rs.getInt(1);
+                    nombre = rs.getString(2);
+                    descripcion = "Editor Jefe de la revista MoleQla";
+
+                    File foto = new File(ruta_fotos + separator + id + ".jpg");
+                    if (foto.exists()) {
+                        User us = new User();
+                        us.setId(id);
+                        us.setNombre(nombre);
+                        us.setDescripcion(descripcion);
+                        us.setFoto(foto);
+
+                        listaUsuarios.add(us);
+                    }
+                }
+                rs.close();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AboutAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return listaUsuarios;
+    }
+    
     private List<User> consultaDatosUserMaquetador(String rutaRaiz) {
         List<User> listaUsuarios = new ArrayList();
         String separator = OS.getDirectorySeparator();
