@@ -58,7 +58,8 @@ class articulo(osv.osv):
         'tipo_autor_interno':fields.selection([('libre', 'Libre'), ('asignatura', 'Asignatura')],'Tipo de Autor Interno'),
         'mostrar_tipo_autor_interno' : fields.boolean("Muestra tipo autor interno"),
         'mostrar_asignatura' : fields.boolean("Muestra asignatura"),
-        'archivo_diff' : fields.binary('Archivo Diferencias', filters='*.pdf"', help="Este archivo contendrá las diferencias entre la versión antigua y la versión nuevo del artículo"),        
+        'archivo_diff' : fields.binary('Archivo Diferencias', filters='*.pdf"', help="Este archivo contendrá las diferencias entre la versión antigua y la versión nuevo del artículo"),  
+        'archivo_diff_m' : fields.binary('Archivo Diferencias', filters='*.pdf"', help="Este archivo contendrá las diferencias entre la versión antigua y la versión nuevo del artículo"),      
         'filenameDiff': fields.char('FilenameDiff'),
         'filenameObv': fields.char('FilenameObv'),
         }
