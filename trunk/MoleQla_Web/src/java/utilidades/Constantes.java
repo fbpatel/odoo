@@ -6,9 +6,7 @@
 package utilidades;
 
 import action.AboutAction;
-import action.User;
 import connection.ConnectionPSQL;
-import java.io.File;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,14 +23,17 @@ public class Constantes {
     //Contantes mensajes
     private static final String REGISTRATION_OK = "Successful registration. Sent you an email with the details of your registration MoleQla";
     private static final String CREACION_NUMERO_OK = "Successful create.";
+    private static final String EMAIL_CONTACT_OK = "The email has been sent successfully";
 
     //Constante para el error
-    private static final String ERROR_FORM = "All field are required";
+    private static final String ERROR_FORM = "All fields are required";
     private static final String ERROR_LOGIN = "User and/or password incorrect";
 
     private static final String ERROR_FORM_ADD = "Error en la inserseccion";
     private static final String ERROR_CREACION_REVISTA = "Error al crear la revista";
     private static final String ERROR_SQL = "Error: Try again";
+    private static final String ERROR_FORM_CONTACT = "All fields are required";
+    private static final String ERROR_FORM_CONTACT_EMAIL = "Error to send email";
 
     //Constante para el email
     private static final String PATTERN_EMAIL = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
@@ -41,12 +42,12 @@ public class Constantes {
     private static final String EMAIL_ERROR = "Error al enviar el correo";
     private static final String EMAIL_EXIST = "This email already exists";
 
-    private static String EMAIL_BIENVENIDA;
     private static final String EMAIL_ASUNTO = "Welcome to MoleQla";
-    private static final String EMAIL_NOTIFICA = "moleqlanotify@gmail.com";
-    private static final String EMAIL_NOTIFICA_PASS = "etwr80notifica";
     private static final String EMAIL_URL_LOGO = "http://www.upo.es/moleqla/export/system/modules/es.upo.moleqla.aquigar/resources/images/logos_seccion/logo1.jpg";
 
+    //Contactar
+    private static String EMAIL_TEXTO_CONTACT;
+    
     // Nuevo numero
     private static final String ESTADO_NUMEROS_PUBLICAR = "a_publicar";
     private static final String ERROR_CREAR_NUMERO = "ERROR: Try again";
@@ -55,6 +56,7 @@ public class Constantes {
     private static final String RUTA_EJECUTABLE_PHP5 = "/usr/bin/php5";
 
     private static String SEPARATOR;
+    
 
     public static String getERROR_LOGIN() {
         return ERROR_LOGIN;
@@ -272,5 +274,45 @@ public class Constantes {
     public static String getERROR_SQL() {
         return ERROR_SQL;
     }
+
+    /**
+     * Error para el formulario de contacto
+     * @return 
+     */
+    public static String getERROR_FORM_CONTACT() {
+        return ERROR_FORM_CONTACT;
+    }
+
+    /**
+     * Mensaje que le llegara al correo de moleqla del nuevo interesado
+     * @param emailInteresado
+     * @param texto
+     * @return 
+     */
+    public static String getEMAIL_TEXTO_CONTACT(String emailInteresado, String texto) {
+        String cad = "";
+        cad += "Se ha recibido un nuevo email de "+emailInteresado+": \n\n";
+        cad += texto;
+        
+        return cad;
+    }
+
+    /**
+     * Mensaje de error al enviar el email del interesado
+     * @return 
+     */
+    public static String getERROR_FORM_CONTACT_EMAIL() {
+        return ERROR_FORM_CONTACT_EMAIL;
+    }
+
+    /**
+     * Mensaje de ok al enviar un correo de contacto
+     * @return 
+     */
+    public static String getEMAIL_CONTACT_OK() {
+        return EMAIL_CONTACT_OK;
+    }
+    
+    
 
 }

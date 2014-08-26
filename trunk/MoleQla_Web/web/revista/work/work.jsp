@@ -25,12 +25,12 @@
                 text-align: center; 
                 color: #000;
             }
-            
+
             #projects{
                 margin-left: 5%;
                 margin-top: 10%;
             }
-            
+
         </style>
     </head>
     <body>
@@ -45,60 +45,69 @@
         <header>
             <%@include file="headerWork.jsp" %>
         </header>
+        <div class="page-alternate">
+            <div class="container">
 
-        <!-- Comienzo de la galeria de numeros -->
-        <div class="span9">
-            <div class="row">
-                <section id="projects">
-                    
-                    <%
-                        // A continuación, se va a ordenador la lista por orden de numero
-                        Collections.sort(listaNumerosPublicados, new Comparator<File>() {
-                            @Override
-                            public int compare(File u1, File u2) {
-                                //cadena.substring(0, cadena.length()-1); 
-                                Integer uu1 = Integer.parseInt(u1.getName().substring(0, u1.getName().length() - 4));
-                                Integer uu2 = Integer.parseInt(u2.getName().substring(0, u2.getName().length() - 4));
+                <div class="span12">
+                    <div class="title-page">
+                        <h2 class="title">Numeros</h2>
+                        <h3 class="title-description">En esta secci&oacute;n podr&aacute;s encontrar todos los n&uacute;meros publicados en MoleQla</h3>
+                    </div>
+                </div>
+                <!-- Comienzo de la galeria de numeros -->
+                <div class="span9">
+                    <div class="row">
+                        <section id="projects">
 
-                                //return uu1.compareTo(uu2);//de menos a mayor
-                                return uu2.compareTo(uu1);//de mayor a menor
-                            }
-                        });
+                            <%
+                                // A continuación, se va a ordenador la lista por orden de numero
+                                Collections.sort(listaNumerosPublicados, new Comparator<File>() {
+                                    @Override
+                                    public int compare(File u1, File u2) {
+                                        //cadena.substring(0, cadena.length()-1); 
+                                        Integer uu1 = Integer.parseInt(u1.getName().substring(0, u1.getName().length() - 4));
+                                        Integer uu2 = Integer.parseInt(u2.getName().substring(0, u2.getName().length() - 4));
 
-                        int i = 0, j;
+                                        //return uu1.compareTo(uu2);//de menos a mayor
+                                        return uu2.compareTo(uu1);//de mayor a menor
+                                    }
+                                });
 
-                        while (i < listaNumerosPublicados.size()) {
-                    %>            
-                    <ul id="thumbs">
-                        <%
-                            j = 0;
-                            while (j < 4 && i < listaNumerosPublicados.size()) {
-                                String name = listaNumerosPublicados.get(i).getName();
-                                String num = name.substring(0, name.length() - 4);
-                        %>
-                        <!-- Item Project and Filter Name -->                        
-                        <li class="item-thumbs span3 design">  
-                            <b>N&uacute;mero <%=num%></b>
-                            <a href="<%=nameServer + "/revista/work/" + listaNumerosPublicados.get(i).getName()%>" target="_blank">
-                                <img src="../../_include/img/pdf.jpg" width="100" height="200" title="N&uacute;mero <%=num%>"/>
-                            </a>
-                        </li>
-                        <!-- End Item Project -->
+                                int i = 0, j;
 
-                        <%
-                                i++;
-                                j++;
+                                while (i < listaNumerosPublicados.size()) {
+                            %>            
+                            <ul id="thumbs">
+                                <%
+                                    j = 0;
+                                    while (j < 4 && i < listaNumerosPublicados.size()) {
+                                        String name = listaNumerosPublicados.get(i).getName();
+                                        String num = name.substring(0, name.length() - 4);
+                                %>
+                                <!-- Item Project and Filter Name -->                        
+                                <li class="item-thumbs span3 design">  
+                                    <b style="color: white">N&uacute;mero <%=num%></b>
+                                    <a href="<%=nameServer + "/revista/work/" + listaNumerosPublicados.get(i).getName()%>" target="_blank">
+                                        <img src="../../_include/img/pdf.jpg" width="100" height="200" title="N&uacute;mero <%=num%>"/>
+                                    </a>
+                                </li>
+                                <!-- End Item Project -->
 
-                            }
-                        %>
-                    </ul>
-                    <%
-                        }
-                    %>
-                </section>
+                                <%
+                                        i++;
+                                        j++;
+
+                                    }
+                                %>
+                            </ul>
+                            <%
+                                }
+                            %>
+                        </section>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <!-- End Galeria -->
-</body>
+        <!-- End Galeria -->
+    </body>
 </html>

@@ -60,13 +60,36 @@ public class RegistroAction extends org.apache.struts.action.Action {
             String apellido2 = formBean.getApellido2();
             String email = formBean.getEmail();
 
-            if (nombre.isEmpty() || apellido1.isEmpty() || email.isEmpty()) {
+            // Se codifican las variables para que en la BD se guarden bien
+            // Nombre UTF8
+            byte pnombre[] = nombre.getBytes(ISO_8859_1);
+            String nombreUTF8 = new String(pnombre, UTF_8);
+
+            // Apellido1 UTF8
+            byte papellido1[] = apellido1.getBytes(ISO_8859_1);
+            String apellido1UTF8 = new String(papellido1, UTF_8);
+
+            // Apellido2 UTF8
+            byte papellido2[] = apellido2.getBytes(ISO_8859_1);
+            String apellido2UTF8 = new String(papellido2, UTF_8);
+            
+            //Email
+            byte pemail[] = email.getBytes(ISO_8859_1);
+            String emailUTF8 = new String(pemail, UTF_8);
+            
+            //Se ponen las mismas variables que hemos recogido pero codificadas para que en la web salgan bien
+            formBean.setNombre(nombreUTF8);
+            formBean.setApellido1(apellido1UTF8);
+            formBean.setApellido2(apellido2UTF8);
+            formBean.setEmail(emailUTF8);
+
+            if (nombreUTF8.isEmpty() || apellido1UTF8.isEmpty() || emailUTF8.isEmpty()) {
                 formBean.setErrorMsg(Constantes.getERROR_FORM());
                 return mapping.findForward(FAILURE);
-            } else if (Mail.compruebaEmail(email) == false) {
+            } else if (Mail.compruebaEmail(emailUTF8) == false) {
                 formBean.setErrorMsg(Constantes.getEMAIL_INCORRECT());
                 return mapping.findForward(FAILURE);
-            } else if (existeEmail(email)) {
+            } else if (existeEmail(emailUTF8)) {
                 formBean.setErrorMsg(Constantes.getEMAIL_EXIST());
                 return mapping.findForward(FAILURE);
             } else {
@@ -74,17 +97,6 @@ public class RegistroAction extends org.apache.struts.action.Action {
                 //String passHash = GenerarCadenaAlfanumerica.generateStorngPasswordHash(passOriginal);
 
                 try {
-                    // Nombre UTF8
-                    byte pnombre[] = nombre.getBytes(ISO_8859_1);
-                    String nombreUTF8 = new String(pnombre, UTF_8);
-
-                    // Apellido1 UTF8
-                    byte papellido1[] = apellido1.getBytes(ISO_8859_1);
-                    String apellido1UTF8 = new String(papellido1, UTF_8);
-
-                    // Apellido2 UTF8
-                    byte papellido2[] = apellido2.getBytes(ISO_8859_1);
-                    String apellido2UTF8 = new String(papellido2, UTF_8);
 
                     // Nombre + Apellidos
                     String nombreCompleto = nombreUTF8 + " " + apellido1UTF8 + " " + apellido2UTF8;
@@ -97,16 +109,16 @@ public class RegistroAction extends org.apache.struts.action.Action {
                     try (Connection connection = ConnectionPSQL.connection()) {
 
                         //Insert en la tabla res_partner
-                        insertResPartner(connection, nombreUTF8, nombreCompleto, email, fechaHora);
+                        insertResPartner(connection, nombreUTF8, nombreCompleto, emailUTF8, fechaHora);
 
                         //Update de la tabla res_partner
                         //updateResPartner(connection, email);
-                        int partner_id = consultarIdUltResPartner(email);
+                        int partner_id = consultarIdUltResPartner(emailUTF8);
                         if (partner_id > 0) {
                             //Insert en la tabla res_users
-                            insertResUser(connection, email, passOriginal, partner_id, fechaHora);
+                            insertResUser(connection, emailUTF8, passOriginal, partner_id, fechaHora);
 
-                            int user_id = consultarIdUltResUsers(email);
+                            int user_id = consultarIdUltResUsers(emailUTF8);
                             if (user_id > 0) {
                                 //Inser en la tabla res_company_users_rel
                                 insertResCompanyUsersRel(connection, user_id);
@@ -126,7 +138,7 @@ public class RegistroAction extends org.apache.struts.action.Action {
                                         + "\n-----------------\n"
                                         + Constantes.getERROR_SQL()
                                         + "\n-----------------\n"
-                                        + "Email: " + email + "\n"
+                                        + "Email: " + emailUTF8 + "\n"
                                         + "Nombre: " + nombre + "\n"
                                         + "Apellido: " + apellido1 + "\n");
                                 error = true;
@@ -137,7 +149,7 @@ public class RegistroAction extends org.apache.struts.action.Action {
                                     + "\n-----------------\n"
                                     + Constantes.getERROR_SQL()
                                     + "\n-----------------\n"
-                                    + "Email: " + email + "\n"
+                                    + "Email: " + emailUTF8 + "\n"
                                     + "Nombre: " + nombre + "\n"
                                     + "Apellido: " + apellido1 + "\n");
                             error = true;
@@ -152,8 +164,8 @@ public class RegistroAction extends org.apache.struts.action.Action {
                     }
                     formBean.setMsg(Constantes.getREGISTRATION_OK());
 
-                    String text = Constantes.getEMAIL_BIENVENIDA(email, nombreUTF8, apellido1UTF8, apellido2UTF8, passOriginal);
-                    if (MailHtml.enviarMailHtml(email, text, Constantes.getEMAIL_ASUNTO()) == false) {
+                    String text = Constantes.getEMAIL_BIENVENIDA(emailUTF8, nombreUTF8, apellido1UTF8, apellido2UTF8, passOriginal);
+                    if (MailHtml.enviarMailHtml(emailUTF8, text, Constantes.getEMAIL_ASUNTO()) == false) {
                         return mapping.findForward(FAILURE);
                     }
 
@@ -163,7 +175,7 @@ public class RegistroAction extends org.apache.struts.action.Action {
                             + "\n-----------------\n"
                             + Constantes.getERROR_SQL()
                             + "\n-----------------\n"
-                            + "Email: " + email + "\n"
+                            + "Email: " + emailUTF8 + "\n"
                             + "Nombre: " + nombre + "\n"
                             + "Apellido: " + apellido1 + "\n");
                     return mapping.findForward(FAILURE);

@@ -21,5 +21,18 @@
             <%@include file="headerInicio.jsp" %>
         </header>
 
+        <div id="inicio" class="page-alternate">
+            <div class="container">
+
+                <div class="span12">
+                    <div class="title-page">
+                        <h2 class="title">MoleQla</h2>
+                        <h3 class="title-description">Bienvenido a la Revista de Ciencias de la Universidad Pablo de Olavide</h3>
+                    </div>
+                </div>
+                <jsp:include page="inicio.html"/>
+            </div>
+        </div>
+
     </body>
 </html>

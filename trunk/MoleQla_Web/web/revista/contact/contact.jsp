@@ -3,6 +3,7 @@
     Created on : 26-abr-2014, 10:52:36
     Author     : Rafa
 --%>
+<%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
 <%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -15,6 +16,16 @@
 <html lang="en-US"> <!--<![endif]-->
     <head>
         <%@include file="../head.html" %>
+        <script type="text/javascript">
+            $(function() {
+
+                $("#contact_name").attr("placeholder", "Full name *");
+                $("#contact_email").attr("placeholder", "Email Address *");
+                $("#contact_message").attr("placeholder", "Your Message *");
+
+            });
+
+        </script>
     </head>
     <body>
         <%@include file="../circulo.html" %>
@@ -23,46 +34,58 @@
             <%@include file="headerContact.jsp" %>
         </header>
         <div id="contact" class="page">
+            <div class="container">
 
-            <!-- Contact Form -->
-            <div class="row">
-                <div class="span9">
-
-                    <form id="contact-form" class="contact-form" action="#">
-                        <p class="contact-name">
-                            <input id="contact_name" type="text" placeholder="Full Name" value="" name="name" />
-                        </p>
-                        <p class="contact-email">
-                            <input id="contact_email" type="text" placeholder="Email Address" value="" name="email" />
-                        </p>
-                        <p class="contact-message">
-                            <textarea id="contact_message" placeholder="Your Message" name="message" rows="15" cols="40"></textarea>
-                        </p>
-                        <p class="contact-submit">
-                            <a id="contact-submit" class="submit" href="#">Send Your Email</a>
-                        </p>
-
-                        <div id="response">
-
-                        </div>
-                    </form>
-
+                <div class="span12">
+                    <div class="title-page">
+                        <h2 class="title">Contactar con MoleQla</h2>
+                        <h3 class="title-description">Env&iacute;anos un correo con su duda y el equipo de MoleQla se la resolver&aacute;</h3>
+                    </div>
                 </div>
 
-                <div class="span3">
-                    <div class="contact-details">
-                        <h3>Contact Details</h3>
-                        <ul>
-                            <li><a href="#">hello@brushed.com</a></li>
-                            <li>(916) 375-2525</li>
-                            <li>
-                                Brushed Studio
-                                <br>
-                                5240 Vanish Island. 105
-                                <br>
-                                Unknow
-                            </li>
-                        </ul>
+                <!-- Contact Form -->
+                <div class="row">
+                    <div class="span9">
+
+                        <html:form action="/revista/contact/contact" styleId="contact-form" styleClass="contact-form">
+                            <p><bean:write name="ContactActionForm" property="errorMsg" filter="false"/></p>
+                            <p><bean:write name="ContactActionForm" property="msg" filter="false"/></p>
+                            <p class="contact-name">
+                                <html:text styleId="contact_name" property="name"/>
+                            </p>
+                            <p class="contact-email">
+                                <html:text styleId="contact_email" property="email" />
+                            </p>
+                            <p class="contact-message">
+                                <html:textarea styleId="contact_message" property="message" rows="15" cols="40"/>
+                            </p>
+                            <p class="contact-submit">
+                                <html:submit styleClass="submit" value="Send Your Email">Send Your Email</html:submit>
+                                <html:cancel styleClass="submit" value="Cancel">Cancel</html:cancel>
+                                </p>
+
+                                <div id="response">
+
+                                </div>
+                        </html:form>
+
+                    </div>
+
+                    <div class="span3">
+                        <div class="contact-details">
+                            <h3>Contact Details</h3>
+                            <ul>
+                                <li><a href="#">moleqlanotify@gmail.com</a></li>
+                                <li>(916) 375-2525</li>
+                                <li>
+                                    Brushed Studio
+                                    <br>
+                                    5240 Vanish Island. 105
+                                    <br>
+                                    Unknow
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>

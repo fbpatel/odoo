@@ -27,6 +27,9 @@
         
         <!-- Bean Sincronize -->
         <form-bean name="SincronizeUserActionForm" type="actionForm.SincronizeUserActionForm"/>
+        
+        <!-- Bean Contact -->
+        <form-bean name="ContactActionForm" type="actionForm.ContactActionForm"/>
     </form-beans>
     
     <global-exceptions>
@@ -82,6 +85,12 @@
             <forward name="cancel" path="/revista/articulo/registrarAutor.jsp"/>
             <forward name="failure" path="/revista/articulo/registrarAutor.jsp"/>
             <forward name="anadir" path="/revista/articulo/registrarAutor.jsp"/>
+        </action>
+        
+        <!-- Contactar -->
+        <action input="revista/contact/contact.jsp" name="ContactActionForm" path="/revista/contact/contact" scope="request" type="action.ContactAction" validate="false">
+            <forward name="success" path="/revista/contact/contact.jsp"/>
+            <forward name="failure" path="/revista/contact/contact.jsp"/>
         </action>
         
     </action-mappings>

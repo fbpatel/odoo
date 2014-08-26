@@ -33,7 +33,7 @@
                         <p class="contact-login-password">Enter your password:<html:password property="password" /></p>
 
                         <p class="contact-submit"> 
-                            <html:submit styleId="contact-submit-login" value="Login" styleClass="submit" value="Login">Login</html:submit> 
+                            <html:submit styleId="contact-submit-login" styleClass="submit" value="Login">Login</html:submit> 
                             <html:cancel styleId="contact-cancel-login" styleClass="submit" value="Cancel">Cancel</html:cancel>
                             </p>
                     </html:form>
