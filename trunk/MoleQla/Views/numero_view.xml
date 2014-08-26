@@ -28,7 +28,9 @@
 							<field name="nombre"></field>
 							<field name="numero"></field>
 							<field name="entrevista" filename="filenameEnt" attrs="{'readonly':['|','|',('state','=','a_publicar'),('state','=','voted'),('state','=','closed')]}"></field>
-							<field name="fecha_p" attrs="{'invisible': [('state','!=','a_publicar')]}"></field>
+							<field name="fecha_p" ></field>
+							<field name="fecha_d" attrs="{'invisible':[('state','!=','builded')],'required':[('state','=','builded')]}"></field>
+							<field name="fecha_v" attrs="{'invisible':[('state','!=','a_publicar')],'required':[('state','=','a_publicar')]}"></field>
 						</group>
 						<group col="1">
 							<notebook>
@@ -36,7 +38,7 @@
 									<field name="articulos_id" widget="many2many"
 										attrs="{'readonly': [('state','!=','builded')],
 												'invisible': [('state','=','start')]}"
-										domain="[('state', 'ilike', 'published')]" />
+										domain="[('state', 'ilike', 'publicable')]" />
 								</page>
 							</notebook>
 						</group>
