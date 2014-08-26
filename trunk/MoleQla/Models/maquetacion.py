@@ -53,7 +53,7 @@ class maquetacion(osv.osv):
         maquetacion = self.browse(cr, uid, ids, context)
         articulo_obj = self.pool.get('articulo')
         d = fields.date.today()
-        articulo_obj.write(cr, 1, maquetacion.articulo_id.id, { 'state' : 'published', 'fecha_maq':d})
+        articulo_obj.write(cr, 1, maquetacion.articulo_id.id, { 'state' : 'publicable', 'fecha_maq':d})
         self.write(cr, uid, ids, { 'state' : 'send' })
         
         # 2. Mediante el articulo
@@ -87,10 +87,11 @@ class maquetacion(osv.osv):
             vals = {'seccion_id':maquetacion.seccion_id.id,
                     'archivo':articulo.archivo, 'filename':articulo.filename, 'nombre':articulo.nombre,
                     'tipo_articulo':articulo.tipo_articulo, 'tipo_autor':articulo.tipo_autor,
-                    'palabras_clave':articulo.palabras_clave, 'user_id':1, 'old_maquetacion_id':maquetacion.id}
+                    'palabras_clave':articulo.palabras_clave, 'user_id':1, 'old_maquetacion_id':maquetacion.id,
+                    'state':'version_rechazada'}
             articulo_obj.create(cr, 1, vals, context=None)
             
-            articulo_obj.write(cr, 1, maquetacion.articulo_id.id, { 'state' : 'cancel_m' })
+            articulo_obj.write(cr, 1, maquetacion.articulo_id.id, { 'state' : 'rechazado_en_maquetacion','archivo_diff_m':None })
             
             # 2. Mediante el articulo
             autor_user_obj = self.pool.get('res.users')
