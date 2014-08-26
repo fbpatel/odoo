@@ -24,7 +24,9 @@ class numero(osv.osv):
         'premio_div' : fields.many2one('articulo', 'Premio Divulgativo'),
         'premio_inv' : fields.many2one('articulo', 'Premio Investigacion'),
         'articulos_id' : fields.one2many('articulo', 'numero_id', 'Artículos'),
-        'fecha_p' : fields.date('Fecha de Publicación'),
+        'fecha_p' : fields.date('Fecha de Publicación', required=True),
+        'fecha_d' : fields.date('Fin Proceso Art.Destacados'),
+        'fecha_v' : fields.date('Fin Votaciones'),
         'state':fields.selection([('start', 'Borrador'), ('builded', 'En construcción'), ('a_publicar', 'Publicada'), ('voted', 'En votación'), ('closed', 'Cerrado')], 'Estado del número'),
         'entrevista': fields.binary('Entrevista', filters='*.pdf"'),
         'filenameEnt': fields.char('FilenameEnt'),
@@ -52,6 +54,50 @@ class numero(osv.osv):
         #=======================================================================
         if not numeros_start:      
             if not numeros_builded:    
+                    # -------------------------------------------
+                # Correo a cada uno de los editores
+                #2. Mediante el articulo    
+                # Obtenemos el editor de seccion
+                fecha = vals['fecha_p']
+                editor_obj = self.pool.get('editor')
+                user_obj = self.pool.get('res.users')
+                editores = editor_obj.search(cr, uid, [('id', '>', 0)])
+                for editor in editores:
+                    editor_ = editor_obj.browse(cr, 1, editor, context)
+                    user_editor = user_obj.browse(cr, 1,editor_.user_id.id, context)
+                    email_editor = user_editor.login
+                    
+                    # Asunto y texto del email
+                    asunto = "Nuevo numero" 
+                    texto = "La fecha de publicacion del nuevo numero sera el" + fecha + ". Por tanto, esta es la fecha maxima para la maquetacion de los articulos"
+                    
+                    # Se envia el correo
+                    correo_obj = self.pool.get('correo') 
+                    
+                    try:       
+                        correo_obj.mail(cr, 1, email_editor, asunto, texto)
+                    except:
+                        print "ERROR: No ha sido posible enviar el correo a"+email_editor
+                    # -------------------------------------------
+                maquetador_obj = self.pool.get('maquetador')
+                user_obj = self.pool.get('res.users')
+                maquetadores = maquetador_obj.search(cr, uid, [('id', '>', 0)])
+                for maquetador in maquetadores:
+                    maquetador_ = maquetador_obj.browse(cr, 1, maquetador, context)
+                    user_editor = user_obj.browse(cr, 1,maquetador_.user_id.id, context)
+                    email_editor = user_editor.login
+                    
+                    # Asunto y texto del email
+                    asunto = "Nuevo numero" 
+                    texto = "La fecha de publicacion del nuevo numero es de " + fecha + ". Por tanto, esta es la fecha maxima para la maquetacion de los articulos"
+                    
+                    # Se envia el correo
+                    correo_obj = self.pool.get('correo') 
+                    
+                    try:       
+                        correo_obj.mail(cr, 1, email_editor, asunto, texto)
+                    except:
+                        print "ERROR: No ha sido posible enviar el correo a"+email_editor
                 return super(numero, self).create(cr, 1, vals, context) 
             else:
                 raise osv.except_osv(_('Warning!'), _("No se puede crear un numero, ya hay uno en estado 'en construccion'."))
@@ -67,7 +113,7 @@ class numero(osv.osv):
         ides = []
         for seccion in secciones:
             seccion_ = obj_seccion.browse(cr, uid, seccion, context)
-            ids_articulos = obj_articulo.search(cr, uid, [('state', '=', 'published'), ('seccion_id', '=', seccion_.id)])
+            ids_articulos = obj_articulo.search(cr, uid, [('state', '=', 'publicable'), ('seccion_id', '=', seccion_.id)])
             if len(ids_articulos) > seccion_.max_articulos:
                 i = 0
                 for ide in ids_articulos:
@@ -76,18 +122,19 @@ class numero(osv.osv):
                         ides.append(ide)
             else:
                 for ide in ids_articulos:
-                        ides.append(ide)             
+                        ides.append(ide)  
+                   
         obj_articulo.write(cr, uid, ides, {'numero_id' : ids[0]})
      
     def send(self, cr, uid, ids, context=None):
         obj_articulo = self.pool.get('articulo')
         articulos = obj_articulo.search(cr, uid, [('numero_id', '=', ids[0])])
-        obj_articulo.write(cr, uid, articulos, { 'state' : 'impress', })
+        obj_articulo.write(cr, uid, articulos, { 'state' : 'publicado', })
         obj_seccion = self.pool.get('seccion')
         secciones = obj_seccion.search(cr, uid, [('id', '>', 0)])
         for seccion in secciones:
             seccion_ = obj_seccion.browse(cr, uid, seccion, context)
-            ids_articulos = obj_articulo.search(cr, uid, [('state', '=', 'impress'), ('numero_id', '=', ids[0]), ('seccion_id', '=', seccion_.id)])
+            ids_articulos = obj_articulo.search(cr, uid, [('state', '=', 'publicado'), ('numero_id', '=', ids[0]), ('seccion_id', '=', seccion_.id)])
             if len(ids_articulos) > 0:
                 obj_revisor = self.pool.get('editor')
                 editor_id = obj_revisor.search(cr, uid, [('seccion_id', '=', seccion_.id)])
@@ -95,9 +142,28 @@ class numero(osv.osv):
                 revisor_id = editor[0].user_id.id
                 obj_destaque = self.pool.get('destaque_articulos')
                 vals = {'seccion_id':seccion_.id, 'revisor_id':revisor_id, 'numero_id':ids[0]}
-                obj_destaque.create(cr, 1, vals, context=None)
-                 
-        
+                obj_destaque.create(cr, 1, vals, context=None) 
+        fecha_d =self.browse(cr, uid, ids[0])[0].fecha_d
+        editor_obj = self.pool.get('editor')
+        user_obj = self.pool.get('res.users')
+        editores = editor_obj.search(cr, uid, [('id', '>', 0)])
+        for editor in editores:
+            editor_ = editor_obj.browse(cr, 1, editor, context)
+            user_editor = user_obj.browse(cr, 1,editor_.user_id.id, context)
+            email_editor = user_editor.login
+            
+            # Asunto y texto del email
+            asunto = "Proceso de Destacar Articulo" 
+            texto = "Se inicia el proceso de Destacar Articulos para la nueva revista publicada. El plazo es hasta " + fecha_d + "."
+            
+            # Se envia el correo
+            correo_obj = self.pool.get('correo') 
+            
+            try:       
+                correo_obj.mail(cr, 1, email_editor, asunto, texto)
+            except:
+                print "ERROR: No ha sido posible enviar el correo a"+email_editor
+            # -------------------------------------------
         self.write(cr, uid, ids, { 'state' : 'a_publicar', })
         
         # Se le pone la fecha de publicacion el dia en que le da a publicar
@@ -142,7 +208,47 @@ class numero(osv.osv):
                     vals_linea = {'votacion_div_id':votacion_id[0], 'articulo':articulo}
                 else:
                     vals_linea = {'votacion_inv_id':votacion_id[0], 'articulo':articulo}
-                obj_linea_votacion.create(cr, 1, vals_linea, context=None)       
+                obj_linea_votacion.create(cr, 1, vals_linea, context=None)     
+        fecha_v =self.browse(cr, uid, ids[0])[0].fecha_v
+        editor_obj = self.pool.get('editor')
+        user_obj = self.pool.get('res.users')
+        editores = editor_obj.search(cr, uid, [('id', '>', 0)])
+        for editor in editores:
+            editor_ = editor_obj.browse(cr, 1, editor, context)
+            user_editor = user_obj.browse(cr, 1,editor_.user_id.id, context)
+            email_editor = user_editor.login
+            
+            # Asunto y texto del email
+            asunto = "Premios Moleqla" 
+            texto = "Se inicia el proceso de Votacion de Articulos Destacados para la nueva revista publicada. El plazo es hasta " + fecha_v + "."
+            
+            # Se envia el correo
+            correo_obj = self.pool.get('correo') 
+            
+            try:       
+                correo_obj.mail(cr, 1, email_editor, asunto, texto)
+            except:
+                print "ERROR: No ha sido posible enviar el correo a"+email_editor
+            # -------------------------------------------  
+        maquetador_obj = self.pool.get('maquetador')
+        user_obj = self.pool.get('res.users')
+        maquetadores = maquetador_obj.search(cr, uid, [('id', '>', 0)])
+        for maquetador in maquetadores:
+            maquetador_ = maquetador_obj.browse(cr, 1, maquetador, context)
+            user_editor = user_obj.browse(cr, 1,maquetador_.user_id.id, context)
+            email_editor = user_editor.login
+            
+            # Asunto y texto del email
+            asunto = "Premios Moleqla" 
+            texto = "Se inicia el proceso de Votacion de Articulos Destacados para la nueva revista publicada. El plazo es hasta " + fecha_v + "."
+            
+            # Se envia el correo
+            correo_obj = self.pool.get('correo') 
+            
+            try:       
+                correo_obj.mail(cr, 1, email_editor, asunto, texto)
+            except:
+                print "ERROR: No ha sido posible enviar el correo a"+email_editor
         self.write(cr, uid, ids, { 'state' : 'voted'})    
          
     def close(self, cr, uid, ids, context=None):
