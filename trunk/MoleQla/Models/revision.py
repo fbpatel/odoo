@@ -62,7 +62,7 @@ class revision(osv.osv):
         maquetacion_obj = self.pool.get('maquetacion')
         maquetacion_obj.create(cr, 1, vals,context=None)
         maquetacion_id = maquetacion_obj.search(cr, uid, [('articulo_id', '=', revision.articulo_id.id)])
-        articulo_obj.write(cr, 1, revision.articulo_id.id, { 'state' : 'editing', 'maquetacion_id':maquetacion_id[0] })
+        articulo_obj.write(cr, 1, revision.articulo_id.id, { 'state' : 'maquetando', 'maquetacion_id':maquetacion_id[0] })
         
         # -------------------------------------------
         #Correo al maquetador de seccion
@@ -117,9 +117,10 @@ class revision(osv.osv):
             vals = {'seccion_id':revision.seccion_id.id,
                     'archivo':articulo.archivo,'filename':articulo.filename,'nombre':articulo.nombre,
                     'tipo_articulo':articulo.tipo_articulo,'tipo_autor':articulo.tipo_autor,
-                    'palabras_clave':articulo.palabras_clave,'user_id':1,'old_revision_id':revision.id}
+                    'palabras_clave':articulo.palabras_clave,'user_id':1,'old_revision_id':revision.id,
+                    'state':'version_rechazada'}
             articulo_obj.create(cr, 1, vals, context=None)
-            articulo_obj.write(cr, 1, revision.articulo_id.id, { 'state' : 'cancel' })
+            articulo_obj.write(cr, 1, revision.articulo_id.id, { 'state' : 'rechazado_en_revision' ,'archivo_diff':None})
             
             #2. Mediante el articulo
             autor_user_obj = self.pool.get('res.users')
