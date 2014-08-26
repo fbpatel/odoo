@@ -180,6 +180,13 @@
 		-moz-box-sizing: border-box;
 		box-sizing: border-box;	
 	}
+        
+        #contact-sincronizaUser .submit {
+		width: 100%;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;	
+	}
 	
 	#social-area #social ul li:first-child,
 	#social-area #social ul li {

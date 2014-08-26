@@ -313,6 +313,15 @@ public class Constantes {
         return EMAIL_CONTACT_OK;
     }
     
+    public static String getEMAIL_ASUNTO_NUMERO_PUBLICADO()
+    {
+        String cad = "MoleQla - Nuevo número publicado";
+        return cad;
+    }
     
-
+        public static String getEMAIL_TEXTO_NUMERO_PUBLICADO(String url)
+    {
+        String cad = "Se ha publicado un nuevo número en la revista MoleQla. Puedes consultarlo en la siguiente url: <a href='"+url+"'>Números MoleQla</a>";
+        return cad;
+    }
 }

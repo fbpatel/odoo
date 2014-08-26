@@ -6,11 +6,17 @@
 package action;
 
 import actionForm.CrearRevistaActionForm;
+import connection.ConnectionPSQL;
+import email.Mail;
+import email.MailVarios;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -67,7 +73,7 @@ public class CrearRevistaAction extends org.apache.struts.action.Action {
             String separator = OS.getDirectorySeparator();
             String rutaNumeros = rutaWEBINF + separator + "numeros";
             crearFicheroParticipantes(rutaWEBINF, rutaNumeros);
-            
+
             //Se crea el indice
             crearIndice(rutaWEBINF, rutaNumeros);
 
@@ -87,7 +93,17 @@ public class CrearRevistaAction extends org.apache.struts.action.Action {
                 formBean.setErrorMsg(Constantes.getERROR_CREAR_NUMERO());
                 return mapping.findForward(FAILURE);
             }
-            
+
+            String nameServer = request.getContextPath();
+            String urlNumeros = "www.moleqla.es";//nameServer + "/revista/work/work.do";
+            String asunto = Constantes.getEMAIL_ASUNTO_NUMERO_PUBLICADO();
+            String texto = Constantes.getEMAIL_TEXTO_NUMERO_PUBLICADO(urlNumeros);
+
+            //Obtenemos todos los usuarios
+            List<String> listaAllEmails = consultaAllEmails();
+            if (listaAllEmails.isEmpty() == false) {
+                MailVarios.enviarMail(listaAllEmails, texto, asunto);
+            }
             //Se eliminan los articulos que han servido para este numero
             comprobacion_eliminacion(numeroPDF, rutaNumerosAll);
 
@@ -98,9 +114,10 @@ public class CrearRevistaAction extends org.apache.struts.action.Action {
 
     /**
      * Retorna "False" si no hay un numero nuevo
+     *
      * @param rutaWEBINF
      * @return
-     * @throws SQLException 
+     * @throws SQLException
      */
     private String consultaListaNumeros(String rutaWEBINF) throws SQLException {
         String separator = OS.getDirectorySeparator();
@@ -205,5 +222,28 @@ public class CrearRevistaAction extends org.apache.struts.action.Action {
         }
 
         return res;
+    }
+
+    private List<String> consultaAllEmails() {
+        List<String> listaAllEmails = new ArrayList();
+        try (Connection connection = ConnectionPSQL.connection()) {
+            ResultSet rs = connection.createStatement().executeQuery(
+                    "SELECT login FROM res_users");
+
+            if (rs != null) {
+
+                while (rs.next()) {
+                    if (Mail.compruebaEmail(rs.getString(1))) {
+                        listaAllEmails.add(rs.getString(1));
+                    }
+
+                }
+                rs.close();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AboutAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return listaAllEmails;
     }
 }

@@ -1190,6 +1190,75 @@ nav#menu #menu-nav li a:hover {
     color: #FFFFFF;
 }
 
+//------ Sincronize ------
+/*---- Form new revista ------*/
+#contact-sincronizaUser {
+	margin-bottom: 0;	
+}
+
+#contact-sincronizaUser p {
+	margin-bottom: 1px;	
+}
+
+#contact-sincronizaUser input,
+#contact-sincronizaUser textarea {
+    border: none;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+    border-radius: 0;
+	
+    -webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+	
+	background: #26292E;
+    color: #FFFFFF;
+    font-size: 16px;
+    height: auto;
+    padding: 15px;
+	margin: 0;
+	
+    resize: none;
+}
+
+#contact-sincronizaUser input {
+    width: 100%;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+#contact-sincronizaUser textarea {
+    width: 100%;
+	resize: vertical;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+#contact-sincronizaUser .submit {
+    background: #3C3F45;
+    color: #23262C;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 16px 40px;
+    text-align: center;
+    vertical-align: middle;
+    width: auto;
+	margin-top: 30px;
+	
+	-webkit-transition: background 0.1s linear 0s, color 0.1s linear 0s;	
+	   -moz-transition: background 0.1s linear 0s, color 0.1s linear 0s;
+		 -o-transition: background 0.1s linear 0s, color 0.1s linear 0s;
+		    transition: background 0.1s linear 0s, color 0.1s linear 0s;
+}
+
+#contact-sincronizaUser .submit:hover {
+    background: #DE5E60;
+    color: #FFFFFF;
+}
 
 #response {
 	margin-top: 20px;
