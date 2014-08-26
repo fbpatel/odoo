@@ -29,9 +29,9 @@
 							<field name="tipo_articulo" attrs="{'readonly':['|','|','|',('state','=','send'),('state','=','editing'),('state','=','published'),('state','=','impress')]}"></field>
 							<field name="tipo_autor" on_change="onchange_tipo_autor(tipo_autor,context)" attrs="{'readonly':['|','|','|',('state','=','send'),('state','=','editing'),('state','=','published'),('state','=','impress')]}" />
 							<field name="mostrar_tipo_autor_interno" invisible='1'></field>
-							<field name="tipo_autor_interno" attrs="{'invisible':[('mostrar_tipo_autor_interno','=', False)]}" on_change="onchange_tipo_autor_interno(tipo_autor_interno,context)"/>
+							<field name="tipo_autor_interno" attrs="{'invisible':[('mostrar_tipo_autor_interno','=', False)],'readonly':['|','|','|',('state','=','send'),('state','=','editing'),('state','=','published'),('state','=','impress')]}" on_change="onchange_tipo_autor_interno(tipo_autor_interno,context)"/>
 							<field name="mostrar_asignatura" invisible='1'></field>
-							<field name="asignatura" attrs="{'invisible':[('mostrar_asignatura','=', False)]}"></field>
+							<field name="asignatura" attrs="{'invisible':[('mostrar_asignatura','=', False)],'readonly':['|','|','|',('state','=','send'),('state','=','editing'),('state','=','published'),('state','=','impress')]}"></field>
 							<field name="destacado" attrs="{'readonly':'1','invisible':['|','|','|','|','|',('state','=','start'),('state','=','send'),('state','=','cancel'),('state','=','editing'),('state','=','cancel_m'),('state','=','published')]}" />
 						</group>
 						<group col="2">
@@ -40,8 +40,10 @@
 							<field name="archivo" filename="filename"
 								attrs="{'readonly':['|','|','|',('state','=','send'),('state','=','editing'),('state','=','published'),('state','=','impress')]}" />
 							
-							<field name="archivo_diff" filename="filenameDiff" attrs="{'invisible':['|','|','|','|',('state','=','start'),('state','=','send'),('state','=','editing'),('state','=','published'),('state','=','impress')],
-							'required':['|',('state','=','cancel'),('state','=','cancel_m')]}"></field>
+							<field name="archivo_diff" filename="filenameDiff" attrs="{'invisible':['|','|','|','|','|',('state','=','start'),('state','=','cancel_m'),('state','=','send'),('state','=','editing'),('state','=','published'),('state','=','impress')],
+							'required':[('state','=','cancel')]}"></field>
+							<field name="archivo_diff_m" filename="filenameDiff" attrs="{'invisible':['|','|','|','|','|',('state','=','start'),('state','=','cancel'),('state','=','send'),('state','=','editing'),('state','=','published'),('state','=','impress')],
+							'required':[('state','=','cancel_m')]}"></field>
 
 						</group>
 						<notebook colspan="4">
