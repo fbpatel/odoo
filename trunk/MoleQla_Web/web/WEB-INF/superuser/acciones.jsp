@@ -22,19 +22,26 @@
             <%@include file="headerRevista.jsp" %>
         </header>
         <div id="contact" class="page">
+            <div class="container">
 
-            <!-- Contact Form -->
-            <div class="row">
-                <div class="span9">
-                   
-                    <jsp:include page="crearRevista.jsp"/>
-                    <jsp:include page="sincronizeUser.jsp" />
-                     
+                <div class="span12">
+                    <div class="title-page">
+                        <h2 class="title">Zona de Administracion</h2>
+                    </div>
+                </div>
+                <!-- Contact Form -->
+                <div class="row">
+                    <div class="span9">
+
+                        <jsp:include page="crearRevista.jsp"/>
+                        <jsp:include page="sincronizeUser.jsp" />
+
+
+                    </div>
 
                 </div>
-
+                <!-- End Contact Form -->
             </div>
-            <!-- End Contact Form -->
         </div>
     </body>
 </html>
