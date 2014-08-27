@@ -24,7 +24,7 @@ class seccion(osv.osv):
             context = {}
         res = []
         
-        for record in self.browse(cr, uid, ids, context=context):
+        for record in self.browse(cr, 1, ids, context=context):
             seccion_name = record.nombre
             
             

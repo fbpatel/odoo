@@ -8,8 +8,8 @@ class articulo(osv.osv):
     
     def _get_autor(self, cr, uid, context=None):
         autor_obj = self.pool.get('autor')
-        autor_id = autor_obj.search(cr, uid, [('user_id', '=', uid)])
-        autor = autor_obj.browse(cr, uid, autor_id, context)
+        autor_id = autor_obj.search(cr, 1, [('user_id', '=', uid)])
+        autor = autor_obj.browse(cr, 1, autor_id, context)
         res = autor.nombre
         return res
 
@@ -17,10 +17,10 @@ class articulo(osv.osv):
     def _set_autor(self, cr, uid, ids, name, args, context=None):
         res = {}
         print "\n\nset function call"  
-        for i in self.browse(cr, uid, ids, context=context):
+        for i in self.browse(cr, 1, ids, context=context):
             autor_obj = self.pool.get('autor')
-            autor_id = autor_obj.search(cr, uid, [('user_id', '=', i.user_id)])
-            autor = autor_obj.browse(cr, uid, autor_id, context)
+            autor_id = autor_obj.search(cr, 1, [('user_id', '=', i.user_id)])
+            autor = autor_obj.browse(cr, 1, autor_id, context)
             res[i.id] = autor.nombre
         return res
         
@@ -107,7 +107,7 @@ class articulo(osv.osv):
             nombre = vals['nombre'] + '.pdf'      
             vals['filename'] = nombre
                        
-        return super(articulo, self).create(cr, uid, vals, context)      
+        return super(articulo, self).create(cr, 1, vals, context)      
         
     
     def enviar(self, cr, uid, ids, context=None):

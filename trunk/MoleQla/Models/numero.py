@@ -22,7 +22,7 @@ class numero(osv.osv):
         'nombre' : fields.char('Nombre', size=128, required=True),
         'numero' : fields.integer('Numero', readonly=True),
         'premio_div' : fields.many2one('articulo', 'Premio Divulgativo'),
-        'premio_inv' : fields.many2one('articulo', 'Premio Investigacion'),
+        'premio_inv' : fields.many2one('articulo', 'Premio Investigación'),
         'articulos_id' : fields.one2many('articulo', 'numero_id', 'Artículos'),
         'fecha_p' : fields.date('Fecha de Publicación', required=True),
         'fecha_d' : fields.date('Fin Proceso Art.Destacados'),
@@ -61,7 +61,7 @@ class numero(osv.osv):
                 fecha = vals['fecha_p']
                 editor_obj = self.pool.get('editor')
                 user_obj = self.pool.get('res.users')
-                editores = editor_obj.search(cr, uid, [('id', '>', 0)])
+                editores = editor_obj.search(cr, 1, [('id', '>', 0)])
                 for editor in editores:
                     editor_ = editor_obj.browse(cr, 1, editor, context)
                     user_editor = user_obj.browse(cr, 1,editor_.user_id.id, context)
@@ -81,7 +81,7 @@ class numero(osv.osv):
                     # -------------------------------------------
                 maquetador_obj = self.pool.get('maquetador')
                 user_obj = self.pool.get('res.users')
-                maquetadores = maquetador_obj.search(cr, uid, [('id', '>', 0)])
+                maquetadores = maquetador_obj.search(cr, 1, [('id', '>', 0)])
                 for maquetador in maquetadores:
                     maquetador_ = maquetador_obj.browse(cr, 1, maquetador, context)
                     user_editor = user_obj.browse(cr, 1,maquetador_.user_id.id, context)
@@ -106,14 +106,14 @@ class numero(osv.osv):
               
     
     def build(self, cr, uid, ids, context=None):
-        self.write(cr, uid, ids, { 'state' : 'builded'})
+        self.write(cr, 1, ids, { 'state' : 'builded'})
         obj_articulo = self.pool.get('articulo')
         obj_seccion = self.pool.get('seccion')
-        secciones = obj_seccion.search(cr, uid, [('id', '>', 0)])
+        secciones = obj_seccion.search(cr, 1, [('id', '>', 0)])
         ides = []
         for seccion in secciones:
-            seccion_ = obj_seccion.browse(cr, uid, seccion, context)
-            ids_articulos = obj_articulo.search(cr, uid, [('state', '=', 'publicable'), ('seccion_id', '=', seccion_.id)])
+            seccion_ = obj_seccion.browse(cr, 1, seccion, context)
+            ids_articulos = obj_articulo.search(cr, 1, [('state', '=', 'publicable'), ('seccion_id', '=', seccion_.id)])
             if len(ids_articulos) > seccion_.max_articulos:
                 i = 0
                 for ide in ids_articulos:
@@ -124,29 +124,29 @@ class numero(osv.osv):
                 for ide in ids_articulos:
                         ides.append(ide)  
                    
-        obj_articulo.write(cr, uid, ides, {'numero_id' : ids[0]})
+        obj_articulo.write(cr, 1, ides, {'numero_id' : ids[0]})
      
     def send(self, cr, uid, ids, context=None):
         obj_articulo = self.pool.get('articulo')
-        articulos = obj_articulo.search(cr, uid, [('numero_id', '=', ids[0])])
-        obj_articulo.write(cr, uid, articulos, { 'state' : 'publicado', })
+        articulos = obj_articulo.search(cr, 1, [('numero_id', '=', ids[0])])
+        obj_articulo.write(cr, 1, articulos, { 'state' : 'publicado', })
         obj_seccion = self.pool.get('seccion')
-        secciones = obj_seccion.search(cr, uid, [('id', '>', 0)])
+        secciones = obj_seccion.search(cr, 1, [('id', '>', 0)])
         for seccion in secciones:
-            seccion_ = obj_seccion.browse(cr, uid, seccion, context)
-            ids_articulos = obj_articulo.search(cr, uid, [('state', '=', 'publicado'), ('numero_id', '=', ids[0]), ('seccion_id', '=', seccion_.id)])
+            seccion_ = obj_seccion.browse(cr, 1, seccion, context)
+            ids_articulos = obj_articulo.search(cr, 1, [('state', '=', 'publicado'), ('numero_id', '=', ids[0]), ('seccion_id', '=', seccion_.id)])
             if len(ids_articulos) > 0:
                 obj_revisor = self.pool.get('editor')
-                editor_id = obj_revisor.search(cr, uid, [('seccion_id', '=', seccion_.id)])
-                editor = obj_revisor.browse(cr, uid, editor_id, context)
+                editor_id = obj_revisor.search(cr, 1, [('seccion_id', '=', seccion_.id)])
+                editor = obj_revisor.browse(cr, 1, editor_id, context)
                 revisor_id = editor[0].user_id.id
                 obj_destaque = self.pool.get('destaque_articulos')
                 vals = {'seccion_id':seccion_.id, 'revisor_id':revisor_id, 'numero_id':ids[0]}
                 obj_destaque.create(cr, 1, vals, context=None) 
-        fecha_d =self.browse(cr, uid, ids[0])[0].fecha_d
+        fecha_d =self.browse(cr, 1, ids[0])[0].fecha_d
         editor_obj = self.pool.get('editor')
         user_obj = self.pool.get('res.users')
-        editores = editor_obj.search(cr, uid, [('id', '>', 0)])
+        editores = editor_obj.search(cr, 1, [('id', '>', 0)])
         for editor in editores:
             editor_ = editor_obj.browse(cr, 1, editor, context)
             user_editor = user_obj.browse(cr, 1,editor_.user_id.id, context)
@@ -164,11 +164,11 @@ class numero(osv.osv):
             except:
                 print "ERROR: No ha sido posible enviar el correo a"+email_editor
             # -------------------------------------------
-        self.write(cr, uid, ids, { 'state' : 'a_publicar', })
+        self.write(cr, 1, ids, { 'state' : 'a_publicar', })
         
         # Se le pone la fecha de publicacion el dia en que le da a publicar
         hoy = fields.date.today()
-        self.write(cr, uid, ids, { 'fecha_p' : hoy, })
+        self.write(cr, 1, ids, { 'fecha_p' : hoy, })
         
         
          
@@ -209,10 +209,10 @@ class numero(osv.osv):
                 else:
                     vals_linea = {'votacion_inv_id':votacion_id[0], 'articulo':articulo}
                 obj_linea_votacion.create(cr, 1, vals_linea, context=None)     
-        fecha_v =self.browse(cr, uid, ids[0])[0].fecha_v
+        fecha_v =self.browse(cr, 1, ids[0])[0].fecha_v
         editor_obj = self.pool.get('editor')
         user_obj = self.pool.get('res.users')
-        editores = editor_obj.search(cr, uid, [('id', '>', 0)])
+        editores = editor_obj.search(cr, 1, [('id', '>', 0)])
         for editor in editores:
             editor_ = editor_obj.browse(cr, 1, editor, context)
             user_editor = user_obj.browse(cr, 1,editor_.user_id.id, context)
@@ -232,7 +232,7 @@ class numero(osv.osv):
             # -------------------------------------------  
         maquetador_obj = self.pool.get('maquetador')
         user_obj = self.pool.get('res.users')
-        maquetadores = maquetador_obj.search(cr, uid, [('id', '>', 0)])
+        maquetadores = maquetador_obj.search(cr, 1, [('id', '>', 0)])
         for maquetador in maquetadores:
             maquetador_ = maquetador_obj.browse(cr, 1, maquetador, context)
             user_editor = user_obj.browse(cr, 1,maquetador_.user_id.id, context)
@@ -249,7 +249,7 @@ class numero(osv.osv):
                 correo_obj.mail(cr, 1, email_editor, asunto, texto)
             except:
                 print "ERROR: No ha sido posible enviar el correo a"+email_editor
-        self.write(cr, uid, ids, { 'state' : 'voted'})    
+        self.write(cr, 1, ids, { 'state' : 'voted'})    
          
     def close(self, cr, uid, ids, context=None):
         obj_votacion = self.pool.get('votacion')
@@ -294,12 +294,12 @@ class numero(osv.osv):
         votaciones_id_vacias = obj_votacion.search(cr, 1, [('numero_id', '=', ids[0]), ('state', '=', 'start')])
          
         for votaciones in votaciones_id_vacias:
-            obj_votacion.write(cr, uid, votaciones, { 'state' : 'send'})     
+            obj_votacion.write(cr, 1, votaciones, { 'state' : 'send'})     
             
         try:   
-            obj_articulo.write(cr, uid, maximo_div_id, { 'premiado' : 'TRUE'})  
-            obj_articulo.write(cr, uid, maximo_inv_id, { 'premiado' : 'TRUE'})  
-            self.write(cr, uid, ids, { 'state' : 'closed', 'premio_div':maximo_div_id, 'premio_inv':maximo_inv_id})
+            obj_articulo.write(cr, 1, maximo_div_id, { 'premiado' : 'TRUE'})  
+            obj_articulo.write(cr, 1, maximo_inv_id, { 'premiado' : 'TRUE'})  
+            self.write(cr, 1, ids, { 'state' : 'closed', 'premio_div':maximo_div_id, 'premio_inv':maximo_inv_id})
         except:
             raise osv.except_osv(_('Error!'), _("No se ha podido cerrar el numero"))
     
@@ -309,7 +309,7 @@ class numero(osv.osv):
             context = {}
         res = []
         
-        for record in self.browse(cr, uid, ids, context=context):
+        for record in self.browse(cr, 1, ids, context=context):
             numero_name = record.nombre
             numero_num = record.numero
             

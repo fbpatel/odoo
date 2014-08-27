@@ -30,8 +30,8 @@ class maquetador(osv.osv):
         # Enviamos un correo al editor registrado con sus datos
         # Asunto y texto del email
         user_obj = self.pool.get('res.users')
-        maquetador_id = user_obj.search(cr, uid, [('id', '=', id_res_users)])
-        maquetador_regis = user_obj.browse(cr, uid, maquetador_id, context)
+        maquetador_id = user_obj.search(cr, 1, [('id', '=', id_res_users)])
+        maquetador_regis = user_obj.browse(cr, 1, maquetador_id, context)
         email = maquetador_regis[0].login
         asunto = "Welcome to MoleQla "
         texto = "Your login details are: <br /> <ul> <li>User: "+email+"</li> <li>Password: password</li> </ul> <br /> <b>Please choose a password to access</b>"
@@ -43,7 +43,7 @@ class maquetador(osv.osv):
         except:
             print "ERROR: No ha sido posible enviar el correo a"+email
             
-        return super(maquetador, self).create(cr, uid, vals, context)  
+        return super(maquetador, self).create(cr, 1, vals, context)  
 
     def name_get(self, cr, uid, ids, context=None):
         
@@ -51,7 +51,7 @@ class maquetador(osv.osv):
             context = {}
         res = []
         
-        for record in self.browse(cr, uid, ids, context=context):
+        for record in self.browse(cr, 1, ids, context=context):
             maquetador_name = record.nombre
             
             

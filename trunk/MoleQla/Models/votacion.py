@@ -27,7 +27,7 @@ class votacion(osv.osv):
             context = {}
         res = []
         
-        for record in self.browse(cr, uid, ids, context=context):
+        for record in self.browse(cr, 1, ids, context=context):
             destaque_name = record.numero_id[0].nombre
             
             
@@ -77,7 +77,7 @@ class votacion(osv.osv):
         elif (puntos_inv <= 6) and (puntos_div > 6):
             raise osv.except_osv(_('Warning!'),_("El numero de maximo para de puntos repartir entre los articulos divulgativos es de 6."))
         else:
-            return super(votacion, self).write(cr, uid, ids, vals, context)
+            return super(votacion, self).write(cr, 1, ids, vals, context)
         
        
 votacion()

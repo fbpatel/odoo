@@ -42,7 +42,7 @@ class maquetacion(osv.osv):
             context = {}
         res = []
         
-        for record in self.browse(cr, uid, ids, context=context):
+        for record in self.browse(cr, 1, ids, context=context):
             revision_name = record.articulo_nombre
             
             
@@ -50,15 +50,15 @@ class maquetacion(osv.osv):
         return res
     
     def aceptar(self, cr, uid, ids, context=None):
-        maquetacion = self.browse(cr, uid, ids, context)
+        maquetacion = self.browse(cr, 1, ids, context)
         articulo_obj = self.pool.get('articulo')
         d = fields.date.today()
         articulo_obj.write(cr, 1, maquetacion.articulo_id.id, { 'state' : 'publicable', 'fecha_maq':d})
-        self.write(cr, uid, ids, { 'state' : 'send' })
+        self.write(cr, 1, ids, { 'state' : 'send' })
         
         # 2. Mediante el articulo
         autor_user_obj = self.pool.get('res.users')
-        autor_user = autor_user_obj.browse(cr, uid, maquetacion.articulo_id.user_id, context)
+        autor_user = autor_user_obj.browse(cr, 1, maquetacion.articulo_id.user_id, context)
         email_autor = autor_user.login
         estado = "publicable"
         
@@ -75,14 +75,14 @@ class maquetacion(osv.osv):
         
         
     def rechazar(self, cr, uid, ids, context=None):
-        maquetacion = self.browse(cr, uid, ids, context)
+        maquetacion = self.browse(cr, 1, ids, context)
         if maquetacion.observaciones == None:
             raise osv.except_osv(_('Warning!'), _("Es necesario añadir un archivo con las observaciones para rechazar el articulo."))
         else:
-            self.write(cr, uid, ids, { 'state' : 'cancel'})
+            self.write(cr, 1, ids, { 'state' : 'cancel'})
             articulo_obj = self.pool.get('articulo')
-            articulo_id = articulo_obj.search(cr, uid, [('maquetacion_id', '=', maquetacion.id)])
-            articulo = articulo_obj.browse(cr, uid, articulo_id, context)
+            articulo_id = articulo_obj.search(cr, 1, [('maquetacion_id', '=', maquetacion.id)])
+            articulo = articulo_obj.browse(cr, 1, articulo_id, context)
             
             vals = {'seccion_id':maquetacion.seccion_id.id,
                     'archivo':articulo.archivo, 'filename':articulo.filename, 'nombre':articulo.nombre,
@@ -95,7 +95,7 @@ class maquetacion(osv.osv):
             
             # 2. Mediante el articulo
             autor_user_obj = self.pool.get('res.users')
-            autor_user = autor_user_obj.browse(cr, uid, maquetacion.articulo_id.user_id, context)
+            autor_user = autor_user_obj.browse(cr, 1, maquetacion.articulo_id.user_id, context)
             email_autor = autor_user.login
             estado = "rechazado por el maquetador de seccion"
             

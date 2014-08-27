@@ -30,8 +30,8 @@ class editor(osv.osv):
         # Enviamos un correo al editor registrado con sus datos
         # Asunto y texto del email
         user_obj = self.pool.get('res.users')
-        editor_id = user_obj.search(cr, uid, [('id', '=', id_res_users)])
-        editor_regis = user_obj.browse(cr, uid, editor_id, context)
+        editor_id = user_obj.search(cr, 1, [('id', '=', id_res_users)])
+        editor_regis = user_obj.browse(cr, 1, editor_id, context)
         email = editor_regis[0].login
         asunto = "Welcome to MoleQla "
         texto = "Your login details are: <br /> <ul> <li>User: "+email+"</li> <li>Password: password</li> </ul> <br /> <b>Please choose a password to access</b>"
@@ -41,9 +41,9 @@ class editor(osv.osv):
         try:     
             correo_obj.mail(cr, 1, email, asunto, texto) 
         except:
-            print "ERROR: No ha sido posible enviar el correo a"+email
+            print "ERROR: No ha sido posible enviar el correo a "+email
                 
-        return super(editor, self).create(cr, uid, vals, context)     
+        return super(editor, self).create(cr, 1, vals, context)     
     
     def name_get(self, cr, uid, ids, context=None):
         
@@ -51,7 +51,7 @@ class editor(osv.osv):
             context = {}
         res = []
         
-        for record in self.browse(cr, uid, ids, context=context):
+        for record in self.browse(cr, 1, ids, context=context):
             editor_name = record.nombre
             
             
