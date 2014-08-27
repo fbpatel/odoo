@@ -9,6 +9,7 @@ class votacion(osv.osv):
     
     _columns = {    
         'numero_id' : fields.many2one('numero','Número',readonly=True),  
+        'numero_nombre' : fields.related('numero_id', 'nombre', string='Numero', type='char', readonly=True),
         'user_id': fields.integer('Usuario'),
         'lineas_votacion_inv': fields.one2many('linea_votacion', 'votacion_inv_id','Artículos'), 
         'lineas_votacion_div': fields.one2many('linea_votacion', 'votacion_div_id','Artículos'),

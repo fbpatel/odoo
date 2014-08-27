@@ -16,7 +16,7 @@ class revision(osv.osv):
         'revisor_id': fields.integer('Editor'),
         'state':fields.selection([('start', 'En Revisión'), ('send', 'Aceptado'), ('cancel', 'Rechazado')], 'Estado de la revisión'),
         'comentarios': fields.text('Comentarios'),
-        'versiones_anteriores' : fields.one2many('articulo', 'old_revision_id','Version anterior'),
+        'versiones_anteriores' : fields.one2many('articulo', 'old_revision_id','Versiones anteriores'),
         'articulo_nombre' : fields.related('articulo_id', 'nombre', string='Nombre', type='text', readonly=True),
         'articulo_descripcion' : fields.related('articulo_id', 'descripcion', string='Descripción', type='text', readonly=True),
         'articulo_seccion' : fields.related('articulo_id', 'seccion_id', string='Sección', type='many2one', relation='seccion',readonly=True),      
