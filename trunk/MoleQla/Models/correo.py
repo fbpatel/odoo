@@ -49,6 +49,7 @@ class correo(osv.osv):
             #part.add_header('Content-Disposition','attachment; filename="%s"' % os.path.basename(attach))
             #msg.attach(part)
             
+            
             mailServer = smtplib.SMTP("smtp.gmail.com", 587)
             mailServer.ehlo()
             mailServer.starttls()
