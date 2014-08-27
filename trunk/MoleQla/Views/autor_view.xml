@@ -6,11 +6,13 @@
             <field name="model">autor</field>
             <field name="arch" type="xml">
 	            <form string="Autor" version="8.0">
-	            	<group col="4">
-		            	<field name="nombre"></field>
-		            	<field name="apellidos"></field>
-		            	<field name="user_id"></field>
-	            	</group>
+	            	<sheet>
+		            	<group col="4">
+			            	<field name="nombre"></field>
+			            	<field name="apellidos"></field>
+			            	<field name="user_id"></field>
+		            	</group>
+	            	</sheet>
 	            </form>
             </field>
         </record>

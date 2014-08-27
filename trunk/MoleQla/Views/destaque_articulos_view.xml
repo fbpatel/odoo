@@ -8,29 +8,30 @@
 				<form string="Destacar Articulos" version="8.0">
 					<sheet>
 						<header>
-							<group col="4">
+							
 
 
 								<button name="aceptar" string="Confirmar" states="start"
 									colspan="1" type="object" icon="gtk-ok" />
+									
+								<field name='state' widget='statusbar' statusbar_visible='start,send'
+								statusbar_colors='{’start’:’blue’,’send’:’yellow’}' />
 
-							</group>
+							
 						</header>
-						<group col="2">
+						<group col="4">
+							<field name="numero_nombre" readonly="1"/>
+							<field name="seccion_nombre" readonly="1"/>
 							<field name="articulo_divulgativo" domain="[('numero_id', 'ilike', numero_id),('seccion_id', 'ilike', seccion_id)
 							,('tipo_articulo','ilike','divulgativo')]" attrs="{'readonly': [('state','=','send')]}"></field>
 							<field name="articulo_investigacion" domain="[('numero_id', 'ilike', numero_id),('seccion_id', 'ilike', seccion_id)
 							,('tipo_articulo','ilike','investigacion')]" attrs="{'readonly': [('state','=','send')]}"></field>
-							<field name="numero_id" readonly="1"/>
-							<field name="seccion_id" readonly="1"/>
+							
 							
 
 						</group>
 
-						<group>
-							<field name='state' widget='statusbar' statusbar_visible='start,send'
-								statusbar_colors='{’start’:’blue’,’send’:’yellow’}' />
-						</group>
+						
 
 
 

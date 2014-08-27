@@ -8,16 +8,17 @@
 				<form string="Votacion" version="8.0">
 					<sheet>
 						<header>
-							<group col="4">
 
 
 								<button name="aceptar" string="Confirmar" states="start"
 									colspan="1" type="object" icon="gtk-ok" />
+								<field name='state' widget='statusbar' statusbar_visible='start,send'
+								statusbar_colors='{’start’:’blue’,’send’:’yellow’}' />
 
-							</group>
+							
 						</header>
 						<group col="2">
-							<field name="numero_id"/>
+							<field name="numero_nombre"/>
 						</group>
 						<notebook colspan="4">
 							<page string="Articulos Divulgativos" >
@@ -39,10 +40,7 @@
 
 						
 
-						<group>
-							<field name='state' widget='statusbar' statusbar_visible='start,send'
-								statusbar_colors='{’start’:’blue’,’send’:’yellow’}' />
-						</group>
+						
 
 
 
@@ -56,7 +54,8 @@
 			<field name="model">votacion</field>
 			<field name="arch" type="xml">
 				<tree string="Votaciones">
-					<field name="numero_id">
+					<field name="numero_id"></field>
+					<field name="state">
 					</field>
 				</tree>
 			</field>
