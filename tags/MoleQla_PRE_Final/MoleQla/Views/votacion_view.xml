@@ -1,0 +1,83 @@
+<openerp>
+	<data>
+
+		<record model="ir.ui.view" id="view_votacion_form">
+			<field name="name">Votacion</field>
+			<field name="model">votacion</field>
+			<field name="arch" type="xml">
+				<form string="Votacion" version="8.0">
+					<sheet>
+						<header>
+							<group col="4">
+
+
+								<button name="aceptar" string="Confirmar" states="start"
+									colspan="1" type="object" icon="gtk-ok" />
+
+							</group>
+						</header>
+						<group col="2">
+							<field name="numero_id"/>
+						</group>
+						<notebook colspan="4">
+							<page string="Articulos Divulgativos" >
+							
+								<group col="2">	
+									<field name="lineas_votacion_div" 
+									attrs="{'readonly':[('state','=','send')]}"/>
+								</group>
+							</page> 
+							<page string="Articulos de Investigacion" >
+							
+								<group col="2">	
+									<field name="lineas_votacion_inv" 
+									attrs="{'readonly':[('state','=','send')]}"/>
+								</group>
+							</page>
+						</notebook>
+							
+
+						
+
+						<group>
+							<field name='state' widget='statusbar' statusbar_visible='start,send'
+								statusbar_colors='{’start’:’blue’,’send’:’yellow’}' />
+						</group>
+
+
+
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_votacion_tree">
+			<field name="name">Votacion</field>
+			<field name="model">votacion</field>
+			<field name="arch" type="xml">
+				<tree string="Votaciones">
+					<field name="numero_id">
+					</field>
+				</tree>
+			</field>
+		</record>
+
+		<!-- Action -->
+		<record id="act_votacion" model="ir.actions.act_window">
+			<field name="name">Votaciones</field>
+			<field name="res_model">votacion</field>
+			<field name="view_id" ref="view_votacion_tree" />
+			<field name="view_type">form</field>
+			<field name="view_model">tree,form</field>
+		</record>
+
+		<!-- Menu -->
+		<menuitem name="Votaciones" id="votaciones_submenu_maquetador" parent="moleqla_submenu_lateral_maquetador"
+			sequence="130" action="act_votacion" />
+		<menuitem name="Votaciones" id="votaciones_submenu_editor"
+			parent="moleqla_submenu_lateral_editor" sequence="110" action="act_votacion" />
+			
+		<menuitem name="Votaciones" id="votaciones_submenu_jefe"
+			parent="moleqla_submenu_lateral_jefe" sequence="110" action="act_votacion" />
+	</data>
+</openerp>

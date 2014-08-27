@@ -1,0 +1,102 @@
+<openerp>
+	<data>
+
+		<record model="ir.ui.view" id="view_articulo_form">
+			<field name="name">Articulo</field>
+			<field name="model">articulo</field>
+			<field name="arch" type="xml">
+				<form string="Articulo" version="8.0">
+					<sheet>
+						<header>
+							<group col="10">
+								<field name='state' widget='statusbar'
+									statusbar_visible='start,send,cancel,editing,cancel_m,published,impress'
+									statusbar_colors='{"start":"blue","send":"yellow", "cancel":"red","editing":"orange"
+								, "cancel_m":"red","published":"green","impress":"purple"}' />
+							</group>
+							<group col="10">								
+								<button name="to_send" states="start" string="Enviar"
+									colspan="1" icon="gtk-apply" />
+								<button name="enviar" string="Reenviar" states="cancel,cancel_m"
+									type="object" icon="gtk-apply" />
+							</group>
+						</header>
+						<group col="4">
+							<field name="nombre" attrs="{'readonly':['|','|','|',('state','=','send'),('state','=','editing'),('state','=','published'),('state','=','impress')]}"></field>
+							<field name="seccion_id" attrs="{'readonly':[('state','!=','start')]}"></field>
+							<field name="autor" attrs="{'readonly':1}"/>
+							<field name="fecha_maq" attrs="{'readonly':'1','invisible':['|','|','|','|',('state','=','start'),('state','=','send'),('state','=','cancel'),('state','=','editing'),('state','=','cancel_m')]}"></field>
+							<field name="tipo_articulo" attrs="{'readonly':['|','|','|',('state','=','send'),('state','=','editing'),('state','=','published'),('state','=','impress')]}"></field>
+							<field name="tipo_autor" on_change="onchange_tipo_autor(tipo_autor,context)" attrs="{'readonly':['|','|','|',('state','=','send'),('state','=','editing'),('state','=','published'),('state','=','impress')]}" />
+							<field name="mostrar_tipo_autor_interno" invisible='1'></field>
+							<field name="tipo_autor_interno" attrs="{'invisible':[('mostrar_tipo_autor_interno','=', False)],'readonly':['|','|','|',('state','=','send'),('state','=','editing'),('state','=','published'),('state','=','impress')]}" on_change="onchange_tipo_autor_interno(tipo_autor_interno,context)"/>
+							<field name="mostrar_asignatura" invisible='1'></field>
+							<field name="asignatura" attrs="{'invisible':[('mostrar_asignatura','=', False)],'readonly':['|','|','|',('state','=','send'),('state','=','editing'),('state','=','published'),('state','=','impress')]}"></field>
+							<field name="destacado" attrs="{'readonly':'1','invisible':['|','|','|','|','|',('state','=','start'),('state','=','send'),('state','=','cancel'),('state','=','editing'),('state','=','cancel_m'),('state','=','published')]}" />
+						</group>
+						<group col="2">
+							<field name="descripcion" attrs="{'readonly':['|','|','|',('state','=','send'),('state','=','editing'),('state','=','published'),('state','=','impress')]}"></field>
+							<field name="palabras_clave" attrs="{'readonly':['|','|','|',('state','=','send'),('state','=','editing'),('state','=','published'),('state','=','impress')]}" />
+							<field name="archivo" filename="filename"
+								attrs="{'readonly':['|','|','|',('state','=','send'),('state','=','editing'),('state','=','published'),('state','=','impress')]}" />
+							
+							<field name="archivo_diff" filename="filenameDiff" attrs="{'invisible':['|','|','|','|','|',('state','=','start'),('state','=','cancel_m'),('state','=','send'),('state','=','editing'),('state','=','published'),('state','=','impress')],
+							'required':[('state','=','cancel')]}"></field>
+							<field name="archivo_diff_m" filename="filenameDiff" attrs="{'invisible':['|','|','|','|','|',('state','=','start'),('state','=','cancel'),('state','=','send'),('state','=','editing'),('state','=','published'),('state','=','impress')],
+							'required':[('state','=','cancel_m')]}"></field>
+
+						</group>
+						<notebook colspan="4">
+							<page string="Revision" attrs="{'invisible':[('state','=','start')]}" >
+								<group col="2">
+									<field name="revision_observaciones" string="Observaciones" filename="filenameObv"/>
+									<field name="revision_comentarios" string="Comentarios" />
+								</group>
+								<!-- <field name="revision_id" readonly="1"
+									states="send,cancel,editing,cancel_m,published" /> -->
+							</page>
+							<page string="Maquetacion" attrs="{'invisible':['|','|',('state','=','start'),('state','=','send'),('state','=','cancel')]}">
+								<group col="2">
+									<field name="maquetacion_observaciones" string="Observaciones" filename="filenameObv"/>
+									<field name="maquetacion_comentarios" string="Comentarios" />
+								</group>
+							</page>
+							<!-- <field name="maquetacion_id" readonly="1"
+									states="send,cancel,editing,cancel_m,published,impress" /> -->
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_articulo_tree">
+			<field name="name">Articulo</field>
+			<field name="model">articulo</field>
+			<field name="arch" type="xml">
+				<tree string="Articulos">
+					<field name="nombre"></field>
+					<field name="tipo_articulo"></field>
+					<field name="seccion_id"></field>
+					<field name="archivo" filename="filename" />
+					<field name="state" />
+					<field name="premiado" />
+				</tree>
+			</field>
+		</record>
+		
+		<!-- Action -->
+		<record id="act_articulo" model="ir.actions.act_window">
+			<field name="name">Articulos</field>
+			<field name="res_model">articulo</field>
+			<field name="view_id" ref="view_articulo_tree" />
+			<field name="view_type">form</field>
+			<field name="view_model">tree,form</field>
+		</record>
+
+
+
+		
+		<menuitem name="Articulos" id="articulos_submenu" parent="moleqla_submenu_lateral_autor"
+			sequence="80" action="act_articulo" />
+	</data>
+</openerp>

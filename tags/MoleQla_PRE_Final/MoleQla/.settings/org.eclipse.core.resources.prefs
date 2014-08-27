@@ -1,0 +1,11 @@
+eclipse.preferences.version=1
+encoding//Models/articulo.py=utf-8
+encoding//Models/autor.py=utf-8
+encoding//Models/correo.py=utf-8
+encoding//Models/destaque_articulos.py=utf-8
+encoding//Models/editor.py=utf-8
+encoding//Models/maquetacion.py=utf-8
+encoding//Models/maquetador.py=utf-8
+encoding//Models/numero.py=utf-8
+encoding//Models/revision.py=utf-8
+encoding//Models/votacion.py=utf-8

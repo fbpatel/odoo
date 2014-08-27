@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+		<record id="wkf_articulo" model="workflow">
+			<field name="name">articulo.basic</field>
+			<field name="osv">articulo</field>
+			<field name="on_create">True</field>
+		</record>
+		
+		<record id="act_starting" model="workflow.activity">
+			<field name="flow_start">True</field>
+			<field name="wkf_id" ref="wkf_articulo"/>
+			<field name="name">is_start</field>
+			<field name="kind">dummy</field>
+		</record>
+		
+		<record id="act_articulo_sending" model="workflow.activity">
+			<field name="wkf_id" ref="wkf_articulo"/>
+			<field name="name">is_editing</field>
+			<field name="kind">function</field>
+			<field name="action">enviar()</field>
+		</record>
+		
+		
+		
+		
+		
+		
+		
+		<record id="trans_starting_reading" model="workflow.transition">
+			<field name="act_from" ref="act_starting"/>
+			<field name="act_to" ref="act_articulo_sending"/>
+			<field name="signal">to_send</field>
+		</record>
+		
+		
+		
+		
+		
+		
+		
+		
+	</data>
+</openerp>
