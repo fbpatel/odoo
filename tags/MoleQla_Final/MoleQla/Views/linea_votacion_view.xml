@@ -1,0 +1,43 @@
+<openerp>
+	<data>
+
+		<record model="ir.ui.view" id="view_linea_votacion_form">
+			<field name="name">Linea de Votacion</field>
+			<field name="model">linea_votacion</field>
+			<field name="arch" type="xml">
+				<form string="Linea de Votacion" version="8.0">
+					<sheet>
+						
+						<group col="4">
+							
+							<field name="articulo_nombre"/>
+							<field name="puntos"/>
+							
+
+						</group>
+
+						
+
+
+
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_linea_votacion_tree">
+			<field name="name">Linea de Votacion</field>
+			<field name="model">linea_votacion</field>
+			<field name="arch" type="xml">
+				<tree string="Votaciones">
+					<field name="articulo_nombre"/>
+					<field name="articulo_seccion"/>
+					<field name="articulo_archivo" filename="filename"/>
+					<field name="puntos"/>	
+				</tree>
+			</field>
+		</record>
+
+		
+	</data>
+</openerp>

@@ -1,0 +1,86 @@
+<openerp>
+	<data>
+
+		<record model="ir.ui.view" id="view_numero_form">
+			<field name="name">Numero</field>
+			<field name="model">numero</field>
+			<field name="arch" type="xml">
+				<form string="Numero" version="8.0">
+					<sheet>
+						<header>
+								<button name="build" states="start" string="Montar Revista"
+									type="object" colspan="1" icon="gtk-ok" />
+								<button name="send" states="builded" string="Publicar"
+									type="object" colspan="1" icon="gtk-apply" />
+								<button name="vote" string="Votar Articulos Destacados"
+									states="a_publicar" type="object" icon="gtk-apply" />
+								<button name="close" string="Cerrar Revista" states="voted"
+									type="object" icon="gtk-apply" />
+								<field name='state' widget='statusbar'
+									statusbar_visible='start,builded,a_publicar,voted,closed'
+									statusbar_colors='{"start":"blue","builded":"green","a_publicar":"yellow", "voted":"red","closed":"orange"}' />
+							
+								
+							
+						</header>
+						<group col="4">
+							<field name="nombre"></field>
+							<field name="numero"></field>
+							<field name="entrevista" filename="filenameEnt" attrs="{'readonly':['|','|',('state','=','a_publicar'),('state','=','voted'),('state','=','closed')]}"></field>
+							<field name="fecha_p" ></field>
+							<field name="fecha_d" attrs="{'invisible':[('state','!=','builded')],'required':[('state','=','builded')]}"></field>
+							<field name="fecha_v" attrs="{'invisible':[('state','!=','a_publicar')],'required':[('state','=','a_publicar')]}"></field>
+						</group>
+						<group >
+							<notebook>
+								<page String="Articulos" attrs="{
+												'invisible': [('state','=','start')]}">
+									<field name="articulos_id" widget="many2many"
+										attrs="{'readonly': [('state','!=','builded')],
+												'invisible': [('state','=','start')]}"
+										domain="[('state', 'ilike', 'publicable')]" />
+								</page>
+							</notebook>
+						</group>
+
+
+
+
+
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_numero_tree">
+			<field name="name">Numero</field>
+			<field name="model">numero</field>
+			<field name="arch" type="xml">
+				<tree string="Numeros">
+					<field name="nombre"></field>
+					<field name="numero"></field>
+					<field name="fecha_p"></field>
+					<field name="state" />
+				</tree>
+			</field>
+		</record>
+
+		<!-- Action -->
+		<record id="act_numero" model="ir.actions.act_window">
+			<field name="name">Numeros</field>
+			<field name="res_model">numero</field>
+			<field name="view_id" ref="view_numero_tree" />
+			<field name="view_type">form</field>
+			<field name="view_model">tree,form</field>
+		</record>
+
+		<!-- Menu -->
+		<menuitem id="moleqla_submenu_jefe" name="Moleqla" action="act_articulo"
+			sequence="1" />
+		<menuitem id="moleqla_submenu_lateral_jefe" parent="moleqla_submenu_jefe"
+			name="Editor Jefe" />
+		<menuitem name="Numeros" id="numeros_submenu" parent="moleqla_submenu_lateral_jefe"
+			sequence="120" action="act_numero" />
+
+	</data>
+</openerp>
