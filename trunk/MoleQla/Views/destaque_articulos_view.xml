@@ -8,30 +8,34 @@
 				<form string="Destacar Articulos" version="8.0">
 					<sheet>
 						<header>
-							
 
+							<button name="aceptar" string="Confirmar" states="start"
+								colspan="1" type="object" icon="gtk-ok" />
 
-								<button name="aceptar" string="Confirmar" states="start"
-									colspan="1" type="object" icon="gtk-ok" />
-									
-								<field name='state' widget='statusbar' statusbar_visible='start,send'
+							<field name='state' widget='statusbar' statusbar_visible='start,send'
 								statusbar_colors='{’start’:’blue’,’send’:’yellow’}' />
 
-							
+							<field name="numero_id" invisible="1" />
+							<field name="seccion_id" invisible="1" />
+
 						</header>
 						<group col="4">
-							<field name="numero_nombre" readonly="1"/>
-							<field name="seccion_nombre" readonly="1"/>
-							<field name="articulo_divulgativo" domain="[('numero_id', 'ilike', numero_id),('seccion_id', 'ilike', seccion_id)
-							,('tipo_articulo','ilike','divulgativo')]" attrs="{'readonly': [('state','=','send')]}"></field>
-							<field name="articulo_investigacion" domain="[('numero_id', 'ilike', numero_id),('seccion_id', 'ilike', seccion_id)
-							,('tipo_articulo','ilike','investigacion')]" attrs="{'readonly': [('state','=','send')]}"></field>
-							
-							
+							<field name="numero_nombre" readonly="1" />
+							<field name="seccion_nombre" readonly="1" />
+							<field name="articulo_divulgativo"
+								domain="[('numero_id', 'ilike', numero_id),('seccion_id', 'ilike', seccion_id)
+							,('tipo_articulo','ilike','divulgativo')]"
+								attrs="{'readonly': [('state','=','send')]}"></field>
+							<field name="articulo_investigacion"
+								domain="[('numero_id', 'ilike', numero_id),('seccion_id', 'ilike', seccion_id)
+							,('tipo_articulo','ilike','investigacion')]"
+								attrs="{'readonly': [('state','=','send')]}"></field>
+
+
 
 						</group>
 
-						
+
 
 
 
@@ -62,8 +66,8 @@
 		</record>
 
 		<!-- Menu -->
-		<menuitem name="Destacar Articulos" id="destaques_submenu" parent="moleqla_submenu_lateral_jefe"
-			sequence="120" action="act_destaque" />
+		<menuitem name="Destacar Articulos" id="destaques_submenu"
+			parent="moleqla_submenu_lateral_jefe" sequence="120" action="act_destaque" />
 		<menuitem name="Destacar Articulos" id="destaques_submenu_seccion"
 			parent="moleqla_submenu_lateral_editor" sequence="100" action="act_destaque" />
 	</data>
