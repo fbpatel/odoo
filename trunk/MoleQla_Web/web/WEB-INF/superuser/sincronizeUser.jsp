@@ -30,8 +30,7 @@
 
                 <div class="span12">
                     <div class="title-page">
-                        <h2 class="title">Equipo Editorial</h2>
-                        <h3 class="title-description">Este es nuestro equipo editorial</h3>
+                        <h2 class="title">Sincronizaci&oacute;n de usuarios</h2>
                     </div>
                 </div>
                 <html:form action="/sincronizeUser" styleId="contact-sincronizaUser" styleClass="contact-sincronizaUser">                   

@@ -58,6 +58,7 @@ public class MergePDF {
         //Entrevista
         String ruta_entrevista = rutaRaiz + "WEB-INF" + separator + "numeros" + separator + "entrevista.pdf";
         File entrevista = new File(ruta_entrevista);
+        boolean existeEtrevista = false;
 
         //Contraportada
         String ruta_contraportada = rutaRaiz + "WEB-INF" + separator + "numeros" + separator + "contraportada.pdf";
@@ -79,6 +80,7 @@ public class MergePDF {
             if (entrevista.exists()) {
                 //Se añade la entrevista si existe
                 pdfs.add(new FileInputStream(entrevista.getPath()));
+                existeEtrevista = true;
             }
         } catch (FileNotFoundException ex) {
             Logger.getLogger(MergePDF.class.getName()).log(Level.SEVERE, null, ex);
@@ -116,7 +118,8 @@ public class MergePDF {
                 //Se monta el numero
                 numeroPDF = rutaRaiz + "revista" + separator + "work" + separator + numero + ".pdf";
                 OutputStream output = new FileOutputStream(numeroPDF);
-                MergePDF.concatPDFs(pdfs, output, true);
+                boolean paginacion = true;
+                MergePDF.concatPDFs(pdfs, output, paginacion, existeEtrevista);
                 borrarFicherosDinamicos(rutaRaiz + "WEB-INF" + separator + "numeros" + separator);
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(MergePDF.class.getName()).log(Level.SEVERE, null, ex);
@@ -127,13 +130,13 @@ public class MergePDF {
     }
 
     public static void concatPDFs(List<InputStream> streamOfPDFFiles,
-            OutputStream outputStream, boolean paginate) {
+            OutputStream outputStream, boolean paginate, boolean existeEtrevista) {
 
         Document document = new Document();
         try {
             List<InputStream> pdfs = streamOfPDFFiles;
             List<PdfReader> readers = new ArrayList<PdfReader>();
-            int totalPages = 0;
+            int totalPages = 0, cuentaDocumentos = 0, paginasIndice = 0, paginasEntrevista = 0, paginasParticipantes = 0;
             Iterator<InputStream> iteratorPDFs = pdfs.iterator();
 
             // Create Readers for the pdfs.
@@ -142,9 +145,38 @@ public class MergePDF {
                 PdfReader pdfReader = new PdfReader(pdf);
                 readers.add(pdfReader);
 
+                //Contamos las pagians de los participantes
+                if (cuentaDocumentos == 1) {
+                    paginasParticipantes = pdfReader.getNumberOfPages();
+                }
+
+                //Contamos las pagians del indice
+                if (cuentaDocumentos == 2) {
+                    paginasIndice = pdfReader.getNumberOfPages();
+                }
+
+                //Contamos las pagians de la entrevista
+                if (cuentaDocumentos == 3) {
+                    if (existeEtrevista) {
+                        paginasEntrevista = pdfReader.getNumberOfPages();
+                    }
+                }
+
+                if (cuentaDocumentos != 0 && cuentaDocumentos != 1 && cuentaDocumentos != 2 && (iteratorPDFs.hasNext()==true)) {
+                    if(cuentaDocumentos==3){
+                        if(existeEtrevista == false){
+                            totalPages += pdfReader.getNumberOfPages();
+                        }
+                    }
+                    else {
+                        totalPages += pdfReader.getNumberOfPages();
+                    }
+                }
+                cuentaDocumentos++;
+
             }
             //Se calculan el numero total de articulos
-            totalPages = pdfs.size() - 4;
+            //totalPages = pdfs.size() - 4;
 
             // Create a writer for the outputstream
             PdfWriter writer = PdfWriter.getInstance(document, outputStream);
@@ -164,10 +196,15 @@ public class MergePDF {
             while (iteratorPDFReader.hasNext()) {
                 PdfReader pdfReader = iteratorPDFReader.next();
 
-                if (currentPageNumber != 0 && currentPageNumber != 1 && currentPageNumber != 2
-                        && numPage != totalPages) {
-                    paginate = true;
-                    numPage++;
+                if (currentPageNumber != 0 && currentPageNumber != 1 && currentPageNumber != 2 && (iteratorPDFReader.hasNext()==true)) {
+                    if(currentPageNumber == 3){
+                        if(existeEtrevista == false){
+                            paginate = true;
+                        }
+                    }else{
+                        paginate = true;
+                    }
+                    
                 } else {
                     paginate = false;
                 }
@@ -183,6 +220,7 @@ public class MergePDF {
 
                     // Code for pagination.
                     if (paginate) {
+                        numPage++;
                         cb.beginText();
                         cb.setFontAndSize(bf, 9);
                         cb.showTextAligned(PdfContentByte.ALIGN_CENTER, ""

@@ -33,8 +33,7 @@
 
                 <div class="span12">
                     <div class="title-page">
-                        <h2 class="title">Equipo Editorial</h2>
-                        <h3 class="title-description">Este es nuestro equipo editorial</h3>
+                        <h2 class="title">Crear nuevo n&uacute;mero</h2>
                     </div>
                 </div>
                 <html:form action="/crearRevista" styleId="contact-new-revista" styleClass="contact-new-revista">                   
