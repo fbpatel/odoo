@@ -153,24 +153,11 @@ public class MergePDF {
                 //Contamos las pagians del indice
                 if (cuentaDocumentos == 2) {
                     paginasIndice = pdfReader.getNumberOfPages();
-                }
-
-                //Contamos las pagians de la entrevista
-                if (cuentaDocumentos == 3) {
-                    if (existeEtrevista) {
-                        paginasEntrevista = pdfReader.getNumberOfPages();
-                    }
-                }
+                }                
 
                 if (cuentaDocumentos != 0 && cuentaDocumentos != 1 && cuentaDocumentos != 2 && (iteratorPDFs.hasNext()==true)) {
-                    if(cuentaDocumentos==3){
-                        if(existeEtrevista == false){
-                            totalPages += pdfReader.getNumberOfPages();
-                        }
-                    }
-                    else {
-                        totalPages += pdfReader.getNumberOfPages();
-                    }
+                    totalPages += pdfReader.getNumberOfPages();
+                    
                 }
                 cuentaDocumentos++;
 
@@ -197,13 +184,7 @@ public class MergePDF {
                 PdfReader pdfReader = iteratorPDFReader.next();
 
                 if (currentPageNumber != 0 && currentPageNumber != 1 && currentPageNumber != 2 && (iteratorPDFReader.hasNext()==true)) {
-                    if(currentPageNumber == 3){
-                        if(existeEtrevista == false){
-                            paginate = true;
-                        }
-                    }else{
-                        paginate = true;
-                    }
+                    paginate = true;                   
                     
                 } else {
                     paginate = false;
