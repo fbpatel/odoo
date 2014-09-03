@@ -7,19 +7,18 @@
 			<field name="arch" type="xml">
 				<form string="Revision" version="8.0">
 					<sheet>
-						<header>
-							
-
-
+						<header>				
 								<button name="aceptar" string="Aceptar" states="start"
 									colspan="1" type="object" icon="gtk-apply" />
 								<button name="rechazar" string="Rechazar" states="start"
 									colspan="1" type="object" icon="gtk-cancel" />
+								<button name="publicarArt" string="Publicar" states="start" 
+										colspan="1" icon="gtk-apply" type="object"/>
+								<button name="noPublicarArt" string="No Publicar" states="start" 
+										colspan="1" icon="gtk-apply" type="object"/>
 									
 								<field name='state' widget='statusbar' statusbar_visible='start,cancel,send'
-										statusbar_colors='{’start’:’blue’,’cancel’:’orange’,’send’:’yellow’}' />
-
-							
+										statusbar_colors='{’start’:’blue’,’cancel’:’orange’,’send’:’yellow’}' />	
 						</header>
 
 						<notebook >
@@ -27,11 +26,13 @@
 								<group col="4">
 									<field name="articulo_nombre" />
 									<field name="articulo_seccion" />
+									<field name="articulo_estado" />
 								</group>
 								<group col="2">	
 									<field name="articulo_descripcion" />
 								</group>
-								<group col="4">		
+								<group col="4">	
+									<field name="articulo_a_publicar" />
 									<field name="articulo_tipoArticulo" />
 									<field name="articulo_tipoAutor" />
 									<field name="articulo_archivo" filename="filenameArt" />
@@ -65,6 +66,8 @@
 					<field name="articulo_id"></field>
 					<field name="state"></field>
 					<field name="seccion_id" />
+					<field name="articulo_estado" string="Estado del artículo"/>
+					<field name="articulo_a_publicar" string="¿Se publica?" />
 				</tree>
 			</field>
 		</record>

@@ -62,6 +62,7 @@ class articulo(osv.osv):
         'archivo_diff_m' : fields.binary('Archivo Diferencias', filters='*.pdf"', help="Este archivo contendrá las diferencias entre la versión antigua y la versión nuevo del artículo"),      
         'filenameDiff': fields.char('FilenameDiff'),
         'filenameObv': fields.char('FilenameObv'),
+        'a_publicar':fields.boolean('Aceptado para publicar')
         }
     
     _defaults = {
@@ -242,9 +243,7 @@ class articulo(osv.osv):
             
             
             res.append((record.id, articulo_name))
-        return res
-        
-    
+        return res   
         
         
 articulo()

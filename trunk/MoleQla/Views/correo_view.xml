@@ -8,7 +8,7 @@
 				<form string="Correo" version="8.0">
 					<group col="4">
 						<field name="emailnotificacion"></field>
-						<field name="passwordnotificacion" />
+						<field name="passwordnotificacion" password="True"/>
 					</group>
 				</form>
 			</field>
@@ -20,7 +20,7 @@
 			<field name="arch" type="xml">
 				<tree string="Correos">
 					<field name="emailnotificacion"></field>
-					<field name="passwordnotificacion" />
+					<field name="passwordnotificacion" password="True"/>
 				</tree>
 			</field>
 		</record>

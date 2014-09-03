@@ -18,6 +18,8 @@ class revision(osv.osv):
         'comentarios': fields.text('Comentarios'),
         'versiones_anteriores' : fields.one2many('articulo', 'old_revision_id','Versiones anteriores'),
         'articulo_nombre' : fields.related('articulo_id', 'nombre', string='Nombre', type='text', readonly=True),
+        'articulo_estado' : fields.related('articulo_id', 'state', string='Estado del artículo', type='text', readonly=True),
+        'articulo_a_publicar' : fields.related('articulo_id', 'a_publicar', string='Artículo a publicar', type='boolean', readonly=True),
         'articulo_descripcion' : fields.related('articulo_id', 'descripcion', string='Descripción', type='text', readonly=True),
         'articulo_seccion' : fields.related('articulo_id', 'seccion_id', string='Sección', type='many2one', relation='seccion',readonly=True),      
         'articulo_tipoArticulo' : fields.related('articulo_id', 'tipo_articulo', string='Tipo Artículo', type='text', readonly=True),
@@ -25,7 +27,7 @@ class revision(osv.osv):
         'filenameArt': fields.char('FilenameArt'),
         'articulo_archivo' : fields.related('articulo_id', 'archivo', string='Archivo', type='binary', readonly=True),
         'articulo_archivoDiff' : fields.related('articulo_id', 'archivo_diff', string='Archivo Diferencias', type='binary', readonly=True),
-        'filenameDiff': fields.char('FilenameDiff'),
+        'filenameDiff': fields.char('FilenameDiff')
         }
     
     _defaults = {
@@ -140,7 +142,15 @@ class revision(osv.osv):
                 print "ERROR: No ha sido posible enviar el correo a"+email_autor 
         
     
-    
+    def publicarArt(self, cr, uid, ids, context=None):
+        revision = self.browse(cr, 1, ids, context)
+        articulo_obj = self.pool.get('articulo')        
+        articulo_obj.write(cr, 1, revision.articulo_id.id, { 'a_publicar' : 'TRUE'})
+        
+    def noPublicarArt(self, cr, uid, ids, context=None):
+        revision = self.browse(cr, 1, ids, context)
+        articulo_obj = self.pool.get('articulo')        
+        articulo_obj.write(cr, 1, revision.articulo_id.id, { 'a_publicar' : ''})
     
     
 revision()

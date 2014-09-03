@@ -20,6 +20,9 @@ class correo(osv.osv):
         'passwordnotificacion': fields.char('Password', size=128),
         }
     
+    def password_change(self, cr, uid, ids, password, context = None):
+        return {'value': {'passwordnotificacion':password},}
+    
     def mail(self, cr, uid, to, subject, text):#, attach):
         #=======================================================================
         # Si el destinario es admin, no se enviara correo a menos que 
