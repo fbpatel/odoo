@@ -10,14 +10,14 @@
 						<header>				
 								<button name="aceptar" string="Aceptar" states="start"
 									colspan="1" type="object" icon="gtk-apply" />
-								<button name="rechazar" string="Rechazar" states="start"
+								<button name="rechazar_fin" string="Rechazar" states="start"
 									colspan="1" type="object" icon="gtk-cancel" />
-								<button name="publicarArt" string="Publicar" states="start" 
-										colspan="1" icon="gtk-apply" type="object"/>
-								<button name="noPublicarArt" string="No Publicar" states="start" 
+								<button name="rechazar" string="Revisar" states="start"
+									colspan="1" type="object" icon="gtk-cancel" />
+								<button name="publicarArt" string="Publicar" states="send" 
 										colspan="1" icon="gtk-apply" type="object"/>
 									
-								<field name='state' widget='statusbar' statusbar_visible='start,cancel,send'
+								<field name='state' widget='statusbar' statusbar_visible='start,cancel,cancel_2,send,published'
 										statusbar_colors='{’start’:’blue’,’cancel’:’orange’,’send’:’yellow’}' />	
 						</header>
 
@@ -32,7 +32,6 @@
 									<field name="articulo_descripcion" />
 								</group>
 								<group col="4">	
-									<field name="articulo_a_publicar" />
 									<field name="articulo_tipoArticulo" />
 									<field name="articulo_tipoAutor" />
 									<field name="articulo_archivo" filename="filenameArt" />
@@ -42,8 +41,8 @@
 						
 							<page string="Revisión">
 								<group col="2">
-									<field name="comentarios" attrs="{'readonly':[('state','=','send')]}"/>
-									<field name="observaciones" filename="filenameObv" attrs="{'readonly':[('state','=','send')]}"></field>
+									<field name="comentarios" attrs="{'readonly':['|','|',('state','=','send'),('state','=','cancel_2'),('state','=','published')]}"/>
+									<field name="observaciones" filename="filenameObv" attrs="{'readonly':['|','|',('state','=','send'),('state','=','cancel_2'),('state','=','published')]}"></field>
 									<field name="versiones_anteriores" attrs="{'readonly':'1'}"></field>
 								</group>
 

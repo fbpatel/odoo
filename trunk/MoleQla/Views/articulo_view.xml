@@ -16,9 +16,9 @@
 								icon="gtk-apply" />
 
 							<field name='state' widget='statusbar'
-								statusbar_visible='borrador,enviado,rechazado_en_revision,maquetando,rechazado_en_maquetacion,publicable,publicado'
+								statusbar_visible='borrador,enviado,rechazado_en_revision,maquetando,rechazado_en_maquetacion,publicable,publicado,rechazado_fin'
 								statusbar_colors='{"borrador":"blue","enviado":"yellow", "rechazado_en_revision":"red","maquetando":"orange"
-								, "rechazado_en_maquetacion":"red","publicable":"green","publicado":"purple"}' />
+								, "rechazado_en_maquetacion":"red","publicable":"green","publicado":"purple","rechazado_fin":"purple"}' />
 
 
 

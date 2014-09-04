@@ -14,7 +14,7 @@ class revision(osv.osv):
         'observaciones': fields.binary('Observaciones'),
         'filenameObv': fields.char('FilenameObv'),  
         'revisor_id': fields.integer('Editor'),
-        'state':fields.selection([('start', 'En Revisión'), ('send', 'Aceptado'), ('cancel', 'Rechazado')], 'Estado de la revisión'),
+        'state':fields.selection([('start', 'Inicio'), ('send', 'Aceptado'), ('cancel', 'Revisando'),('cancel_2', 'Rechazado'),('published', 'A Publicar')], 'Estado de la revisión'),
         'comentarios': fields.text('Comentarios'),
         'versiones_anteriores' : fields.one2many('articulo', 'old_revision_id','Versiones anteriores'),
         'articulo_nombre' : fields.related('articulo_id', 'nombre', string='Nombre', type='text', readonly=True),
@@ -144,13 +144,24 @@ class revision(osv.osv):
     
     def publicarArt(self, cr, uid, ids, context=None):
         revision = self.browse(cr, 1, ids, context)
-        articulo_obj = self.pool.get('articulo')        
-        articulo_obj.write(cr, 1, revision.articulo_id.id, { 'a_publicar' : 'TRUE'})
+        articulo_obj = self.pool.get('articulo')   
+        seccion_obj = self.pool.get('seccion') 
+        max = seccion_obj.browse(cr,1,revision.seccion_id.id).max_articulos
+        articulos_a_publicar =  articulo_obj.search(cr, 1, [('seccion_id', '=', revision.seccion_id.id),('a_publicar','=', 'TRUE'),('state','!=', 'publicado')])
+        if len(articulos_a_publicar)< max:    
+            self.write(cr, 1, ids[0], { 'state' : 'published'})
+            articulo_obj.write(cr, 1, revision.articulo_id.id, { 'a_publicar' : 'TRUE'})
+        else:
+            raise osv.except_osv(_('Warning!'), _("No se pueden publicar mas articulos de esta seccion en el proximo numero."))
         
-    def noPublicarArt(self, cr, uid, ids, context=None):
+    def rechazar_fin(self, cr, uid, ids, context=None):
+        self.write(cr, 1, ids, { 'state' : 'cancel_2' })
         revision = self.browse(cr, 1, ids, context)
-        articulo_obj = self.pool.get('articulo')        
-        articulo_obj.write(cr, 1, revision.articulo_id.id, { 'a_publicar' : ''})
+        articulo_obj = self.pool.get('articulo')  
+              
+        articulo_obj.write(cr, 1, revision.articulo_id.id, { 'state' : 'rechazado_fin'})
+        
+
     
     
 revision()
