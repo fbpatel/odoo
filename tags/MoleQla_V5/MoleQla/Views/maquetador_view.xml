@@ -1,0 +1,50 @@
+<openerp>
+    <data>
+    
+    	<record model="ir.ui.view" id="view_maquetador_form">
+            <field name="name">Maquetador</field>
+            <field name="model">maquetador</field>
+            <field name="arch" type="xml">
+	            <form string="Seccion" version="8.0">
+	            	<group col="4">
+		            	<field name="nombre"></field>
+		            	<field name="apellidos"/>
+		            	<field name="seccion_id"/>
+		            	<field name="user_id"/>		            	
+	            	</group>
+	            	<group col="2">
+	            		<field name="descripcion" />
+	            	</group>
+	            </form>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="view_maquetador_tree">
+            <field name="name">Maquetadores</field>    
+            <field name="model">maquetador</field>
+            <field name="arch" type="xml">
+            <tree string="Maquetadores">
+            	<field name="nombre"></field>
+		        <field name="apellidos"/>
+		        <field name="seccion_id"/>
+		        <field name="user_id"/>
+            </tree>
+            </field>
+        </record>
+        
+        <!-- Action -->
+        <record id="act_maquetador" model="ir.actions.act_window">
+                <field name="name">Maquetadores</field>
+                <field name="res_model">maquetador</field>
+                <field name="view_id" ref="view_maquetador_tree"/>
+                <field name="view_type">form</field>
+                <field name="view_model">tree,form</field>
+            </record>
+        
+        <menuitem id="moleqla_submenu_maquetador" name="Moleqla" action="act_maquetador" sequence="1"/>
+            <menuitem id="moleqla_submenu_lateral_maquetador" parent="moleqla_submenu_maquetador" name="Maquetador"/>
+            <menuitem name="Maquetadores" id="maquetadores_submenu" parent="moleqla_submenu_lateral_jefe" sequence="80" action="act_maquetador"/>
+            <menuitem name="Perfil" id="maquetadores_submenu_seccion" parent="moleqla_submenu_lateral_maquetador" sequence="80" action="act_maquetador"/>
+            
+    </data>
+</openerp>

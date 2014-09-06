@@ -1,0 +1,40 @@
+<openerp>
+	<data>
+
+		<!-- Graph -->
+		<record model="ir.ui.view" id="view_graph_articulos">
+			<field name="name">Articulo</field>
+			<field name="model">articulo</field>
+			<field name="type">graph</field>
+			<field name="arch" type="xml">
+				<graph string="Dashboard Articulos">
+					<field name="state" group="True" />
+				</graph>
+			</field>
+		</record>
+
+		<!-- Action -->
+		<record id="act_dashboard" model="ir.actions.act_window">
+			<field name="name">Articulos</field>
+			<field name="res_model">articulo</field>
+			<field name="view_id" ref="view_graph_articulos" />
+			<field name="view_type">form</field>
+			<field name="view_model">graph</field>
+		</record>
+
+		<record model="ir.actions.act_window.view" id="action_stock_move_graph_all">
+			<field name="sequence" eval="3" />
+			<field name="view_mode">graph</field>
+			<field name="view_id" ref="view_graph_articulos" />
+			<field name="act_window_id" ref="act_dashboard" />
+		</record>
+
+		<!-- Menu -->
+		<menuitem id="moleqla_submenu_jefe" name="Moleqla" action="act_dashboard"
+			sequence="1" />	
+		<menuitem name="Editor Jefe" id="moleqla_submenu_lateral_jefe" parent="moleqla_submenu_jefe"
+			sequence="10"  />
+		<menuitem name="Dashboard" id="articulos_submenu_seccion_graph"
+			parent="moleqla_submenu_lateral_jefe" sequence="11" action="act_dashboard" />
+	</data>
+</openerp>

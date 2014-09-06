@@ -1,0 +1,42 @@
+<openerp>
+	<data>
+
+		<record model="ir.ui.view" id="view_correo_form">
+			<field name="name">Correo</field>
+			<field name="model">correo</field>
+			<field name="arch" type="xml">
+				<form string="Correo" version="8.0">
+					<group col="4">
+						<field name="emailnotificacion"></field>
+						<field name="passwordnotificacion" password="True"/>
+					</group>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_correo_tree">
+			<field name="name">Correo</field>
+			<field name="model">correo</field>
+			<field name="arch" type="xml">
+				<tree string="Correos">
+					<field name="emailnotificacion"></field>
+					<field name="passwordnotificacion" password="True"/>
+				</tree>
+			</field>
+		</record>
+
+		<!-- Action -->
+		<record id="act_correo" model="ir.actions.act_window">
+			<field name="name">Correo</field>
+			<field name="res_model">correo</field>
+			<field name="view_id" ref="view_correo_tree" />
+			<field name="view_type">form</field>
+			<field name="view_model">tree,form</field>
+		</record>
+
+		<!-- Menu -->
+
+		<menuitem name="Correo" id="correo_submenu" parent="moleqla_submenu_lateral_jefe"
+			sequence="100" action="act_correo" />
+	</data>
+</openerp>

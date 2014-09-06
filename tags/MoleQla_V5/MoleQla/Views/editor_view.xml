@@ -1,0 +1,54 @@
+<openerp>
+	<data>
+
+		<record model="ir.ui.view" id="view_editor_form">
+			<field name="name">Editor</field>
+			<field name="model">editor</field>
+			<field name="arch" type="xml">
+				<form string="Editor" version="8.0">
+					<group col="4">
+						<field name="nombre"></field>
+						<field name="apellidos" />
+						<field name="seccion_id" />
+						<field name="user_id" />						
+					</group>
+					<group col="2">
+						<field name="descripcion" />
+					</group>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.ui.view" id="view_editor_tree">
+			<field name="name">Editores</field>
+			<field name="model">editor</field>
+			<field name="arch" type="xml">
+				<tree string="Editores">
+					<field name="nombre"></field>
+					<field name="apellidos" />
+					<field name="seccion_id" />
+					<field name="user_id" />
+				</tree>
+			</field>
+		</record>
+
+		<!-- Action -->
+		<record id="act_editor" model="ir.actions.act_window">
+			<field name="name">Editores</field>
+			<field name="res_model">editor</field>
+			<field name="view_id" ref="view_editor_tree" />
+			<field name="view_type">form</field>
+			<field name="view_model">tree,form</field>
+		</record>
+
+		<!-- Menu -->
+		<menuitem id="moleqla_submenu_editor" name="Moleqla" action="act_editor"
+			sequence="1" />
+		<menuitem id="moleqla_submenu_lateral_editor" parent="moleqla_submenu_editor"
+			name="Editor" />
+		<menuitem name="Editores" id="editores_submenu" parent="moleqla_submenu_lateral_jefe"
+			sequence="80" action="act_editor" />
+		<menuitem name="Perfil" id="editores_submenu_seccion" parent="moleqla_submenu_lateral_editor"
+			sequence="80" action="act_editor" />
+	</data>
+</openerp>
