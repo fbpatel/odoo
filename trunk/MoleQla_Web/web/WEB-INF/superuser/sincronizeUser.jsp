@@ -30,7 +30,7 @@
 
                 <div class="span12">
                     <div class="title-page">
-                        <h2 class="title">Sincronizaci&oacute;n de usuarios</h2>
+                        <h2 class="title">User Synchronization</h2>
                     </div>
                 </div>
                 <html:form action="/sincronizeUser" styleId="contact-sincronizaUser" styleClass="contact-sincronizaUser">                   

@@ -29,7 +29,7 @@
                 <div class="span9">
                     <html:form action="/revista/login/login" styleId="contact-login" styleClass="contact-login">
                         <p><bean:write name="LoginActionForm" property="errorMsg" filter="false"/></p>
-                        <p class="contact-login-user">Enter your name:<html:text property="user" /></p>
+                        <p class="contact-login-user">Enter your email:<html:text property="user" /></p>
                         <p class="contact-login-password">Enter your password:<html:password property="password" /></p>
 
                         <p class="contact-submit"> 

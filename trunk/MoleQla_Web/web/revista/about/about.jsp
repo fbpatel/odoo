@@ -34,8 +34,8 @@
 
                 <div class="span12">
                     <div class="title-page">
-                        <h2 class="title">Equipo Editorial</h2>
-                        <h3 class="title-description">Este es nuestro equipo editorial</h3>
+                        <h2 class="title">Editorial team</h2>
+                        <h3 class="title-description">This is our editorial team</h3>
                     </div>
                 </div>
 
@@ -50,7 +50,7 @@
                         <div class="image-wrap">
                             <div class="hover-wrap">
                                 <span class="overlay-img"></span>
-                                <span class="overlay-text-thumb">Editor Jefe</span>
+                                <span class="overlay-text-thumb">Manager Editor</span>
                             </div>
                             <img src="<%=nameServer + "/revista/about/fotos/" + listaDatosUserEditorJefe.get(i).getFoto().getName()%>" alt="<%=listaDatosUserEditorJefe.get(i).getNombre()%>"
                                  style="width: 370px !important; height: 270px !important">
@@ -71,7 +71,7 @@
                         <div class="image-wrap">
                             <div class="hover-wrap">
                                 <span class="overlay-img"></span>
-                                <span class="overlay-text-thumb">Editor de Seccion</span>
+                                <span class="overlay-text-thumb">Section Editor</span>
                             </div>
                             <img src="<%=nameServer + "/revista/about/fotos/" + listaDatosUserEditor.get(i).getFoto().getName()%>" alt="<%=listaDatosUserEditor.get(i).getNombre()%>"
                                  style="width: 370px !important; height: 270px !important">
@@ -92,7 +92,7 @@
                         <div class="image-wrap">
                             <div class="hover-wrap">
                                 <span class="overlay-img"></span>
-                                <span class="overlay-text-thumb">Maquetador de Seccion</span>
+                                <span class="overlay-text-thumb">Section Designer</span>
                             </div>
                             <img src="<%=nameServer + "/revista/about/fotos/" + listaDatosUserMaquetador.get(i).getFoto().getName()%>" alt="<%=listaDatosUserMaquetador.get(i).getNombre()%>"
                                  style="width: 370px !important; height: 270px !important">

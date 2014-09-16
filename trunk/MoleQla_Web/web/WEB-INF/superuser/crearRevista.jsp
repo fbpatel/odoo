@@ -33,7 +33,7 @@
 
                 <div class="span12">
                     <div class="title-page">
-                        <h2 class="title">Crear nuevo n&uacute;mero</h2>
+                        <h2 class="title">Create new issue</h2>
                     </div>
                 </div>
                 <html:form action="/crearRevista" styleId="contact-new-revista" styleClass="contact-new-revista">                   

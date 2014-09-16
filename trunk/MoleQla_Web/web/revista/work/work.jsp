@@ -50,8 +50,8 @@
 
                 <div class="span12">
                     <div class="title-page">
-                        <h2 class="title">Numeros</h2>
-                        <h3 class="title-description">En esta secci&oacute;n podr&aacute;s encontrar todos los n&uacute;meros publicados en MoleQla</h3>
+                        <h2 class="title">Issues</h2>
+                        <h3 class="title-description">In this section you will find all the issues published in the journal</h3>
                     </div>
                 </div>
                 <!-- Comienzo de la galeria de numeros -->
@@ -86,7 +86,7 @@
                                 %>
                                 <!-- Item Project and Filter Name -->                        
                                 <li class="item-thumbs span3 design">  
-                                    <b style="color: white">N&uacute;mero <%=num%></b>
+                                    <b style="color: white">Issue <%=num%></b>
                                     <a href="<%=nameServer + "/revista/work/" + listaNumerosPublicados.get(i).getName()%>" target="_blank">
                                         <img src="../../_include/img/pdf.jpg" width="100" height="200" title="N&uacute;mero <%=num%>"/>
                                     </a>

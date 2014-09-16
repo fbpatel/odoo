@@ -26,7 +26,7 @@
 
                 <div class="span12">
                     <div class="title-page">
-                        <h2 class="title">Zona de Administracion</h2>
+                        <h2 class="title">Zone Management</h2>
                     </div>
                 </div>
                 <!-- Contact Form -->

@@ -38,8 +38,8 @@
 
                 <div class="span12">
                     <div class="title-page">
-                        <h2 class="title">Contactar con MoleQla</h2>
-                        <h3 class="title-description">Env&iacute;anos un correo con su duda y el equipo de MoleQla se la resolver&aacute;</h3>
+                        <h2 class="title">Contact with MoleQla</h2>
+                        <h3 class="title-description">Send us your question and the editorial team will resolve</h3>
                     </div>
                 </div>
 
@@ -75,14 +75,13 @@
                         <div class="contact-details">
                             <h3>Contact Details</h3>
                             <ul>
-                                <li><a href="#">moleqlanotify@gmail.com</a></li>
-                                <li>(916) 375-2525</li>
+                                <!--<li><a href="#">moleqlanotify@gmail.com</a></li>-->
+                                <li>954 34 92 00</li>
                                 <li>
-                                    Brushed Studio
+                                    Carretera Utrera, km. 1
                                     <br>
-                                    5240 Vanish Island. 105
+                                    41013 Sevilla
                                     <br>
-                                    Unknow
                                 </li>
                             </ul>
                         </div>

@@ -8,7 +8,7 @@ and open the template in the editor.
     <jsp:include page="../header.html"/>
 
     <nav id="menu">
-        <h2>ADMINISTRACION</h2>
+        <h2>MANAGEMENT</h2>
     </nav>
 
 </div>

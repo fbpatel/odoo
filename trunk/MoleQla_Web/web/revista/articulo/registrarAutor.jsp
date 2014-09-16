@@ -39,8 +39,8 @@
 
                 <div class="span12">
                     <div class="title-page">
-                        <h2 class="title">Registrate en MoleQla</h2>
-                        <h3 class="title-description">Registrandote en MoleQla podr&aacute;s enviarnos todos los art&iacute;culos que desees</h3>
+                        <h2 class="title">Sign in MoleQla</h2>
+                        <h3 class="title-description">If you register MoleQla, you can send us your articles</h3>
                     </div>
                 </div>
                 <!-- Contact Form -->

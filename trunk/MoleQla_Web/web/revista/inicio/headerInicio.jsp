@@ -10,11 +10,11 @@ and open the template in the editor.
 
     <nav id="menu">
         <ul id="menu-nav">
-            <li class="current"><a href="inicio.jsp" class="external">Inicio</a></li>
-            <li><html:link action="/revista/work/work" styleClass="external">Revistas</html:link></li>
-            <li><html:link action="/revista/about/about" styleClass="external">Equipo Editorial</html:link></li>
-            <li><a href="../articulo/registrarAutor.jsp" class="external">Enviar Articulo</a></li>
-            <li><a href="../contact/contact.jsp" class="external">Contactar</a></li>
+            <li class="current"><a href="inicio.jsp" class="external">Home</a></li>
+            <li><html:link action="/revista/work/work" styleClass="external">Issues</html:link></li>
+            <li><html:link action="/revista/about/about" styleClass="external">Editorial Team</html:link></li>
+            <li><a href="../articulo/registrarAutor.jsp" class="external">Sign In</a></li>
+            <li><a href="../contact/contact.jsp" class="external">Contact</a></li>
         </ul>
     </nav>
 

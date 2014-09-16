@@ -27,7 +27,7 @@
                 <div class="span12">
                     <div class="title-page">
                         <h2 class="title">MoleQla</h2>
-                        <h3 class="title-description">Bienvenido a la Revista de Ciencias de la Universidad Pablo de Olavide</h3>
+                        <h3 class="title-description">Welcome to the Journal of Science of the University Pablo de Olavide</h3>
                     </div>
                 </div>
                 <jsp:include page="inicio.html"/>
