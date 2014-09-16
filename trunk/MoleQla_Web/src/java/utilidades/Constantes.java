@@ -47,16 +47,15 @@ public class Constantes {
 
     //Contactar
     private static String EMAIL_TEXTO_CONTACT;
-    
+
     // Nuevo numero
     private static final String ESTADO_NUMEROS_PUBLICAR = "a_publicar";
     private static final String ERROR_CREAR_NUMERO = "ERROR: Try again";
-    
+
     //PHP5
     private static final String RUTA_EJECUTABLE_PHP5 = "/usr/bin/php5";
 
     private static String SEPARATOR;
-    
 
     public static String getERROR_LOGIN() {
         return ERROR_LOGIN;
@@ -72,14 +71,13 @@ public class Constantes {
 
     /**
      * Ruta para ejecutar un fichero php
-     * @return 
+     *
+     * @return
      */
     public static String getRUTA_EJECUTABLE_PHP5() {
         return RUTA_EJECUTABLE_PHP5;
     }
 
-    
-    
     /**
      * Estado para obtener los numeros aun no publicados, pero que ya se pueden
      * publicar
@@ -105,7 +103,6 @@ public class Constantes {
             ResultSet rs = connection.createStatement().executeQuery(
                     "SELECT emailnotificacion FROM correo");
 
-            
             if (rs != null) {
 
                 while (rs.next()) {
@@ -127,7 +124,6 @@ public class Constantes {
             ResultSet rs = connection.createStatement().executeQuery(
                     "SELECT passwordnotificacion FROM correo");
 
-            
             if (rs != null) {
 
                 while (rs.next()) {
@@ -141,6 +137,75 @@ public class Constantes {
         }
 
         return pass;
+    }
+
+    /**
+     * Retorna true si el usuario es editor jefe
+     *
+     * @param emailLogin
+     * @return
+     */
+    public static boolean getEMAIL_ADMINISTRATION(String emailLogin) {
+        boolean acceso = false;
+
+        try (Connection connection = ConnectionPSQL.connection()) {
+            ResultSet rs = connection.createStatement().executeQuery(
+                    "SELECT ru.login FROM res_users ru"
+                    + "	WHERE ru.id IN "
+                    + "		(SELECT rl.uid FROM res_groups_users_rel rl"
+                    + "			WHERE rl.gid IN "
+                    + "				(SELECT rg.id FROM res_groups rg"
+                    + "					WHERE rg.name like 'Editor Jefe'"
+                    + "				)"
+                    + "		)");
+
+            if (rs != null) {
+
+                while (rs.next()) {
+                    if (rs.getString(1).equals(emailLogin)) {
+                        acceso = true;
+                        break;
+                    }
+
+                }
+                rs.close();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AboutAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return acceso;
+    }
+
+    /**
+     * Retorna true si la contraseña es correcta
+     *
+     * @param email
+     * @param pass
+     * @return
+     */
+    public static boolean getPASSWORD_ADMINISTRATION(String email, String pass) {
+        boolean acceso = false;
+
+        try (Connection connection = ConnectionPSQL.connection()) {
+            ResultSet rs = connection.createStatement().executeQuery(
+                    "SELECT ru.password FROM res_users ru"
+                    + "	WHERE ru.login like '"+email+"' ");
+
+            if (rs != null) {
+
+                while (rs.next()) {
+                    if (rs.getString(1).equals(pass)) {
+                        acceso = true;
+                        break;
+                    }
+
+                }
+                rs.close();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(AboutAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return acceso;
     }
 
     /**
@@ -277,7 +342,8 @@ public class Constantes {
 
     /**
      * Error para el formulario de contacto
-     * @return 
+     *
+     * @return
      */
     public static String getERROR_FORM_CONTACT() {
         return ERROR_FORM_CONTACT;
@@ -285,21 +351,23 @@ public class Constantes {
 
     /**
      * Mensaje que le llegara al correo de moleqla del nuevo interesado
+     *
      * @param emailInteresado
      * @param texto
-     * @return 
+     * @return
      */
     public static String getEMAIL_TEXTO_CONTACT(String emailInteresado, String texto) {
         String cad = "";
-        cad += "Se ha recibido un nuevo email de "+emailInteresado+": \n\n";
+        cad += "Se ha recibido un nuevo email de " + emailInteresado + ": \n\n";
         cad += texto;
-        
+
         return cad;
     }
 
     /**
      * Mensaje de error al enviar el email del interesado
-     * @return 
+     *
+     * @return
      */
     public static String getERROR_FORM_CONTACT_EMAIL() {
         return ERROR_FORM_CONTACT_EMAIL;
@@ -307,21 +375,20 @@ public class Constantes {
 
     /**
      * Mensaje de ok al enviar un correo de contacto
-     * @return 
+     *
+     * @return
      */
     public static String getEMAIL_CONTACT_OK() {
         return EMAIL_CONTACT_OK;
     }
-    
-    public static String getEMAIL_ASUNTO_NUMERO_PUBLICADO()
-    {
+
+    public static String getEMAIL_ASUNTO_NUMERO_PUBLICADO() {
         String cad = "MoleQla - Nuevo número publicado";
         return cad;
     }
-    
-        public static String getEMAIL_TEXTO_NUMERO_PUBLICADO(String url)
-    {
-        String cad = "Se ha publicado un nuevo número en la revista MoleQla. Puedes consultarlo en la siguiente url: <a href='"+url+"'>Números MoleQla</a>";
+
+    public static String getEMAIL_TEXTO_NUMERO_PUBLICADO(String url) {
+        String cad = "Se ha publicado un nuevo número en la revista MoleQla. Puedes consultarlo en la siguiente url: <a href='" + url + "'>Números MoleQla</a>";
         return cad;
     }
 }
