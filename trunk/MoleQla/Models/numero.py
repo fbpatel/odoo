@@ -69,7 +69,7 @@ class numero(osv.osv):
                     
                     # Asunto y texto del email
                     asunto = "Nuevo numero" 
-                    texto = "La fecha de publicacion del nuevo numero sera el" + fecha + ". Por tanto, esta es la fecha maxima para la maquetacion de los articulos"
+                    texto = "La fecha de publicacion del nuevo numero sera el " + fecha + ". Por tanto, esta es la fecha maxima para la maquetacion de los articulos"
                     
                     # Se envia el correo
                     correo_obj = self.pool.get('correo') 
@@ -89,7 +89,7 @@ class numero(osv.osv):
                     
                     # Asunto y texto del email
                     asunto = "Nuevo numero" 
-                    texto = "La fecha de publicacion del nuevo numero es de " + fecha + ". Por tanto, esta es la fecha maxima para la maquetacion de los articulos"
+                    texto = "La fecha de publicacion del nuevo numero sera el " + fecha + ". Por tanto, esta es la fecha maxima para la maquetacion de los articulos"
                     
                     # Se envia el correo
                     correo_obj = self.pool.get('correo') 
