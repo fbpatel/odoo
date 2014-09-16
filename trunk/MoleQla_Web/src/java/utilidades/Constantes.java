@@ -29,8 +29,8 @@ public class Constantes {
     private static final String ERROR_FORM = "All fields are required";
     private static final String ERROR_LOGIN = "User and/or password incorrect";
 
-    private static final String ERROR_FORM_ADD = "Error en la inserseccion";
-    private static final String ERROR_CREACION_REVISTA = "Error al crear la revista";
+    private static final String ERROR_FORM_ADD = "Error inserting";
+    private static final String ERROR_CREACION_REVISTA = "Error creating the journal";
     private static final String ERROR_SQL = "Error: Try again";
     private static final String ERROR_FORM_CONTACT = "All fields are required";
     private static final String ERROR_FORM_CONTACT_EMAIL = "Error to send email";
@@ -39,7 +39,7 @@ public class Constantes {
     private static final String PATTERN_EMAIL = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
             + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
     private static final String EMAIL_INCORRECT = "Incorrect email";
-    private static final String EMAIL_ERROR = "Error al enviar el correo";
+    private static final String EMAIL_ERROR = "Error sending email";
     private static final String EMAIL_EXIST = "This email already exists";
 
     private static final String EMAIL_ASUNTO = "Welcome to MoleQla";
@@ -263,7 +263,7 @@ public class Constantes {
                     + "<br />If you wish to change your data...";
         }
 
-        cad += "<br />Go to this url and login with your credentials <a href=\"www.openerp.com\">Odoo</a>";
+        cad += "<br />Go to this url and login with your credentials <a href=\"localhost:8069/web\">Odoo</a>";
         return cad;
     }
 
@@ -358,7 +358,7 @@ public class Constantes {
      */
     public static String getEMAIL_TEXTO_CONTACT(String emailInteresado, String texto) {
         String cad = "";
-        cad += "Se ha recibido un nuevo email de " + emailInteresado + ": \n\n";
+        cad += "It received a new email of " + emailInteresado + ": \n\n";
         cad += texto;
 
         return cad;
@@ -383,12 +383,12 @@ public class Constantes {
     }
 
     public static String getEMAIL_ASUNTO_NUMERO_PUBLICADO() {
-        String cad = "MoleQla - Nuevo número publicado";
+        String cad = "MoleQla - New issue published";
         return cad;
     }
 
     public static String getEMAIL_TEXTO_NUMERO_PUBLICADO(String url) {
-        String cad = "Se ha publicado un nuevo número en la revista MoleQla. Puedes consultarlo en la siguiente url: <a href='" + url + "'>Números MoleQla</a>";
+        String cad = "Has published a new issue in the journal MoleQla. You can consult the following url published: <a href='" + url + "'>Issues MoleQla</a>";
         return cad;
     }
 }
