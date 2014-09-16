@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 from openerp.osv import fields, osv
+from random import choice
 
 class editor(osv.osv):
     
@@ -57,4 +58,11 @@ class editor(osv.osv):
             
             res.append((record.id, editor_name))
         return res
+    
+    def get_password(self, longitud):
+        valores = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ<=>@#%&+"
+         
+        p = ""
+        p = p.join([choice(valores) for i in range(longitud)])
+        return p
 editor()

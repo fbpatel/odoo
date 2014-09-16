@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 from openerp.osv import fields, osv
+from random import choice
 
 class maquetador(osv.osv):
     
@@ -57,4 +58,12 @@ class maquetador(osv.osv):
             
             res.append((record.id, maquetador_name))
         return res
+    
+    def get_password(self, longitud):
+        valores = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ<=>@#%&+"
+         
+        p = ""
+        p = p.join([choice(valores) for i in range(longitud)])
+        return p
+        
 maquetador()
